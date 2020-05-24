@@ -3,7 +3,6 @@ import { HttpInternalService } from './http-internal.service';
 import { Post } from '../models/post/post';
 import { NewReaction } from '../models/reactions/newReaction';
 import { NewPost } from '../models/post/new-post';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
