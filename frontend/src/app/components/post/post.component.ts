@@ -43,7 +43,9 @@ export class PostComponent implements OnDestroy, OnInit {
     }
 
     public ngOnInit() {
-        this.authService.getUser().subscribe(user => {
+        this.authService.getUser()
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(user => {
             this.currentUser = user;
         });
     }
@@ -66,7 +68,7 @@ export class PostComponent implements OnDestroy, OnInit {
                 this.snackBarService.showUsualMessage("Comment was deleted")
             });
     }
-
+   
     public toggleComments() {
         if (!this.currentUser) {
             this.catchErrorWrapper(this.authService.getUser())
@@ -84,6 +86,7 @@ export class PostComponent implements OnDestroy, OnInit {
     }
 
     public likePost() {
+        console.log(this.currentUser);
         if (!this.currentUser) {
             this.catchErrorWrapper(this.authService.getUser())
                 .pipe(
@@ -124,6 +127,9 @@ export class PostComponent implements OnDestroy, OnInit {
     }
 
     public isAuthor() {
+        if (this.currentUser === undefined) {
+            return false;
+        }
         let currentUserId = this.currentUser.id;
         let postUserId = this.post.author.id;
         return currentUserId === postUserId;
