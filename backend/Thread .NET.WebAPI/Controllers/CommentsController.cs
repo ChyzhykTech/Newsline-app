@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Thread_.NET.BLL.Services;
 using Thread_.NET.Common.DTO.Comment;
+using Thread_.NET.Common.DTO.Dislike;
 using Thread_.NET.Common.DTO.Like;
 using Thread_.NET.Extensions;
 
@@ -44,6 +45,15 @@ namespace Thread_.NET.WebAPI.Controllers
             reaction.UserId = this.GetUserIdFromToken();
 
             await _likeService.LikeComment(reaction);
+            return Ok();
+        }
+
+        [HttpPost("dislike")]
+        public async Task<IActionResult> DislikeComment(NewNegativeReactionDTO reaction)
+        {
+            reaction.UserId = this.GetUserIdFromToken();
+
+            await _likeService.DislikeComment(reaction);
             return Ok();
         }
     }
