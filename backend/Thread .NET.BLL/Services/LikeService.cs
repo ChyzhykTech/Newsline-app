@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Thread_.NET.BLL.Services.Abstract;
+using Thread_.NET.Common.DTO.Dislike;
 using Thread_.NET.Common.DTO.Like;
 using Thread_.NET.DAL.Context;
 
@@ -49,6 +50,28 @@ namespace Thread_.NET.BLL.Services
             {
                 CommentId = reaction.EntityId,
                 IsLike = reaction.IsLike,
+                UserId = reaction.UserId
+            });
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DislikeComment(NewNegativeReactionDTO reaction)
+        {
+            var likes = _context.CommentReactions.Where(x => x.UserId == reaction.UserId && x.CommentId == reaction.EntityId);
+
+            if (likes.Any())
+            {
+                _context.CommentReactions.RemoveRange(likes);
+                await _context.SaveChangesAsync();
+
+                return;
+            }
+
+            _context.CommentNegativeReactions.Add(new DAL.Entities.CommentNegativeReaction
+            {
+                CommentId = reaction.EntityId,
+                IsDislike = reaction.IsDislike,
                 UserId = reaction.UserId
             });
 
