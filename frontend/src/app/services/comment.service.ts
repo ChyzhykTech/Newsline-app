@@ -3,6 +3,7 @@ import { HttpInternalService } from './http-internal.service';
 import { NewComment } from '../models/comment/new-comment';
 import { Comment } from '../models/comment/comment';
 import { NewReaction } from '../models/reactions/newReaction';
+import { NewNegativeReaction } from '../models/negativeReactions/newNegativeReaction';
 
 @Injectable({ providedIn: 'root' })
 export class CommentService {
@@ -20,5 +21,9 @@ export class CommentService {
 
     public likeComment(reaction: NewReaction) {
         return this.httpService.postFullRequest<Comment>(`${this.routePrefix}/like`, reaction);
+    }
+
+    public dislikeComment(reaction: NewNegativeReaction) {
+        return this.httpService.postFullRequest<Comment>(`${this.routePrefix}/dislike`, reaction);
     }
 }
