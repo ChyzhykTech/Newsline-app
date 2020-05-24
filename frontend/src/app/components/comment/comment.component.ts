@@ -57,7 +57,21 @@ export class CommentComponent implements OnInit {
     }
 
     public dislikeComment() {
-        
+        if (!this.currentUser) {
+            this.catchErrorWrapper(this.authService.getUser())
+                .pipe(
+                    switchMap((userResp) => this.likeService.dislikeComment(this.comment, userResp)),
+                    takeUntil(this.unsubscribe$)
+                )
+                .subscribe((comment) => (this.comment = comment));
+
+            return;
+        }
+
+        this.likeService
+            .dislikeComment(this.comment, this.currentUser)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe((comment) => (this.comment = comment));
     }
 
     public openAuthDialog() {
