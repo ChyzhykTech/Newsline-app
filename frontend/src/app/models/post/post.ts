@@ -1,6 +1,7 @@
 import { User } from '../user';
 import { Comment } from '../comment/comment';
 import { Reaction } from '../reactions/reaction';
+import { NegativeReaction } from '../negativeReactions/negativeReaction';
 
 export interface Post {
     id: number;
@@ -10,4 +11,5 @@ export interface Post {
     body: string;
     comments: Comment[];
     reactions: Reaction[];
+    negativeReactions: NegativeReaction[];
 }
