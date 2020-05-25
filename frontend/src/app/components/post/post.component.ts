@@ -12,6 +12,7 @@ import { Comment } from '../../models/comment/comment';
 import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
 import { EventEmitter } from '@angular/core';
+import { EditComment } from 'src/app/models/comment/edit-comment';
 
 @Component({
     selector: 'app-post',
@@ -26,7 +27,8 @@ export class PostComponent implements OnDestroy, OnInit {
 
     public showComments = false;
     public newComment = {} as NewComment;
-
+    public editableComment = {} as EditComment;
+    public isEditMode = false;
     private unsubscribe$ = new Subject<void>();
 
     public constructor(
@@ -67,6 +69,16 @@ export class PostComponent implements OnDestroy, OnInit {
                     (comment) => comment.id !== commentId);
                 this.snackBarService.showUsualMessage("Comment was deleted")
             });
+    }
+
+    public onEditComment(commentId: number) {
+        let comment = this.post.comments
+            .find((comment) => comment.id === commentId);
+        if (comment !== null) {
+          this.isEditMode = true;
+          this.newComment.body = comment.body;
+          this.editableComment.commentId = commentId;
+        }
     }
    
     public toggleComments() {
@@ -122,6 +134,11 @@ export class PostComponent implements OnDestroy, OnInit {
     }
 
     public sendComment() {
+        if (this.isEditMode) {
+            this.editComment();
+            return;
+        }
+
         this.newComment.authorId = this.currentUser.id;
         this.newComment.postId = this.post.id;
 
@@ -150,6 +167,25 @@ export class PostComponent implements OnDestroy, OnInit {
         let currentUserId = this.currentUser.id;
         let postUserId = this.post.author.id;
         return currentUserId === postUserId;
+    }
+
+    private editComment() {
+        this.editableComment.body = this.newComment.body;
+
+        this.commentService
+            .editComment(this.editableComment)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(
+                (resp) => {
+                    if (resp) {
+                        this.post.comments = this.sortCommentArray(this.post.comments.concat(resp.body));
+                        this.newComment.body = undefined;
+                        this.editableComment = undefined;
+                        this.isEditMode = false;
+                    }
+                },
+                (error) => this.snackBarService.showErrorMessage(error)
+            );
     }
 
     private catchErrorWrapper(obs: Observable<User>) {
