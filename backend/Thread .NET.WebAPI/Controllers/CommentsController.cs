@@ -25,10 +25,16 @@ namespace Thread_.NET.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CommentDTO>> CreatePost([FromBody] NewCommentDTO comment)
+        public async Task<ActionResult<CommentDTO>> CreateComment([FromBody] NewCommentDTO comment)
         {
             comment.AuthorId = this.GetUserIdFromToken();
             return Ok(await _commentService.CreateComment(comment));
+        }
+
+        [HttpPatch("{commentId:int}")]
+        public async Task<ActionResult<CommentDTO>> UpdateComment([FromBody] EditCommentDTO comment)
+        {
+            return Ok(await _commentService.UpdateComment(comment));
         }
 
         [HttpDelete("{commentId:int}")]

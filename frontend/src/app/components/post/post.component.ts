@@ -178,14 +178,24 @@ export class PostComponent implements OnDestroy, OnInit {
             .subscribe(
                 (resp) => {
                     if (resp) {
-                        this.post.comments = this.sortCommentArray(this.post.comments.concat(resp.body));
+                        this.findIndexPositionAndReplace(this.post.comments, resp.body);
+                        this.post.comments = this.sortCommentArray(this.post.comments);
                         this.newComment.body = undefined;
                         this.editableComment = undefined;
                         this.isEditMode = false;
+                        this.snackBarService.showUsualMessage("Comment updated!");
                     }
                 },
                 (error) => this.snackBarService.showErrorMessage(error)
             );
+    }
+
+    private findIndexPositionAndReplace(comments: Comment[], editedComment: Comment) {
+        let comment = comments
+            .find(comment => comment.id === editedComment.id);
+        let i = comments.indexOf(comment);
+        if (i < 0) return;
+        comments.splice(i, 1, editedComment);
     }
 
     private catchErrorWrapper(obs: Observable<User>) {
