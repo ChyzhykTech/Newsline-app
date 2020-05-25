@@ -33,6 +33,8 @@ namespace Thread_.NET.BLL.Services
                 .Include(post => post.Comments)
                     .ThenInclude(comment => comment.Reactions)
                 .Include(post => post.Comments)
+                    .ThenInclude(comment => comment.NegativeReactions)
+                .Include(post => post.Comments)
                     .ThenInclude(comment => comment.Author)
                 .OrderByDescending(post => post.CreatedAt)
                 .ToListAsync();
@@ -102,6 +104,9 @@ namespace Thread_.NET.BLL.Services
                     {
                         if (comment.Reactions.Count > 0)    
                             _context.CommentReactions.RemoveRange(comment.Reactions);
+
+                        if(comment.NegativeReactions.Count > 0)
+                            _context.CommentNegativeReactions.RemoveRange(comment.NegativeReactions);
                         _context.Comments.Remove(comment);
                     }
                 }
