@@ -47,8 +47,6 @@ export class LikeService {
     }
 
     public dislikeComment(comment: Comment, currentUser: User) {
-        console.log(comment);
-        console.log(currentUser);
         const innerComment= comment;
 
         const reaction: NewNegativeReaction = {
@@ -62,7 +60,7 @@ export class LikeService {
         innerComment.negativeReactions = hasReaction
             ? innerComment.negativeReactions.filter((x) => x.user.id !== currentUser.id)
             : innerComment.negativeReactions.concat({ isDislike: true, user: currentUser });
-        hasReaction = innerComment.reactions.some((x) => x.user.id === currentUser.id);
+        hasReaction = innerComment.negativeReactions.some((x) => x.user.id === currentUser.id);
 
         return this.commentService.dislikeComment(reaction).pipe(
             map(() => innerComment),
