@@ -9,6 +9,9 @@
     <p>{{comment.body}}</p>
   </mat-card-content>
   <mat-card-actions class="actions-buttons" align="end">
+    <button mat-icon-button color="primary" *ngIf="isAuthor()" class="button-to-left" (click)="editComment(comment.id)">
+      <mat-icon aria-label="Share">create</mat-icon>
+    </button>
     <button mat-icon-button (click)="dislikeComment()">
       <mat-icon matBadge="{{comment.negativeReactions.length}}" matBadgeColor="warn"
       [matBadgeHidden]="comment.negativeReactions.length === 0" aria-label="Like">thumb_down</mat-icon>
