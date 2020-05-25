@@ -15,7 +15,7 @@ namespace Thread_.NET.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -23,17 +23,23 @@ namespace Thread_.NET.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AuthorId");
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Body");
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("PostId");
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -47,182 +53,395 @@ namespace Thread_.NET.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            AuthorId = 16,
-                            Body = "Et minus amet.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(961),
-                            PostId = 3,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(2177)
+                            AuthorId = 3,
+                            Body = "Doloribus quisquam libero.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 731, DateTimeKind.Local).AddTicks(7700),
+                            PostId = 4,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 731, DateTimeKind.Local).AddTicks(8694)
                         },
                         new
                         {
                             Id = 2,
-                            AuthorId = 12,
-                            Body = "Sit sint architecto.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(4079),
-                            PostId = 13,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(4119)
+                            AuthorId = 11,
+                            Body = "Quis sed autem nulla animi debitis aut assumenda.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 731, DateTimeKind.Local).AddTicks(9755),
+                            PostId = 2,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 731, DateTimeKind.Local).AddTicks(9782)
                         },
                         new
                         {
                             Id = 3,
-                            AuthorId = 8,
-                            Body = "Ea ad deleniti ut quis officia voluptatibus occaecati.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(4379),
-                            PostId = 7,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(4399)
+                            AuthorId = 17,
+                            Body = "Quis non repellendus et.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 731, DateTimeKind.Local).AddTicks(9884),
+                            PostId = 11,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 731, DateTimeKind.Local).AddTicks(9894)
                         },
                         new
                         {
                             Id = 4,
-                            AuthorId = 17,
-                            Body = "In eius qui necessitatibus et sapiente quis iure.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(4626),
-                            PostId = 16,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(4642)
+                            AuthorId = 5,
+                            Body = "Cum blanditiis dolore sint accusantium dolores deserunt.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(6),
+                            PostId = 19,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(16)
                         },
                         new
                         {
                             Id = 5,
-                            AuthorId = 8,
-                            Body = "Dolor doloremque est rerum et quis.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(4837),
-                            PostId = 8,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(4853)
+                            AuthorId = 19,
+                            Body = "Ea rerum voluptate illo.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(100),
+                            PostId = 7,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(109)
                         },
                         new
                         {
                             Id = 6,
-                            AuthorId = 19,
-                            Body = "Tenetur occaecati omnis dolorem molestiae.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5039),
-                            PostId = 6,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5056)
+                            AuthorId = 4,
+                            Body = "Quia illum debitis enim.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(192),
+                            PostId = 5,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(201)
                         },
                         new
                         {
                             Id = 7,
-                            AuthorId = 11,
-                            Body = "Ut tempore ut id et odit temporibus.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5295),
-                            PostId = 7,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5315)
+                            AuthorId = 5,
+                            Body = "Ut blanditiis tempora rerum consequuntur nulla mollitia amet.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(310),
+                            PostId = 2,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(320)
                         },
                         new
                         {
                             Id = 8,
-                            AuthorId = 18,
-                            Body = "Qui iste temporibus dolores.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5494),
-                            PostId = 20,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5514)
+                            AuthorId = 8,
+                            Body = "Eligendi esse vero sunt debitis aliquam.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(425),
+                            PostId = 19,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(434)
                         },
                         new
                         {
                             Id = 9,
-                            AuthorId = 19,
-                            Body = "Dolores ducimus magni qui nesciunt est quia aut a tempore.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5729),
-                            PostId = 10,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5749)
+                            AuthorId = 5,
+                            Body = "Velit animi est eos esse eveniet unde.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(537),
+                            PostId = 20,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(547)
                         },
                         new
                         {
                             Id = 10,
-                            AuthorId = 19,
-                            Body = "Delectus non nihil cumque sed dolores ut impedit.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5952),
-                            PostId = 19,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(5972)
+                            AuthorId = 3,
+                            Body = "Enim dolores eius unde aut sunt enim nihil.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(655),
+                            PostId = 2,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(664)
                         },
                         new
                         {
                             Id = 11,
-                            AuthorId = 10,
-                            Body = "Consequuntur odit tempora omnis vel sunt illum nobis et quia.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(6195),
-                            PostId = 10,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(6211)
+                            AuthorId = 3,
+                            Body = "Ipsum tempore ipsam dolorum dolor eveniet eum.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(765),
+                            PostId = 19,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(774)
                         },
                         new
                         {
                             Id = 12,
-                            AuthorId = 17,
-                            Body = "At aut veritatis veritatis.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(6402),
-                            PostId = 20,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(6418)
+                            AuthorId = 10,
+                            Body = "Hic labore est quis itaque consequatur dicta.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(874),
+                            PostId = 5,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(884)
                         },
                         new
                         {
                             Id = 13,
-                            AuthorId = 2,
-                            Body = "Voluptates inventore libero sit illo pariatur.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(6657),
-                            PostId = 1,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(6677)
+                            AuthorId = 10,
+                            Body = "Quis sed culpa qui earum.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1058),
+                            PostId = 18,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1069)
                         },
                         new
                         {
                             Id = 14,
-                            AuthorId = 9,
-                            Body = "Quam magnam quidem cupiditate ratione id ab eum.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(6904),
-                            PostId = 4,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(6925)
+                            AuthorId = 5,
+                            Body = "Occaecati est unde dolore at delectus labore molestiae sit occaecati.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1229),
+                            PostId = 1,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1240)
                         },
                         new
                         {
                             Id = 15,
-                            AuthorId = 13,
-                            Body = "At adipisci expedita dignissimos provident architecto.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(7119),
-                            PostId = 17,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(7135)
+                            AuthorId = 6,
+                            Body = "Odit quae aut voluptatem.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1329),
+                            PostId = 12,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1338)
                         },
                         new
                         {
                             Id = 16,
-                            AuthorId = 19,
-                            Body = "Architecto deleniti earum.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(7285),
-                            PostId = 10,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(7302)
+                            AuthorId = 17,
+                            Body = "Eaque voluptas sit ut necessitatibus.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1428),
+                            PostId = 6,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1437)
                         },
                         new
                         {
                             Id = 17,
-                            AuthorId = 15,
-                            Body = "Quasi iusto ipsa.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(7460),
-                            PostId = 20,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(7480)
+                            AuthorId = 9,
+                            Body = "Sunt dolores cum nihil accusantium et mollitia sit architecto nihil.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1557),
+                            PostId = 14,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1566)
                         },
                         new
                         {
                             Id = 18,
-                            AuthorId = 21,
-                            Body = "Aut maiores eum a quibusdam non.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(7837),
-                            PostId = 6,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(7861)
+                            AuthorId = 5,
+                            Body = "Perferendis voluptatum error.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1643),
+                            PostId = 5,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1652)
                         },
                         new
                         {
                             Id = 19,
-                            AuthorId = 13,
-                            Body = "Soluta est animi.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(8072),
-                            PostId = 12,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(8092)
+                            AuthorId = 15,
+                            Body = "Voluptatem sequi sunt et.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1746),
+                            PostId = 19,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1756)
                         },
                         new
                         {
                             Id = 20,
-                            AuthorId = 20,
-                            Body = "In tempora et voluptatibus ut et consequatur fuga.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(8287),
-                            PostId = 7,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 827, DateTimeKind.Local).AddTicks(8303)
+                            AuthorId = 6,
+                            Body = "Nulla possimus nihil enim ea veritatis porro.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1859),
+                            PostId = 17,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 732, DateTimeKind.Local).AddTicks(1869)
+                        });
+                });
+
+            modelBuilder.Entity("Thread_.NET.DAL.Entities.CommentNegativeReaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDislike")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CommentNegativeReactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CommentId = 10,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 763, DateTimeKind.Local).AddTicks(9530),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(321),
+                            UserId = 13
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CommentId = 15,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1125),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1152),
+                            UserId = 18
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CommentId = 6,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1210),
+                            IsDislike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1219),
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CommentId = 12,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1261),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1269),
+                            UserId = 18
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CommentId = 17,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1311),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1320),
+                            UserId = 16
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CommentId = 19,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1361),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1369),
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CommentId = 7,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1411),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1419),
+                            UserId = 18
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CommentId = 20,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1461),
+                            IsDislike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1470),
+                            UserId = 14
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CommentId = 9,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1512),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1520),
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CommentId = 10,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1562),
+                            IsDislike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1571),
+                            UserId = 17
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CommentId = 5,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1613),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1622),
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CommentId = 20,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1665),
+                            IsDislike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1674),
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CommentId = 11,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1719),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1727),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CommentId = 13,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1770),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1778),
+                            UserId = 16
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CommentId = 10,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1822),
+                            IsDislike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1830),
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CommentId = 12,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1871),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1879),
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CommentId = 12,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1920),
+                            IsDislike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1928),
+                            UserId = 14
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CommentId = 19,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1955),
+                            IsDislike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1960),
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CommentId = 20,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1983),
+                            IsDislike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(1988),
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CommentId = 9,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(2010),
+                            IsDislike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 764, DateTimeKind.Local).AddTicks(2015),
+                            UserId = 7
                         });
                 });
 
@@ -230,21 +449,27 @@ namespace Thread_.NET.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CommentId");
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsLike");
+                    b.Property<bool>("IsLike")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTime>("UpdatedAt");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("CommentId", "UserId");
+                    b.HasIndex("CommentId");
 
                     b.HasIndex("UserId");
 
@@ -254,182 +479,182 @@ namespace Thread_.NET.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CommentId = 11,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 865, DateTimeKind.Local).AddTicks(6993),
+                            CommentId = 20,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 758, DateTimeKind.Local).AddTicks(8479),
                             IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 865, DateTimeKind.Local).AddTicks(8315),
-                            UserId = 21
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 758, DateTimeKind.Local).AddTicks(9300),
+                            UserId = 3
                         },
                         new
                         {
                             Id = 2,
-                            CommentId = 18,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 865, DateTimeKind.Local).AddTicks(9981),
+                            CommentId = 7,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 758, DateTimeKind.Local).AddTicks(9930),
                             IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(9),
-                            UserId = 6
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 758, DateTimeKind.Local).AddTicks(9949),
+                            UserId = 1
                         },
                         new
                         {
                             Id = 3,
-                            CommentId = 14,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(115),
-                            IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(127),
-                            UserId = 18
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CommentId = 18,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(208),
-                            IsLike = true,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(224),
-                            UserId = 15
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CommentId = 18,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(305),
-                            IsLike = true,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(321),
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CommentId = 8,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(402),
-                            IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(419),
-                            UserId = 14
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CommentId = 10,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(504),
-                            IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(520),
-                            UserId = 12
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CommentId = 1,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(666),
-                            IsLike = true,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(682),
-                            UserId = 19
-                        },
-                        new
-                        {
-                            Id = 9,
                             CommentId = 3,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(779),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 758, DateTimeKind.Local).AddTicks(9986),
                             IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(796),
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 758, DateTimeKind.Local).AddTicks(9992),
                             UserId = 16
                         },
                         new
                         {
-                            Id = 10,
-                            CommentId = 13,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(881),
-                            IsLike = true,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(897),
+                            Id = 4,
+                            CommentId = 10,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(18),
+                            IsLike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(23),
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CommentId = 1,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(67),
+                            IsLike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(73),
                             UserId = 15
                         },
                         new
                         {
-                            Id = 11,
-                            CommentId = 18,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(978),
+                            Id = 6,
+                            CommentId = 4,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(97),
                             IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(994),
-                            UserId = 5
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(102),
+                            UserId = 12
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CommentId = 15,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(126),
+                            IsLike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(131),
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CommentId = 9,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(154),
+                            IsLike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(159),
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CommentId = 1,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(182),
+                            IsLike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(187),
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CommentId = 16,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(209),
+                            IsLike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(214),
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CommentId = 20,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(238),
+                            IsLike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(242),
+                            UserId = 16
                         },
                         new
                         {
                             Id = 12,
-                            CommentId = 20,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1079),
-                            IsLike = true,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1096),
+                            CommentId = 18,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(265),
+                            IsLike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(270),
                             UserId = 9
                         },
                         new
                         {
                             Id = 13,
-                            CommentId = 6,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1185),
-                            IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1197),
-                            UserId = 1
+                            CommentId = 18,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(292),
+                            IsLike = true,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(297),
+                            UserId = 21
                         },
                         new
                         {
                             Id = 14,
-                            CommentId = 18,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1282),
+                            CommentId = 10,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(319),
                             IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1298),
-                            UserId = 7
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(332),
+                            UserId = 12
                         },
                         new
                         {
                             Id = 15,
                             CommentId = 20,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1379),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(357),
                             IsLike = true,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1396),
-                            UserId = 13
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(362),
+                            UserId = 8
                         },
                         new
                         {
                             Id = 16,
-                            CommentId = 4,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1797),
-                            IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1821),
-                            UserId = 12
-                        },
-                        new
-                        {
-                            Id = 17,
-                            CommentId = 17,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1915),
+                            CommentId = 5,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(385),
                             IsLike = true,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(1931),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 18,
-                            CommentId = 7,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(2008),
-                            IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(2024),
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(389),
                             UserId = 18
                         },
                         new
                         {
-                            Id = 19,
-                            CommentId = 2,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(2101),
+                            Id = 17,
+                            CommentId = 15,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(411),
                             IsLike = false,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(2113),
-                            UserId = 10
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(416),
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CommentId = 6,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(438),
+                            IsLike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(443),
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CommentId = 18,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(466),
+                            IsLike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(470),
+                            UserId = 20
                         },
                         new
                         {
                             Id = 20,
-                            CommentId = 11,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(2190),
-                            IsLike = true,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 866, DateTimeKind.Local).AddTicks(2202),
-                            UserId = 2
+                            CommentId = 18,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(492),
+                            IsLike = false,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 759, DateTimeKind.Local).AddTicks(497),
+                            UserId = 17
                         });
                 });
 
@@ -437,13 +662,17 @@ namespace Thread_.NET.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("URL");
+                    b.Property<string>("URL")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -453,282 +682,282 @@ namespace Thread_.NET.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 425, DateTimeKind.Local).AddTicks(742),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/exentrich/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(2661)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 375, DateTimeKind.Local).AddTicks(6114),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/mrebay007/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(959)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(5920),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/kolage/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(5952)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1781),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/nerdgr8/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1804)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6046),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/joshaustin/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6058)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1839),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/shadeed9/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1845)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6127),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/yecidsm/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6143)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1867),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/rpatey/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1872)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6212),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/aoimedia/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6224)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1894),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/psaikali/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1899)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6293),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/jonkspr/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6305)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1920),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/tristanlegros/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1925)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6374),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/mutlu82/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6386)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1945),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/haligaliharun/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1950)
                         },
                         new
                         {
                             Id = 8,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6459),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/mgonto/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6471)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1971),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/embrcecreations/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1976)
                         },
                         new
                         {
                             Id = 9,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6540),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/karalek/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6552)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(1997),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/chanpory/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2002)
                         },
                         new
                         {
                             Id = 10,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6621),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/igorgarybaldi/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6633)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2023),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/fiterik/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2028)
                         },
                         new
                         {
                             Id = 11,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6698),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/alek_djuric/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6715)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2048),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/scottkclark/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2054)
                         },
                         new
                         {
                             Id = 12,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6779),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/renbyrd/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6796)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2075),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/lebronjennan/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2080)
                         },
                         new
                         {
                             Id = 13,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6860),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/mahmoudmetwally/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6873)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2101),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/clubb3rry/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2106)
                         },
                         new
                         {
                             Id = 14,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6942),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/mattdetails/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(6954)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2126),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/dotgridline/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2132)
                         },
                         new
                         {
                             Id = 15,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7019),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/baumann_alex/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7035)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2219),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/sgaurav_baghel/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2225)
                         },
                         new
                         {
                             Id = 16,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7100),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/kuldarkalvik/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7116)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2248),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/weavermedia/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2253)
                         },
                         new
                         {
                             Id = 17,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7181),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/motionthinks/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7193)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2274),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/dahparra/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2279)
                         },
                         new
                         {
                             Id = 18,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7258),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/urrutimeoli/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7270)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2300),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/rachelreveley/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2305)
                         },
                         new
                         {
                             Id = 19,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7339),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/wesleytrankin/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7355)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2326),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/kucingbelang4/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2331)
                         },
                         new
                         {
                             Id = 20,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7420),
-                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/timmillwood/128.jpg",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 426, DateTimeKind.Local).AddTicks(7436)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2351),
+                            URL = "https://s3.amazonaws.com/uifaces/faces/twitter/josep_martins/128.jpg",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 376, DateTimeKind.Local).AddTicks(2356)
                         },
                         new
                         {
                             Id = 21,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(539),
-                            URL = "https://picsum.photos/640/480/?image=393",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(1638)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(5141),
+                            URL = "https://picsum.photos/640/480/?image=356",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(5962)
                         },
                         new
                         {
                             Id = 22,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2112),
-                            URL = "https://picsum.photos/640/480/?image=1079",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2141)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6339),
+                            URL = "https://picsum.photos/640/480/?image=386",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6368)
                         },
                         new
                         {
                             Id = 23,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2218),
-                            URL = "https://picsum.photos/640/480/?image=801",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2234)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6395),
+                            URL = "https://picsum.photos/640/480/?image=496",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6401)
                         },
                         new
                         {
                             Id = 24,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2299),
-                            URL = "https://picsum.photos/640/480/?image=951",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2315)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6420),
+                            URL = "https://picsum.photos/640/480/?image=102",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6426)
                         },
                         new
                         {
                             Id = 25,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2376),
-                            URL = "https://picsum.photos/640/480/?image=436",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2392)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6445),
+                            URL = "https://picsum.photos/640/480/?image=48",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6450)
                         },
                         new
                         {
                             Id = 26,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2457),
-                            URL = "https://picsum.photos/640/480/?image=64",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2473)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6469),
+                            URL = "https://picsum.photos/640/480/?image=825",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6474)
                         },
                         new
                         {
                             Id = 27,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2538),
-                            URL = "https://picsum.photos/640/480/?image=436",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2550)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6494),
+                            URL = "https://picsum.photos/640/480/?image=39",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6499)
                         },
                         new
                         {
                             Id = 28,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2639),
-                            URL = "https://picsum.photos/640/480/?image=243",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2656)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6517),
+                            URL = "https://picsum.photos/640/480/?image=468",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6522)
                         },
                         new
                         {
                             Id = 29,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2720),
-                            URL = "https://picsum.photos/640/480/?image=515",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2733)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6541),
+                            URL = "https://picsum.photos/640/480/?image=454",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6546)
                         },
                         new
                         {
                             Id = 30,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2797),
-                            URL = "https://picsum.photos/640/480/?image=290",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2814)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6564),
+                            URL = "https://picsum.photos/640/480/?image=1068",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6569)
                         },
                         new
                         {
                             Id = 31,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2879),
-                            URL = "https://picsum.photos/640/480/?image=400",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2891)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6587),
+                            URL = "https://picsum.photos/640/480/?image=456",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6592)
                         },
                         new
                         {
                             Id = 32,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2956),
-                            URL = "https://picsum.photos/640/480/?image=839",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(2972)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6611),
+                            URL = "https://picsum.photos/640/480/?image=282",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6616)
                         },
                         new
                         {
                             Id = 33,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3037),
-                            URL = "https://picsum.photos/640/480/?image=926",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3053)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6677),
+                            URL = "https://picsum.photos/640/480/?image=61",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6682)
                         },
                         new
                         {
                             Id = 34,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3118),
-                            URL = "https://picsum.photos/640/480/?image=163",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3130)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6702),
+                            URL = "https://picsum.photos/640/480/?image=635",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6707)
                         },
                         new
                         {
                             Id = 35,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3195),
-                            URL = "https://picsum.photos/640/480/?image=455",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3207)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6727),
+                            URL = "https://picsum.photos/640/480/?image=935",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6732)
                         },
                         new
                         {
                             Id = 36,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3272),
-                            URL = "https://picsum.photos/640/480/?image=688",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3284)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6751),
+                            URL = "https://picsum.photos/640/480/?image=709",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6756)
                         },
                         new
                         {
                             Id = 37,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3349),
-                            URL = "https://picsum.photos/640/480/?image=759",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3361)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6775),
+                            URL = "https://picsum.photos/640/480/?image=567",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6780)
                         },
                         new
                         {
                             Id = 38,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3430),
-                            URL = "https://picsum.photos/640/480/?image=307",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3442)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6798),
+                            URL = "https://picsum.photos/640/480/?image=81",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6803)
                         },
                         new
                         {
                             Id = 39,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3507),
-                            URL = "https://picsum.photos/640/480/?image=488",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3523)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6821),
+                            URL = "https://picsum.photos/640/480/?image=88",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6826)
                         },
                         new
                         {
                             Id = 40,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3584),
-                            URL = "https://picsum.photos/640/480/?image=902",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 439, DateTimeKind.Local).AddTicks(3600)
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6845),
+                            URL = "https://picsum.photos/640/480/?image=963",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 381, DateTimeKind.Local).AddTicks(6850)
                         });
                 });
 
@@ -736,17 +965,23 @@ namespace Thread_.NET.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AuthorId");
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Body");
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("PreviewId");
+                    b.Property<int?>("PreviewId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -761,202 +996,409 @@ namespace Thread_.NET.DAL.Migrations
                         {
                             Id = 1,
                             AuthorId = 4,
-                            Body = "Enim ea sunt eos reprehenderit maxime.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 808, DateTimeKind.Local).AddTicks(9179),
-                            PreviewId = 22,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 809, DateTimeKind.Local).AddTicks(346)
+                            Body = "enim",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 721, DateTimeKind.Local).AddTicks(1620),
+                            PreviewId = 36,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 721, DateTimeKind.Local).AddTicks(2762)
                         },
                         new
                         {
                             Id = 2,
-                            AuthorId = 16,
-                            Body = @"Exercitationem assumenda expedita eos possimus dolorem aut repellat eos.
-Error voluptate molestiae et laudantium.
-Explicabo ea est totam soluta esse cumque voluptatibus qui voluptatem.
-Ex corrupti praesentium omnis vitae occaecati.
-Dicta doloribus qui vero sit incidunt id aspernatur ipsum.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 810, DateTimeKind.Local).AddTicks(4781),
-                            PreviewId = 23,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 810, DateTimeKind.Local).AddTicks(4826)
+                            AuthorId = 4,
+                            Body = @"Id nesciunt vero tenetur autem.
+Vel iure cumque et vitae optio.
+Ab modi quidem eum et quod ab exercitationem quis distinctio.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(4748),
+                            PreviewId = 35,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(4823)
                         },
                         new
                         {
                             Id = 3,
-                            AuthorId = 11,
-                            Body = "Non placeat asperiores qui. Quis qui aut. Tempore iste dolores.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 810, DateTimeKind.Local).AddTicks(9731),
-                            PreviewId = 34,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 810, DateTimeKind.Local).AddTicks(9760)
+                            AuthorId = 18,
+                            Body = "Sit rerum placeat officiis.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(6166),
+                            PreviewId = 31,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(6194)
                         },
                         new
                         {
                             Id = 4,
-                            AuthorId = 6,
-                            Body = @"Atque rerum consequuntur illum rem quia labore.
-Vel eos qui et sunt.
-Officia aspernatur magnam molestiae.
-Laudantium a voluptatibus ut expedita sed et ratione.
-Cupiditate unde vitae officia quos.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(307),
-                            PreviewId = 31,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(323)
+                            AuthorId = 12,
+                            Body = "Fugiat voluptatem qui.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(6304),
+                            PreviewId = 40,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(6314)
                         },
                         new
                         {
                             Id = 5,
-                            AuthorId = 10,
-                            Body = "aperiam",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(1361),
-                            PreviewId = 29,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(1389)
+                            AuthorId = 9,
+                            Body = @"Ut consequatur deserunt omnis facere vel quidem recusandae.
+Repudiandae veniam veritatis ducimus dolores eos dolor et ullam autem.
+Tenetur aperiam sunt aut et rerum.
+Ipsam autem minima numquam ea voluptas.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(6852),
+                            PreviewId = 31,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(6864)
                         },
                         new
                         {
                             Id = 6,
                             AuthorId = 7,
-                            Body = @"Quisquam nihil natus quidem dolores iusto.
-Qui et aspernatur est numquam harum et est totam et.
-Accusantium itaque vel eum dolor asperiores placeat.
-Aut voluptatum et.
-Ut neque impedit voluptatum voluptatem vel aspernatur error nihil.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(1941),
-                            PreviewId = 35,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(1957)
+                            Body = "Provident et sed enim vel hic mollitia.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(6980),
+                            PreviewId = 31,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(6990)
                         },
                         new
                         {
                             Id = 7,
-                            AuthorId = 18,
-                            Body = "sed",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(2131),
-                            PreviewId = 40,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(2147)
+                            AuthorId = 20,
+                            Body = @"Tempore eveniet tempora eveniet.
+Autem ut quibusdam.
+Ratione consequatur nihil voluptatem natus facilis optio molestiae.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(7181),
+                            PreviewId = 25,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(7191)
                         },
                         new
                         {
                             Id = 8,
-                            AuthorId = 19,
-                            Body = "Voluptas praesentium similique et voluptates unde illum libero necessitatibus facilis.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(2387),
-                            PreviewId = 32,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(2403)
+                            AuthorId = 12,
+                            Body = "repellendus",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(7257),
+                            PreviewId = 24,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(7266)
                         },
                         new
                         {
                             Id = 9,
-                            AuthorId = 5,
-                            Body = "Quos voluptas mollitia magni est quas.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(2581),
-                            PreviewId = 24,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(2597)
+                            AuthorId = 19,
+                            Body = "Qui vitae aut aliquid. Quis ab dolores cumque vel. Praesentium fugiat maxime sequi natus debitis eum dolorum omnis asperiores. Nemo ut id architecto maxime. In voluptatum commodi ea.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(9334),
+                            PreviewId = 27,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(9360)
                         },
                         new
                         {
                             Id = 10,
-                            AuthorId = 5,
-                            Body = "Consequuntur ipsam est. Quo autem dolor rem quia quia perferendis et. Inventore laborum saepe. Quis dolorem provident cum a dolore voluptas et occaecati.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(3027),
-                            PreviewId = 38,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(3047)
+                            AuthorId = 3,
+                            Body = @"Ex vel occaecati autem sit eos voluptatem impedit laudantium.
+Neque hic tempora voluptatem voluptatem dolore.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(9622),
+                            PreviewId = 37,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(9634)
                         },
                         new
                         {
                             Id = 11,
-                            AuthorId = 6,
-                            Body = "Dolorum adipisci facere repellendus incidunt quia maiores. Pariatur iure esse nisi. Voluptatum eum error quasi repellat. Aliquid et tempore quo quis dolorem quasi. Aut consectetur itaque aut optio quis soluta qui corporis.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(3530),
-                            PreviewId = 26,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(3550)
+                            AuthorId = 7,
+                            Body = "Maxime aliquam ut. Id modi sit et sequi tenetur explicabo alias id. Sunt aut ea consequatur reprehenderit quae consectetur. Est qui quis ipsum. Numquam fugit dolores maxime. Eum placeat est iste reiciendis iste ducimus quidem dolore.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(9988),
+                            PreviewId = 22,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 722, DateTimeKind.Local).AddTicks(9999)
                         },
                         new
                         {
                             Id = 12,
-                            AuthorId = 21,
-                            Body = "Qui adipisci voluptatem ratione voluptatem laborum doloribus commodi.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(3741),
-                            PreviewId = 40,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(3757)
+                            AuthorId = 4,
+                            Body = "Rerum quos et.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(84),
+                            PreviewId = 32,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(94)
                         },
                         new
                         {
                             Id = 13,
-                            AuthorId = 13,
-                            Body = "In distinctio hic ex. Et neque dignissimos odit maiores repudiandae. Quisquam ut in vitae non minima.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(4065),
-                            PreviewId = 36,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(4081)
+                            AuthorId = 12,
+                            Body = "Et est aut id similique.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(188),
+                            PreviewId = 40,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(197)
                         },
                         new
                         {
                             Id = 14,
-                            AuthorId = 21,
-                            Body = "Aliquid eligendi aut omnis vitae in et ut. Voluptas provident aut sit. Hic ut et eius et quo. Voluptate minus ut facilis. Veniam dignissimos cum doloribus deserunt et.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(4523),
-                            PreviewId = 38,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(4539)
+                            AuthorId = 14,
+                            Body = @"Excepturi expedita quia suscipit et maiores repudiandae perferendis quia.
+Commodi facere et odit fugiat magnam sint laboriosam soluta.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(386),
+                            PreviewId = 28,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(396)
                         },
                         new
                         {
                             Id = 15,
-                            AuthorId = 14,
-                            Body = @"Et vitae ipsa velit facere.
-Est consectetur asperiores natus rerum culpa autem qui in.
-Illum totam rerum a similique voluptates libero sed.
-Iste neque ipsum quis odit doloremque.
-Quis harum officia dolores sed sint blanditiis facilis dicta.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(5058),
-                            PreviewId = 28,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(5074)
+                            AuthorId = 12,
+                            Body = "Quaerat expedita accusamus consequatur doloribus voluptatem. Aut similique dignissimos. Et tempora minus voluptas quas necessitatibus similique.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(595),
+                            PreviewId = 21,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(605)
                         },
                         new
                         {
                             Id = 16,
-                            AuthorId = 16,
-                            Body = "Corporis nulla adipisci natus ab occaecati et nihil cumque. Velit et id adipisci. Deleniti ut necessitatibus provident autem nostrum maxime. Voluptatem deleniti corporis perferendis ullam officiis eius. Qui voluptatum mollitia aliquam voluptatem.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(5545),
-                            PreviewId = 40,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(5561)
+                            AuthorId = 21,
+                            Body = "Est assumenda voluptatem dignissimos consectetur aut quo ipsum ut error. Architecto sapiente sed et accusantium aut illum atque amet. Sed dolor voluptatem dolor aut. Totam et hic provident. Excepturi qui explicabo ut tempore in.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(927),
+                            PreviewId = 37,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(937)
                         },
                         new
                         {
                             Id = 17,
-                            AuthorId = 13,
-                            Body = "molestias",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(5674),
-                            PreviewId = 24,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(5690)
+                            AuthorId = 7,
+                            Body = "Dicta odio expedita. Iure voluptatibus ut et quod. Natus sunt labore officia exercitationem nam. Nihil dolore aut deserunt.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(1139),
+                            PreviewId = 21,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(1150)
                         },
                         new
                         {
                             Id = 18,
-                            AuthorId = 5,
-                            Body = "Minima omnis quaerat ab est ducimus omnis voluptatem. Sunt iste nostrum non vitae placeat molestias ex eum. Saepe deserunt dignissimos qui earum minima. Quia fugiat voluptatem id quo illum sed.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(6116),
-                            PreviewId = 31,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(6132)
+                            AuthorId = 20,
+                            Body = @"Libero aliquid cupiditate.
+Atque sit vitae quas explicabo culpa quia facilis temporibus atque.
+Accusantium temporibus voluptatibus tenetur nesciunt at est.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(1371),
+                            PreviewId = 28,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(1381)
                         },
                         new
                         {
                             Id = 19,
-                            AuthorId = 12,
-                            Body = @"Ut assumenda et et.
-Voluptatem optio doloremque ipsa rerum nemo repellat quo.
-Dignissimos ut magni fugiat quidem voluptatem est aut enim.
-Ullam et eos quod ipsum reprehenderit rerum tempora possimus aut.
-Porro reprehenderit explicabo illum sed et dolore.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(6643),
-                            PreviewId = 30,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(6659)
+                            AuthorId = 13,
+                            Body = @"Quia odio ab fugit explicabo magni consequatur.
+Consectetur qui omnis asperiores incidunt.
+Id dolores quo ut sed sint.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(1578),
+                            PreviewId = 36,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(1588)
                         },
                         new
                         {
                             Id = 20,
-                            AuthorId = 16,
-                            Body = @"Sapiente quis culpa velit commodi rerum iusto voluptatum neque.
-Sunt sed eum nesciunt a vero.",
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(6931),
-                            PreviewId = 34,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 811, DateTimeKind.Local).AddTicks(6943)
+                            AuthorId = 14,
+                            Body = @"Est beatae ipsum voluptatem reiciendis.
+Voluptas consectetur quisquam voluptates veritatis ipsa totam.
+Excepturi nihil ipsum.",
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(1770),
+                            PreviewId = 27,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 723, DateTimeKind.Local).AddTicks(1780)
+                        });
+                });
+
+            modelBuilder.Entity("Thread_.NET.DAL.Entities.PostNegativeReaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDislike")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PostNegativeReactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(1523),
+                            IsDislike = false,
+                            PostId = 4,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(2577),
+                            UserId = 17
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3481),
+                            IsDislike = true,
+                            PostId = 19,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3506),
+                            UserId = 12
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3571),
+                            IsDislike = true,
+                            PostId = 13,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3580),
+                            UserId = 18
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3628),
+                            IsDislike = false,
+                            PostId = 9,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3638),
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3685),
+                            IsDislike = true,
+                            PostId = 8,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3694),
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3739),
+                            IsDislike = false,
+                            PostId = 4,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3749),
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3833),
+                            IsDislike = false,
+                            PostId = 17,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3844),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3909),
+                            IsDislike = true,
+                            PostId = 9,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3918),
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3969),
+                            IsDislike = false,
+                            PostId = 5,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(3977),
+                            UserId = 20
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4025),
+                            IsDislike = true,
+                            PostId = 17,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4034),
+                            UserId = 19
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4082),
+                            IsDislike = false,
+                            PostId = 14,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4091),
+                            UserId = 21
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4139),
+                            IsDislike = true,
+                            PostId = 13,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4148),
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4198),
+                            IsDislike = true,
+                            PostId = 6,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4208),
+                            UserId = 13
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4253),
+                            IsDislike = true,
+                            PostId = 20,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4261),
+                            UserId = 21
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4302),
+                            IsDislike = false,
+                            PostId = 1,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4310),
+                            UserId = 20
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4346),
+                            IsDislike = true,
+                            PostId = 10,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4353),
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4396),
+                            IsDislike = true,
+                            PostId = 15,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4406),
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4449),
+                            IsDislike = false,
+                            PostId = 11,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4458),
+                            UserId = 20
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4563),
+                            IsDislike = true,
+                            PostId = 15,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4573),
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4615),
+                            IsDislike = false,
+                            PostId = 13,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 750, DateTimeKind.Local).AddTicks(4623),
+                            UserId = 14
                         });
                 });
 
@@ -964,21 +1406,27 @@ Sunt sed eum nesciunt a vero.",
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsLike");
+                    b.Property<bool>("IsLike")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("PostId");
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("PostId", "UserId");
+                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -988,182 +1436,182 @@ Sunt sed eum nesciunt a vero.",
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(465),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(6252),
                             IsLike = false,
-                            PostId = 2,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(1693),
-                            UserId = 1
+                            PostId = 11,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(7351),
+                            UserId = 18
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3452),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8472),
                             IsLike = false,
-                            PostId = 7,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3485),
-                            UserId = 13
+                            PostId = 11,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8500),
+                            UserId = 14
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3606),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8559),
                             IsLike = false,
-                            PostId = 18,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3623),
-                            UserId = 5
+                            PostId = 13,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8568),
+                            UserId = 20
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3716),
-                            IsLike = true,
-                            PostId = 6,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3728),
-                            UserId = 5
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8614),
+                            IsLike = false,
+                            PostId = 5,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8622),
+                            UserId = 19
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3809),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8665),
                             IsLike = true,
-                            PostId = 3,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3821),
-                            UserId = 16
+                            PostId = 13,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8674),
+                            UserId = 7
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3906),
-                            IsLike = false,
-                            PostId = 19,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(3918),
-                            UserId = 13
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8716),
+                            IsLike = true,
+                            PostId = 14,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8725),
+                            UserId = 14
                         },
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4004),
-                            IsLike = true,
-                            PostId = 7,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4020),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8768),
+                            IsLike = false,
+                            PostId = 11,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8777),
                             UserId = 18
                         },
                         new
                         {
                             Id = 8,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4097),
-                            IsLike = true,
-                            PostId = 8,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4113),
-                            UserId = 20
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8820),
+                            IsLike = false,
+                            PostId = 17,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8828),
+                            UserId = 21
                         },
                         new
                         {
                             Id = 9,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4186),
-                            IsLike = false,
-                            PostId = 8,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4198),
-                            UserId = 5
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8870),
+                            IsLike = true,
+                            PostId = 17,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8879),
+                            UserId = 14
                         },
                         new
                         {
                             Id = 10,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4275),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8922),
                             IsLike = false,
-                            PostId = 5,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4287),
-                            UserId = 15
+                            PostId = 7,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8931),
+                            UserId = 16
                         },
                         new
                         {
                             Id = 11,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4364),
-                            IsLike = false,
-                            PostId = 9,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4381),
-                            UserId = 8
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8974),
+                            IsLike = true,
+                            PostId = 16,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(8982),
+                            UserId = 21
                         },
                         new
                         {
                             Id = 12,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4458),
-                            IsLike = false,
-                            PostId = 18,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4470),
-                            UserId = 2
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9026),
+                            IsLike = true,
+                            PostId = 15,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9035),
+                            UserId = 14
                         },
                         new
                         {
                             Id = 13,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4543),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9077),
                             IsLike = false,
                             PostId = 10,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4559),
-                            UserId = 16
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9086),
+                            UserId = 6
                         },
                         new
                         {
                             Id = 14,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4632),
-                            IsLike = true,
-                            PostId = 9,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4644),
-                            UserId = 20
-                        },
-                        new
-                        {
-                            Id = 15,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4721),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9129),
                             IsLike = false,
-                            PostId = 11,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4733),
-                            UserId = 12
-                        },
-                        new
-                        {
-                            Id = 16,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4806),
-                            IsLike = true,
-                            PostId = 19,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4822),
-                            UserId = 16
-                        },
-                        new
-                        {
-                            Id = 17,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4904),
-                            IsLike = false,
-                            PostId = 14,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(4916),
-                            UserId = 15
-                        },
-                        new
-                        {
-                            Id = 18,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(5001),
-                            IsLike = true,
-                            PostId = 3,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(5017),
-                            UserId = 5
-                        },
-                        new
-                        {
-                            Id = 19,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(5098),
-                            IsLike = false,
-                            PostId = 3,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(5114),
+                            PostId = 13,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9138),
                             UserId = 10
                         },
                         new
                         {
-                            Id = 20,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(5199),
+                            Id = 15,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9196),
                             IsLike = false,
-                            PostId = 8,
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 848, DateTimeKind.Local).AddTicks(5216),
-                            UserId = 19
+                            PostId = 1,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9205),
+                            UserId = 18
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9248),
+                            IsLike = true,
+                            PostId = 10,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9257),
+                            UserId = 18
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9299),
+                            IsLike = false,
+                            PostId = 14,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9308),
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9350),
+                            IsLike = true,
+                            PostId = 10,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9359),
+                            UserId = 16
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9402),
+                            IsLike = true,
+                            PostId = 18,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9411),
+                            UserId = 18
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9454),
+                            IsLike = false,
+                            PostId = 1,
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 741, DateTimeKind.Local).AddTicks(9462),
+                            UserId = 12
                         });
                 });
 
@@ -1171,17 +1619,23 @@ Sunt sed eum nesciunt a vero.",
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Expires");
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Token");
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1194,21 +1648,29 @@ Sunt sed eum nesciunt a vero.",
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AvatarId");
+                    b.Property<int?>("AvatarId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password");
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Salt");
+                    b.Property<string>("Salt")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1220,231 +1682,231 @@ Sunt sed eum nesciunt a vero.",
                         new
                         {
                             Id = 1,
-                            AvatarId = 16,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 498, DateTimeKind.Local).AddTicks(4064),
-                            Email = "Lewis66@yahoo.com",
-                            Password = "ipp+S75e/5LiuvKBM0nZrEQsP+7SMRMzqcaRN08Npeo=",
-                            Salt = "euuwrkqYzcRNJGdeN7pEtbfzLCvqO+eavPQlg+vBgT4=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 498, DateTimeKind.Local).AddTicks(5085),
-                            UserName = "Berta.Mann13"
+                            AvatarId = 9,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 431, DateTimeKind.Local).AddTicks(2493),
+                            Email = "Ilene.Reynolds@gmail.com",
+                            Password = "l7cQx7pSnK0o8nRAx2j0fCP9vaOYdomxK5ajRZmnJbg=",
+                            Salt = "SPjsbjgyS1sBPi4nUoOV1TKuHnaMpo3BM2gjxEI8E7Q=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 431, DateTimeKind.Local).AddTicks(3515),
+                            UserName = "Eden.Prosacco30"
                         },
                         new
                         {
                             Id = 2,
-                            AvatarId = 16,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 510, DateTimeKind.Local).AddTicks(8861),
-                            Email = "Zula.Schultz0@gmail.com",
-                            Password = "P8ThNsvBpgNPvmH1YqSUD2/vtQRDH/Lul3MQa1elkRI=",
-                            Salt = "oI1mrCZQsTc837g5oIG3HMPEvL9DrfDpegteKB4mOas=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 510, DateTimeKind.Local).AddTicks(8946),
-                            UserName = "Emiliano_Rice44"
+                            AvatarId = 3,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 440, DateTimeKind.Local).AddTicks(6477),
+                            Email = "Anais.Schaden30@yahoo.com",
+                            Password = "/MzS9S119LxBSoS6i/hkfzRl4xWZL0ePEc9d0eP80nc=",
+                            Salt = "gxMUFFK0Gb+Bqcs6VsWdHgtbECOBIL5ZcguKgLTitWA=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 440, DateTimeKind.Local).AddTicks(6586),
+                            UserName = "Bret.Gusikowski62"
                         },
                         new
                         {
                             Id = 3,
-                            AvatarId = 1,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 523, DateTimeKind.Local).AddTicks(1692),
-                            Email = "Reagan60@yahoo.com",
-                            Password = "0seLIYhjNnliKhex2dDOLL/USB49B2vjmm35kPNClV0=",
-                            Salt = "2VgpQTnja97w2gvln6xsIeJnhGCvbckR1fahcmznjBw=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 523, DateTimeKind.Local).AddTicks(1773),
-                            UserName = "Keely_Johnston"
+                            AvatarId = 15,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 459, DateTimeKind.Local).AddTicks(4194),
+                            Email = "Joan22@gmail.com",
+                            Password = "qSv1GdG6x/EzAN0QuKOCjP3C2IXCAkLi56mOO1JlF24=",
+                            Salt = "zfohD4eBsTk0csKDHTrN2DGKci29zXGZP0KsKIMCLlU=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 459, DateTimeKind.Local).AddTicks(4294),
+                            UserName = "Triston19"
                         },
                         new
                         {
                             Id = 4,
                             AvatarId = 4,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 535, DateTimeKind.Local).AddTicks(2230),
-                            Email = "Keon.Lang62@yahoo.com",
-                            Password = "6U7+IRUGC7b0o9gvk13Hmjq7fqhQrz5LUeBrI7N8KFc=",
-                            Salt = "yfVqUaYEqo8GpvMHeBTVWEvVt8tbqBlOg6RdI2UT4os=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 535, DateTimeKind.Local).AddTicks(2311),
-                            UserName = "Odell91"
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 473, DateTimeKind.Local).AddTicks(5320),
+                            Email = "Vallie8@gmail.com",
+                            Password = "syHsk12xjUjXwi6wmlfRp0uDUWGVaGYxIVsXPfVlX8I=",
+                            Salt = "9tPv7Al0SUh6fSbLLrkmFj66X1qC7VzriFH4ulKTA/Q=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 473, DateTimeKind.Local).AddTicks(5410),
+                            UserName = "Novella.Emard"
                         },
                         new
                         {
                             Id = 5,
-                            AvatarId = 2,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 547, DateTimeKind.Local).AddTicks(4604),
-                            Email = "Itzel.Hintz@yahoo.com",
-                            Password = "NuSFkBsHxCG6xLWi69+t4D0QQGJ6BVVhb9xbXZLdvuw=",
-                            Salt = "RhFEqCkXU6TJ/PlnhiUc1oPhH+KaEWnNBGn83ls6cpI=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 547, DateTimeKind.Local).AddTicks(4685),
-                            UserName = "Elmore_Zieme78"
+                            AvatarId = 3,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 486, DateTimeKind.Local).AddTicks(7869),
+                            Email = "Mariah_Bergnaum12@yahoo.com",
+                            Password = "z1gEBmNi2wqVZhjyDJWAo5MBlK+5exoiUvrvuMt4TPA=",
+                            Salt = "I4q9gwEUKs9A5XqYFqXxz6+kO0EXlWAIwq0U6l0u25o=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 486, DateTimeKind.Local).AddTicks(7968),
+                            UserName = "Mortimer_Wiegand"
                         },
                         new
                         {
                             Id = 6,
-                            AvatarId = 12,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 563, DateTimeKind.Local).AddTicks(166),
-                            Email = "Lonie68@hotmail.com",
-                            Password = "9kzThCD61VguYbsRHNtsljedbZNR1l25iA5h7tnglD4=",
-                            Salt = "urBn05zOW2W/z0SRh+ROKzQA8zstGURtGXA8s6Vb2a4=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 563, DateTimeKind.Local).AddTicks(255),
-                            UserName = "Alanis58"
+                            AvatarId = 14,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 499, DateTimeKind.Local).AddTicks(7197),
+                            Email = "Garland_Feest78@yahoo.com",
+                            Password = "QamEj8Y4yh0xNrkooKBSLU55CbtyISIRj6Ji3bWN6sU=",
+                            Salt = "v/Nwc463OQ5dqtwRil5dG284k1Xzi/CQYjiXWiK7Xec=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 499, DateTimeKind.Local).AddTicks(7294),
+                            UserName = "Baron_Shanahan"
                         },
                         new
                         {
                             Id = 7,
-                            AvatarId = 14,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 578, DateTimeKind.Local).AddTicks(2826),
-                            Email = "Kristin97@gmail.com",
-                            Password = "0V7MfOMBFz35VAxpeLP/VykoHmFr7Y6TMb7KmCsI/aY=",
-                            Salt = "7sMIRbE3J8XKIl6X9jKvzdPbJKIBm2ObprWHVvqbjCg=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 578, DateTimeKind.Local).AddTicks(3337),
-                            UserName = "Mallory.Lowe"
+                            AvatarId = 7,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 512, DateTimeKind.Local).AddTicks(9743),
+                            Email = "Davonte70@yahoo.com",
+                            Password = "l98ZauKB0DV3wql3ceNELDirV3FVH726T8e0jRpDj98=",
+                            Salt = "iP/bJdQZyUUDcQa9jc/eSIwhbWASy9QbUmUV03xYW8I=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 512, DateTimeKind.Local).AddTicks(9846),
+                            UserName = "Lambert.Berge47"
                         },
                         new
                         {
                             Id = 8,
-                            AvatarId = 19,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 591, DateTimeKind.Local).AddTicks(1073),
-                            Email = "Brock.Morissette45@yahoo.com",
-                            Password = "W0C3ON2PXLVca3hpSsshp9A731PcJZ/uhs6iqIEPNO0=",
-                            Salt = "rfSm1BxD/Cz3A0fKq9SM3lViajI8Rf0JUblIsycGTHk=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 591, DateTimeKind.Local).AddTicks(1166),
-                            UserName = "Adrian47"
+                            AvatarId = 1,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 526, DateTimeKind.Local).AddTicks(6146),
+                            Email = "Brant.Harris66@gmail.com",
+                            Password = "tKXSvvO00Sf27D7Oj1GT6dUWwlKS9NmJ3X5EIZ+ElYo=",
+                            Salt = "bXdb+OBbEKXKRnHytHx3DpvkAWmTQdAnx3+wAppCr+0=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 526, DateTimeKind.Local).AddTicks(6226),
+                            UserName = "Antwon_Towne"
                         },
                         new
                         {
                             Id = 9,
-                            AvatarId = 19,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 603, DateTimeKind.Local).AddTicks(309),
-                            Email = "Chester.Botsford18@hotmail.com",
-                            Password = "TD3rl13TivQ0isdJJdv3otUiNVS1qu95yZQACMf2xlw=",
-                            Salt = "D+kG+ztr9Id+AD59gxJdJygPRlt/ioTnMqMBlmFDyjE=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 603, DateTimeKind.Local).AddTicks(394),
-                            UserName = "Alysha_Kovacek"
+                            AvatarId = 7,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 539, DateTimeKind.Local).AddTicks(8600),
+                            Email = "Christopher_Doyle49@gmail.com",
+                            Password = "2KTW6Cp4795M93LNcToOoNOaSgsBvtMXl+FgFparV8U=",
+                            Salt = "RYGgKsDIEWmLWN+0r3tI3ewfgq+V0EBdzhGIq3xknFA=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 539, DateTimeKind.Local).AddTicks(8693),
+                            UserName = "Eriberto90"
                         },
                         new
                         {
                             Id = 10,
                             AvatarId = 1,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 617, DateTimeKind.Local).AddTicks(9451),
-                            Email = "Marcelina62@yahoo.com",
-                            Password = "aLjZF/bDcOOeW7qCP9dwuSPumeOm9QRufFkUKft46+4=",
-                            Salt = "bh5Ft5t/KbW9P4fmQXyGpy+XgKou4wo7+Rdd1ySJm8Y=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 617, DateTimeKind.Local).AddTicks(9552),
-                            UserName = "Rupert_Kassulke55"
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 553, DateTimeKind.Local).AddTicks(3669),
+                            Email = "Tracey16@hotmail.com",
+                            Password = "low+wE6HBNrQr5Oebe1lcui3722FbFc2a+SxrteFqQA=",
+                            Salt = "cioYIIlc5CzAQkEpI0Sbw3peHC1xZEbntLas5+n3ehc=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 553, DateTimeKind.Local).AddTicks(3756),
+                            UserName = "Chasity68"
                         },
                         new
                         {
                             Id = 11,
-                            AvatarId = 14,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 639, DateTimeKind.Local).AddTicks(2043),
-                            Email = "Shaylee79@yahoo.com",
-                            Password = "Rh0T1eDmyKZIDhDBfPV7+xzjf1K+T84PENeigQVqr+E=",
-                            Salt = "bYVeC1RbOLLbVVmDf1eTE1dAGCKYfgEgYbNWtgYNIyk=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 639, DateTimeKind.Local).AddTicks(2132),
-                            UserName = "Gwendolyn_Boehm"
+                            AvatarId = 9,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 566, DateTimeKind.Local).AddTicks(8143),
+                            Email = "Tessie_Lockman67@gmail.com",
+                            Password = "qYP+v3k4A9T+NcIsU5IVGicILP0+xsJkhXmzPrzjsyM=",
+                            Salt = "jcV+awVf2UnOvYwn7zETk0BUk3x5p4efflR8BHT2GGY=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 566, DateTimeKind.Local).AddTicks(8223),
+                            UserName = "Mohammed31"
                         },
                         new
                         {
                             Id = 12,
-                            AvatarId = 4,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 661, DateTimeKind.Local).AddTicks(877),
-                            Email = "Mauricio.Von33@yahoo.com",
-                            Password = "UTni2loimGZ5Kti93HaEZ+fciZCwfO/ZaPOc44RxhhM=",
-                            Salt = "cYSMaR0B14+YVoFvlt8tjpPoZY2z5K5jIFb2xsHfxZs=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 661, DateTimeKind.Local).AddTicks(966),
-                            UserName = "Coleman_Bosco95"
+                            AvatarId = 7,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 580, DateTimeKind.Local).AddTicks(2108),
+                            Email = "Ezekiel27@yahoo.com",
+                            Password = "qt07c0YJaOqgrGb8MRxPMut47znkDH54XHzr11uKwYQ=",
+                            Salt = "Z8MGSPDKaxyOe4CO+X1eWbgHe9vZ4S5StRNotIASiO4=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 580, DateTimeKind.Local).AddTicks(2193),
+                            UserName = "Alanis.Stiedemann"
                         },
                         new
                         {
                             Id = 13,
-                            AvatarId = 7,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 673, DateTimeKind.Local).AddTicks(2489),
-                            Email = "Elton.Farrell22@hotmail.com",
-                            Password = "DSLPWWQIc4TRCSD6QevyvmOV2Q8UikaYj+CawmvEYhM=",
-                            Salt = "Nd3AGdFKVWNX6lV8EepGfNXRRTrIbZt+crUIxwN7K4A=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 673, DateTimeKind.Local).AddTicks(2582),
-                            UserName = "Delores_Hauck92"
+                            AvatarId = 5,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 593, DateTimeKind.Local).AddTicks(5103),
+                            Email = "Madisyn.Cassin86@gmail.com",
+                            Password = "ComKQOg17mIjePjFNiT0KFTabDwPgw+eQIhRGSibvFk=",
+                            Salt = "5gbNkAW8eOSWwHwPUyjCZn5O+Hjvdohmov5ruLKRHA8=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 593, DateTimeKind.Local).AddTicks(5190),
+                            UserName = "Maybelle63"
                         },
                         new
                         {
                             Id = 14,
-                            AvatarId = 7,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 685, DateTimeKind.Local).AddTicks(5677),
-                            Email = "Sabryna13@hotmail.com",
-                            Password = "2I1TP1TVsZiysC0zeVLdGzmL6bsTG5Yro1ZMoZPOVZs=",
-                            Salt = "2ttqWS2Z+EZN+C1+MQpRFtwsg1kh/bqEJOhp5GaQdo0=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 685, DateTimeKind.Local).AddTicks(5778),
-                            UserName = "Lucie32"
+                            AvatarId = 20,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 606, DateTimeKind.Local).AddTicks(6647),
+                            Email = "Luella64@yahoo.com",
+                            Password = "uG0JbO9V26FIut977PZgo1KkeeS4h1silv6AN4fWMd0=",
+                            Salt = "MlU8TjlazmRG7HfWeYvyoPg+Eg9di8+Xg2qt5s0Td/E=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 606, DateTimeKind.Local).AddTicks(6734),
+                            UserName = "Serenity_Grady"
                         },
                         new
                         {
                             Id = 15,
-                            AvatarId = 17,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 702, DateTimeKind.Local).AddTicks(7746),
-                            Email = "Ardith.Cummings95@yahoo.com",
-                            Password = "XKm4g0rS/kMzXDlq1A0xd0Mj1UTKz78QZqEIjGiVzaI=",
-                            Salt = "joVmnahae87VaRCkiCZANdQn93d2cMmII5sssUek7AQ=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 702, DateTimeKind.Local).AddTicks(7844),
-                            UserName = "Benton99"
+                            AvatarId = 8,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 620, DateTimeKind.Local).AddTicks(5692),
+                            Email = "Mellie_Gibson@yahoo.com",
+                            Password = "Du6Wpx71bt1fqIa1GB17BCOlTbxzbwnStiAyWC0+DhE=",
+                            Salt = "YGPIWgX8Zj6gqdL69GzYeTY8HLu+AOKJTjTGCZNICQs=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 620, DateTimeKind.Local).AddTicks(6326),
+                            UserName = "Douglas1"
                         },
                         new
                         {
                             Id = 16,
-                            AvatarId = 9,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 724, DateTimeKind.Local).AddTicks(7786),
-                            Email = "Wilfrid54@yahoo.com",
-                            Password = "dymXvZziyvE784wDCRRuv+Kazm4duf2yUAZQJG9MFzw=",
-                            Salt = "6iWfzQsuyR5S7/Xx02k+yJV5y6UWvnNU4rUmZYTba58=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 724, DateTimeKind.Local).AddTicks(7875),
-                            UserName = "Shaylee.King"
+                            AvatarId = 10,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 635, DateTimeKind.Local).AddTicks(7234),
+                            Email = "Khalid84@yahoo.com",
+                            Password = "vTqmlniIKDaW1AEE04j4TzcZ+7RyM2yhbCGgz1a+2vo=",
+                            Salt = "F7CmLYbBh9hyTXJc4oyIAO22/lpJyhNkt3Sz2yqu/j8=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 635, DateTimeKind.Local).AddTicks(7822),
+                            UserName = "Kitty_Wehner"
                         },
                         new
                         {
                             Id = 17,
-                            AvatarId = 4,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 741, DateTimeKind.Local).AddTicks(6309),
-                            Email = "Harold.Rowe71@yahoo.com",
-                            Password = "LoU3WAtUBJTUjad+UJqki5rZ6n/M9omgb/3+yVk7vMw=",
-                            Salt = "n/uUFtMkyUefMnQNz/j6Vaqzr/osn7pBREHzWM8lIU8=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 741, DateTimeKind.Local).AddTicks(6406),
-                            UserName = "Cali.Waters"
+                            AvatarId = 12,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 648, DateTimeKind.Local).AddTicks(7682),
+                            Email = "April_Thiel0@hotmail.com",
+                            Password = "EltDG8ck4eLJo7BBDzAuvz1qA5zyoxFWyGNQldW87/M=",
+                            Salt = "XYwSDwv9krEgmrNomxOMjzdYGv9zst77ZpQr4l8P0vE=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 648, DateTimeKind.Local).AddTicks(8017),
+                            UserName = "Bernhard61"
                         },
                         new
                         {
                             Id = 18,
-                            AvatarId = 3,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 753, DateTimeKind.Local).AddTicks(8333),
-                            Email = "Samanta_OReilly95@yahoo.com",
-                            Password = "+YA8dDK1ZoLFTvfpnVQGzmhKXHRaAgN/fQjmZMVMGcM=",
-                            Salt = "Bhn9S4MMVApZjnGJUamRVV4ikTzCgdc/KBbTMldMsjY=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 753, DateTimeKind.Local).AddTicks(8426),
-                            UserName = "Baylee_Sipes42"
+                            AvatarId = 6,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 661, DateTimeKind.Local).AddTicks(3780),
+                            Email = "Elyse_Hackett@hotmail.com",
+                            Password = "9Mom6hxGrpfrETsemFxO7NjhyFubRzy6fyBurE/1614=",
+                            Salt = "qWrNNpzsSPjXLJ+UMkiGKVIgn0yQAa/bA1/qA/3Ujxc=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 661, DateTimeKind.Local).AddTicks(3871),
+                            UserName = "Greyson_West54"
                         },
                         new
                         {
                             Id = 19,
-                            AvatarId = 14,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 765, DateTimeKind.Local).AddTicks(8563),
-                            Email = "Rex64@hotmail.com",
-                            Password = "JOICOM6OozRPh4VLEbxS/iJMsI1HhHyOdDtuG4tau78=",
-                            Salt = "EdoXXUo+awEKlbwKaH/IFKIzz1Ybyl69YYeYJACQ/nM=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 765, DateTimeKind.Local).AddTicks(8648),
-                            UserName = "Sharon32"
+                            AvatarId = 5,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 673, DateTimeKind.Local).AddTicks(5465),
+                            Email = "Jarret41@yahoo.com",
+                            Password = "ogLq30uyFU0SW301RTaucD3NVqqdsfZeEzNXnEON/WU=",
+                            Salt = "qfWgsiHgEDOpZEM0Mdmpi+5LAkXyqmCYrAWDWxfUsCc=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 673, DateTimeKind.Local).AddTicks(5553),
+                            UserName = "Ashlynn.Zulauf88"
                         },
                         new
                         {
                             Id = 20,
-                            AvatarId = 2,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 779, DateTimeKind.Local).AddTicks(1504),
-                            Email = "Brice_Abshire72@gmail.com",
-                            Password = "D+HiHDuS3LIsqdZUuSEQeZ0VSpvsWiTYTKiW1JwGMPU=",
-                            Salt = "unJ1mBlcdh5pmmYITwm9s49RsQknqWgoUYsqdrOvjbI=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 779, DateTimeKind.Local).AddTicks(1590),
-                            UserName = "Kayla46"
+                            AvatarId = 17,
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 685, DateTimeKind.Local).AddTicks(7252),
+                            Email = "Robert.Cummings@hotmail.com",
+                            Password = "kmtB6we1V6Ynmhd9OXTlT9uHayooLyUoRFdGHDQwrio=",
+                            Salt = "o1ubHdOKCm4YXcEmRKWDPp2FrfU/4JdzUfMtj7c/ETI=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 685, DateTimeKind.Local).AddTicks(7340),
+                            UserName = "Kristian.Rogahn"
                         },
                         new
                         {
                             Id = 21,
-                            CreatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 791, DateTimeKind.Local).AddTicks(1782),
+                            CreatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 698, DateTimeKind.Local).AddTicks(4300),
                             Email = "test@gmail.com",
-                            Password = "i2TJ0z00NYlgYE1RckEz65RuduHNOi6XLzkY/zjls3M=",
-                            Salt = "OfXWhBQuNh3ZiHzV/LYq5X7zvFdI56jXiAJ/cQcbvJM=",
-                            UpdatedAt = new DateTime(2019, 6, 8, 13, 30, 1, 791, DateTimeKind.Local).AddTicks(1782),
+                            Password = "5GSdG62XyttoUerxGhIDoCI88rT+q/gWp9bEBz9Y644=",
+                            Salt = "no5wLj9dzyM7Ymc42E5Coyq7HRHiBQMTeYfgShbZBqo=",
+                            UpdatedAt = new DateTime(2020, 5, 25, 8, 42, 50, 698, DateTimeKind.Local).AddTicks(4300),
                             UserName = "testUser"
                         });
                 });
@@ -1454,12 +1916,29 @@ Sunt sed eum nesciunt a vero.",
                     b.HasOne("Thread_.NET.DAL.Entities.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Thread_.NET.DAL.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Thread_.NET.DAL.Entities.CommentNegativeReaction", b =>
+                {
+                    b.HasOne("Thread_.NET.DAL.Entities.Comment", "Comment")
+                        .WithMany("NegativeReactions")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Thread_.NET.DAL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Thread_.NET.DAL.Entities.CommentReaction", b =>
@@ -1467,12 +1946,14 @@ Sunt sed eum nesciunt a vero.",
                     b.HasOne("Thread_.NET.DAL.Entities.Comment", "Comment")
                         .WithMany("Reactions")
                         .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Thread_.NET.DAL.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Thread_.NET.DAL.Entities.Post", b =>
@@ -1480,7 +1961,8 @@ Sunt sed eum nesciunt a vero.",
                     b.HasOne("Thread_.NET.DAL.Entities.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Thread_.NET.DAL.Entities.Image", "Preview")
                         .WithMany()
@@ -1488,17 +1970,34 @@ Sunt sed eum nesciunt a vero.",
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("Thread_.NET.DAL.Entities.PostNegativeReaction", b =>
+                {
+                    b.HasOne("Thread_.NET.DAL.Entities.Post", "Post")
+                        .WithMany("NegativeReactions")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Thread_.NET.DAL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Thread_.NET.DAL.Entities.PostReaction", b =>
                 {
                     b.HasOne("Thread_.NET.DAL.Entities.Post", "Post")
                         .WithMany("Reactions")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Thread_.NET.DAL.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Thread_.NET.DAL.Entities.RefreshToken", b =>
@@ -1506,7 +2005,8 @@ Sunt sed eum nesciunt a vero.",
                     b.HasOne("Thread_.NET.DAL.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Thread_.NET.DAL.Entities.User", b =>
