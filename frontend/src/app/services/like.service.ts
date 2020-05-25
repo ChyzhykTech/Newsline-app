@@ -102,4 +102,32 @@ export class LikeService {
             })
         );
     }
+
+    public dislikePost(post: Post, currentUser: User) {
+        const innerPost = post;
+        const reaction: NewNegativeReaction = {
+            entityId: innerPost.id,
+            isDislike: true,
+            userId: currentUser.id
+        };
+
+        // update current array instantly
+        let hasReaction = innerPost.negativeReactions.some((x) => x.user.id === currentUser.id);
+        innerPost.negativeReactions = hasReaction
+            ? innerPost.negativeReactions.filter((x) => x.user.id !== currentUser.id)
+            : innerPost.negativeReactions.concat({ isDislike: true, user: currentUser });
+        hasReaction = innerPost.negativeReactions.some((x) => x.user.id === currentUser.id);
+
+        return this.postService.dislikePost(reaction).pipe(
+            map(() => innerPost),
+            catchError(() => {
+                // revert current array changes in case of any error
+                innerPost.negativeReactions = hasReaction
+                    ? innerPost.negativeReactions.filter((x) => x.user.id !== currentUser.id)
+                    : innerPost.negativeReactions.concat({ isDislike: true, user: currentUser });
+
+                return of(innerPost);
+            })
+        );
+    }
 }
