@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Thread_.NET.Common.DTO.Comment;
+using Thread_.NET.Common.DTO.Dislike;
 using Thread_.NET.Common.DTO.Like;
 using Thread_.NET.Common.DTO.User;
 
@@ -17,5 +18,6 @@ namespace Thread_.NET.Common.DTO.Post
 
         public ICollection<CommentDTO> Comments { get; set; }
         public ICollection<ReactionDTO> Reactions { get; set; }
+        public ICollection<NegativeReactionDTO> NegativeReactions { get; set; }
     }
 }
