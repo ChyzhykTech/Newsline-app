@@ -30,11 +30,19 @@ namespace Thread_.NET.BLL.Services
 
         public async Task<CommentDTO> UpdateComment(EditCommentDTO editComment)
         {
-            var editedComment = await _context.Comments.Where(c => c.Id == editComment.PostId)
-                .FirstOrDefaultAsync();
-            editedComment.Body = editComment.Body;
-            _context.Comments.Update(editedComment);
-            await _context.SaveChangesAsync();
+            var editedComment = await _context.Comments               
+                .Include(comment => comment.Author)
+                    .ThenInclude(user => user.Avatar)
+                .Where(c => c.Id == editComment.CommentId)
+                .FirstAsync();
+
+            if (editedComment != null)
+            {
+                editedComment.Body = editComment.Body;
+                _context.Comments.Update(editedComment);
+                await _context.SaveChangesAsync();
+            }
+            
             return _mapper.Map<CommentDTO>(editedComment);
         }
 
