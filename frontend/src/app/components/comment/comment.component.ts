@@ -16,6 +16,7 @@ import { DialogType } from 'src/app/models/common/auth-dialog-type';
 export class CommentComponent implements OnInit {
     @Input() public comment: Comment;    
     @Output() public deleteClick = new EventEmitter<number>();
+    @Output() public editClick = new EventEmitter<number>();
 
     public currentUser: User;
     private unsubscribe$ = new Subject<void>()
@@ -36,6 +37,10 @@ export class CommentComponent implements OnInit {
 
     public deleteComment(commentId: number) {
         this.deleteClick.emit(commentId);
+    }
+
+    public editComment(commentId: number) {
+        this.editClick.emit(commentId);
     }
 
     public likeComment() {
