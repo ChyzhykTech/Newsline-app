@@ -86,7 +86,6 @@ export class PostComponent implements OnDestroy, OnInit {
     }
 
     public likePost() {
-        console.log(this.currentUser);
         if (!this.currentUser) {
             this.catchErrorWrapper(this.authService.getUser())
                 .pipe(
@@ -100,6 +99,24 @@ export class PostComponent implements OnDestroy, OnInit {
 
         this.likeService
             .likePost(this.post, this.currentUser)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe((post) => (this.post = post));
+    }
+
+    public dislikePost() {
+        if (!this.currentUser) {
+            this.catchErrorWrapper(this.authService.getUser())
+                .pipe(
+                    switchMap((userResp) => this.likeService.dislikePost(this.post, userResp)),
+                    takeUntil(this.unsubscribe$)
+                )
+                .subscribe((post) => (this.post = post));
+
+            return;
+        }
+
+        this.likeService
+            .dislikePost(this.post, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((post) => (this.post = post));
     }

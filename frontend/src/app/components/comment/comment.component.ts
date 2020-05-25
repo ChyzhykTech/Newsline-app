@@ -32,7 +32,6 @@ export class CommentComponent implements OnInit {
         .subscribe(user => {
             this.currentUser = user;
         });
-        console.log(this.comment);
     }
 
     public deleteComment(commentId: number) {
