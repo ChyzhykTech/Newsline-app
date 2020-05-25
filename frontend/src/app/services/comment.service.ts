@@ -24,6 +24,7 @@ export class CommentService {
     }
 
     public dislikeComment(reaction: NewNegativeReaction) {
+        console.log(reaction);
         return this.httpService.postFullRequest<Comment>(`${this.routePrefix}/dislike`, reaction);
     }
 }
