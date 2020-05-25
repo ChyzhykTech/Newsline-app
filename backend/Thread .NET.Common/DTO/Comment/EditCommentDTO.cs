@@ -2,7 +2,7 @@
 {
     public sealed class EditCommentDTO
     {
-        public int PostId { get; set; }
+        public int CommentId { get; set; }
         public string Body { get; set; }
     }
 }
