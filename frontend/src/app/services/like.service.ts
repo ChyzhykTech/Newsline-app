@@ -16,6 +16,8 @@ export class LikeService {
         private commentService: CommentService) {}
 
     public likeComment(comment: Comment, currentUser: User) {
+        console.log(comment);
+        console.log(currentUser);
         const innerComment= comment;
 
         const reaction: NewReaction = {
@@ -45,6 +47,8 @@ export class LikeService {
     }
 
     public dislikeComment(comment: Comment, currentUser: User) {
+        console.log(comment);
+        console.log(currentUser);
         const innerComment= comment;
 
         const reaction: NewNegativeReaction = {
