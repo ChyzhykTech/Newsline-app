@@ -79,7 +79,6 @@ export class LikeService {
     
     public likePost(post: Post, currentUser: User) {
         const innerPost = post;
-
         const reaction: NewReaction = {
             entityId: innerPost.id,
             isLike: true,

@@ -58,11 +58,11 @@ namespace Thread_.NET.BLL.Services
 
         public async Task DislikeComment(NewNegativeReactionDTO reaction)
         {
-            var likes = _context.CommentReactions.Where(x => x.UserId == reaction.UserId && x.CommentId == reaction.EntityId);
+            var dislikes = _context.CommentNegativeReactions.Where(x => x.UserId == reaction.UserId && x.CommentId == reaction.EntityId);
 
-            if (likes.Any())
+            if (dislikes.Any())
             {
-                _context.CommentReactions.RemoveRange(likes);
+                _context.CommentNegativeReactions.RemoveRange(dislikes);
                 await _context.SaveChangesAsync();
 
                 return;
