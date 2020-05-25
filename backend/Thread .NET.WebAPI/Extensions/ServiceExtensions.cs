@@ -52,6 +52,7 @@ namespace Thread_.NET.Extensions
             {
                 cfg.AddProfile<CommentProfile>();
                 cfg.AddProfile<ReactionProfile>();
+                cfg.AddProfile<NegativeReactionProfile>();
                 cfg.AddProfile<PostProfile>();
                 cfg.AddProfile<UserProfile>();
             },
