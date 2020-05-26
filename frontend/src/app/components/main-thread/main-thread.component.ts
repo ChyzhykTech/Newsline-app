@@ -261,7 +261,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
 
     let filterRes = [...isOnlyMine, ...isOnlyLiked];
 
-    return filterRes.length > 0 ? this.sortPostArray(filterRes) : this.cachedPosts;
+    return filterRes.length > 0 ? this.sortPostArray(filterRes) : [];
   }
 
   private resetVisiblePosts() {
