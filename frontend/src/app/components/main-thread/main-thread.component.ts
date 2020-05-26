@@ -23,6 +23,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public posts: Post[] = [];
   public cachedPosts: Post[] = [];
   public isOnlyMine = false;
+  public isOnlyLiked = false;
   public isEditMode = false;
 
   public currentUser: User;
@@ -79,8 +80,8 @@ export class MainThreadComponent implements OnInit, OnDestroy {
               (post) => post.id !== postId
             );
 
-            if (this.isOnlyMine) {
-              this.posts = this.showOnlyMine();
+            if (this.isOnlyMine || this.isOnlyLiked) {
+              this.posts = this.showPostsByFilterParams();
             }
           }
         },
@@ -176,11 +177,19 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public sliderChanged(event: MatSlideToggleChange) {
     if (event.checked) {
       this.isOnlyMine = true;
-      this.posts = this.showOnlyMine();
     } else {
       this.isOnlyMine = false;
-      this.posts = this.cachedPosts;
     }
+    this.posts = this.showPostsByFilterParams();
+  }
+
+  public likeSliderChanged(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.isOnlyLiked= true;      
+    } else {
+      this.isOnlyLiked = false;
+    }
+    this.posts = this.showPostsByFilterParams();
   }
 
   public toggleNewPostContainer() {
@@ -222,15 +231,41 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     let oldPost = this.cachedPosts.find(post => post.id === updatedPost.id);
     let index = this.cachedPosts.indexOf(oldPost);
     this.cachedPosts.splice(index, 1, updatedPost);
-    if(this.isOnlyMine) {
-      this.posts = this.showOnlyMine();
+    if(this.isOnlyMine || this.isOnlyLiked) {
+      this.posts = this.showPostsByFilterParams();
     } else {
       this.posts = this.cachedPosts;
     }
   }
 
-  private showOnlyMine() {
-    return this.cachedPosts.filter((x) => x.author.id === this.currentUser.id);
+  private showPostsByFilterParams() {
+    this.resetVisiblePosts();
+    let isOnlyMine = [];
+    let isOnlyLiked = [];
+
+    if (this.isOnlyMine) {
+      isOnlyMine = this.cachedPosts.filter(
+        (x) => x.author.id === this.currentUser.id);
+    }
+
+    if(this.isOnlyLiked) {
+      isOnlyLiked = this.cachedPosts.filter(
+        (x) => {
+          let containsLikes = [];
+          x.reactions.forEach((r) => {
+            containsLikes.push(r.user.id === this.currentUser.id);
+          });
+          return containsLikes.includes(true);
+        });
+    }
+
+    let filterRes = [...isOnlyMine, ...isOnlyLiked];
+
+    return filterRes.length > 0 ? this.sortPostArray(filterRes) : this.cachedPosts;
+  }
+
+  private resetVisiblePosts() {
+    this.posts = [];
   }
 
   private getUser() {
