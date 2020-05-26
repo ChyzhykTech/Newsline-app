@@ -41,6 +41,7 @@
       <button mat-raised-button matTooltip="Write a post" (click)="toggleNewPostContainer()">
         <mat-icon color="accent">add_comment</mat-icon>
       </button>
+      <mat-slide-toggle (change)="likeSliderChanged($event)">Only liked</mat-slide-toggle>
       <mat-slide-toggle (change)="sliderChanged($event)">Only mine</mat-slide-toggle>
     </div>
     <mat-toolbar *ngIf="posts.length === 0 && !loadingPosts">
