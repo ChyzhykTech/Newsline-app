@@ -243,6 +243,8 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     let isOnlyMine = [];
     let isOnlyLiked = [];
 
+    if(!this.isOnlyMine && !this.isOnlyLiked) return this.cachedPosts;
+
     if (this.isOnlyMine) {
       isOnlyMine = this.cachedPosts.filter(
         (x) => x.author.id === this.currentUser.id);
