@@ -58,7 +58,6 @@ export class PostComponent implements OnDestroy, OnInit {
         .subscribe(user => {
             this.currentUser = user;
         });
-        this.initLikesArray();
     }
 
     public deletePost(postId: number) {
@@ -113,7 +112,7 @@ export class PostComponent implements OnDestroy, OnInit {
                     switchMap((userResp) => this.likeService.likePost(this.post, userResp)),
                     takeUntil(this.unsubscribe$)
                 )
-                .subscribe((post) => (this.post = post));
+                .subscribe((post) => (this.setPostData(post)));
 
             return;
         }
@@ -121,7 +120,7 @@ export class PostComponent implements OnDestroy, OnInit {
         this.likeService
             .likePost(this.post, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((post) => (this.post = post));
+            .subscribe((post) => (this.setPostData(post)));
     }
 
     public dislikePost() {
@@ -131,7 +130,7 @@ export class PostComponent implements OnDestroy, OnInit {
                     switchMap((userResp) => this.likeService.dislikePost(this.post, userResp)),
                     takeUntil(this.unsubscribe$)
                 )
-                .subscribe((post) => (this.post = post));
+                .subscribe((post) => (this.setPostData(post)));
 
             return;
         }
@@ -139,7 +138,7 @@ export class PostComponent implements OnDestroy, OnInit {
         this.likeService
             .dislikePost(this.post, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((post) => (this.post = post));
+            .subscribe((post) => (this.setPostData(post)));
     }
 
     public sendComment() {
@@ -220,7 +219,8 @@ export class PostComponent implements OnDestroy, OnInit {
         return array.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
     }
 
-    private initLikesArray() {
+    private setPostData(post: Post) {
+        this.post = post;
         if(this.post.reactions.length > 0 ) {
             this.post.reactions.forEach(r => {
                 this.likePhotos.push(r.user.avatar);
