@@ -58,6 +58,7 @@ export class PostComponent implements OnDestroy, OnInit {
         .subscribe(user => {
             this.currentUser = user;
         });
+        this.setLikePhotos();
     }
 
     public deletePost(postId: number) {
@@ -221,7 +222,12 @@ export class PostComponent implements OnDestroy, OnInit {
 
     private setPostData(post: Post) {
         this.post = post;
-        if(this.post.reactions.length > 0 ) {
+        this.setLikePhotos();
+    }
+
+    private setLikePhotos() {
+        this.likePhotos = [];
+        if ( this.post.reactions.length > 0 ) {          
             this.post.reactions.forEach(r => {
                 this.likePhotos.push(r.user.avatar);
             });
