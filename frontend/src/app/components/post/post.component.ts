@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, Output, OnInit, EventEmitter, ViewChildren } from '@angular/core';
+import { Component, Input, OnDestroy, Output, OnInit, EventEmitter, ViewChildren, ViewChild } from '@angular/core';
 import { Post } from '../../models/post/post';
 import { AuthenticationService } from '../../services/auth.service';
 import { AuthDialogService } from '../../services/auth-dialog.service';
@@ -12,7 +12,7 @@ import { Comment } from '../../models/comment/comment';
 import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
 import { EditComment } from 'src/app/models/comment/edit-comment';
-import { TooltipDirective } from 'ng2-tooltip-directive';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-post',
@@ -20,20 +20,20 @@ import { TooltipDirective } from 'ng2-tooltip-directive';
     styleUrls: ['./post.component.sass']
 })
 export class PostComponent implements OnDestroy, OnInit {
-    @ViewChildren(TooltipDirective) tooltipDirective; 
 
     @Input() public post: Post;
     @Input() public currentUser: User;
     @Output() public deleteClick = new EventEmitter<number>();
     @Output() public editClick = new EventEmitter<number>();
 
-    public tooltip;
     public likePhotos = [];
     public showComments = false;
     public newComment = {} as NewComment;
     public editableComment = {} as EditComment;
     public isEditMode = false;
     private unsubscribe$ = new Subject<void>();
+
+    @ViewChild('tt', {static: false}) tooltip: NgbTooltip;
 
     public constructor(
         private authService: AuthenticationService,
@@ -48,16 +48,7 @@ export class PostComponent implements OnDestroy, OnInit {
         this.unsubscribe$.complete();
     }
 
-    ngAfterViewInit() {
-      this.tooltip = this.tooltipDirective.find(elem => elem.id === "tooltip"); 
-    }
-
     public ngOnInit() {
-        this.authService.getUser()
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(user => {
-            this.currentUser = user;
-        });
         this.setLikePhotos();
     }
 
@@ -226,11 +217,11 @@ export class PostComponent implements OnDestroy, OnInit {
     }
 
     private setLikePhotos() {
-        this.likePhotos = [];
+        this.likePhotos = [];      
         if ( this.post.reactions.length > 0 ) {          
             this.post.reactions.forEach(r => {
                 this.likePhotos.push(r.user.avatar);
-            });
+            });           
         }
     }
 }
