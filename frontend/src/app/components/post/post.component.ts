@@ -61,14 +61,6 @@ export class PostComponent implements OnDestroy, OnInit {
         this.initLikesArray();
     }
 
-    private initLikesArray() {
-        if(this.post.reactions.length > 0 ) {
-            this.post.reactions.forEach(r => {
-                this.likePhotos.push(r.user.avatar);
-            });
-        }
-    }
-
     public deletePost(postId: number) {
         this.deleteClick.emit(postId);
     }
@@ -226,5 +218,13 @@ export class PostComponent implements OnDestroy, OnInit {
 
     private sortCommentArray(array: Comment[]): Comment[] {
         return array.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+    }
+
+    private initLikesArray() {
+        if(this.post.reactions.length > 0 ) {
+            this.post.reactions.forEach(r => {
+                this.likePhotos.push(r.user.avatar);
+            });
+        }
     }
 }

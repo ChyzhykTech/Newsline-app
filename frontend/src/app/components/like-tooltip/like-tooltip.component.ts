@@ -13,4 +13,7 @@ export class LikeTooltipComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public hasLikes() {
+    return this.photos.length > 0;
+  }
 }

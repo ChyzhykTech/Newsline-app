@@ -1,7 +1,11 @@
-<div class="tooltip-container">
-    <p>Post liked</p>
+<div class="tooltip-container" *ngIf="hasLikes()">
+    <p>Likes</p>
     <div *ngFor="let _photo of photos" class="tooltip-photo-area">
         <img  src="{{_photo}}" /> 
     </div>
+</div>
+
+<div class="tooltip-container" *ngIf="!hasLikes()">
+    <p>No likes</p>
 </div>
 
