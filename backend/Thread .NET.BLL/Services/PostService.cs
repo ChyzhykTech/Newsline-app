@@ -30,6 +30,7 @@ namespace Thread_.NET.BLL.Services
                 .Include(post => post.Preview)
                 .Include(post => post.Reactions)
                     .ThenInclude(reaction => reaction.User)
+                        .ThenInclude(user => user.Avatar)
                 .Include(post => post.NegativeReactions)
                     .ThenInclude(negativeReaction => negativeReaction.User)
                 .Include(post => post.Comments)
