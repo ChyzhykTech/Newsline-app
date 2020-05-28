@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, Output, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, Output, OnInit, EventEmitter, ViewChildren } from '@angular/core';
 import { Post } from '../../models/post/post';
 import { AuthenticationService } from '../../services/auth.service';
 import { AuthDialogService } from '../../services/auth-dialog.service';
@@ -11,8 +11,8 @@ import { User } from '../../models/user';
 import { Comment } from '../../models/comment/comment';
 import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
-import { EventEmitter } from '@angular/core';
 import { EditComment } from 'src/app/models/comment/edit-comment';
+import { TooltipDirective } from 'ng2-tooltip-directive';
 
 @Component({
     selector: 'app-post',
@@ -20,11 +20,15 @@ import { EditComment } from 'src/app/models/comment/edit-comment';
     styleUrls: ['./post.component.sass']
 })
 export class PostComponent implements OnDestroy, OnInit {
+    @ViewChildren(TooltipDirective) tooltipDirective; 
+
     @Input() public post: Post;
     @Input() public currentUser: User;
     @Output() public deleteClick = new EventEmitter<number>();
     @Output() public editClick = new EventEmitter<number>();
 
+    public tooltip;
+    public likePhotos = [];
     public showComments = false;
     public newComment = {} as NewComment;
     public editableComment = {} as EditComment;
@@ -44,12 +48,25 @@ export class PostComponent implements OnDestroy, OnInit {
         this.unsubscribe$.complete();
     }
 
+    ngAfterViewInit() {
+      this.tooltip = this.tooltipDirective.find(elem => elem.id === "tooltip"); 
+    }
+
     public ngOnInit() {
         this.authService.getUser()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(user => {
             this.currentUser = user;
         });
+        this.initLikesArray();
+    }
+
+    private initLikesArray() {
+        if(this.post.reactions.length > 0 ) {
+            this.post.reactions.forEach(r => {
+                this.likePhotos.push(r.user.avatar);
+            });
+        }
     }
 
     public deletePost(postId: number) {
