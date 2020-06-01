@@ -16,10 +16,12 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { AuthDialogComponent } from './components/auth-dialog/auth-dialog.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { MaterialComponentsModule } from './components/common/material-components.module';
+import { LikeTooltipComponent } from './components/like-tooltip/like-tooltip.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent],
-    imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, MaterialComponentsModule, RouterModule.forRoot(AppRoutes), FormsModule],
+    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent],
+    imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, MaterialComponentsModule, RouterModule.forRoot(AppRoutes), FormsModule, NgbModule],
     exports: [MaterialComponentsModule],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

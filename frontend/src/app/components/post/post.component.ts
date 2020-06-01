@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, Output, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, Output, OnInit, EventEmitter, ViewChildren, ViewChild } from '@angular/core';
 import { Post } from '../../models/post/post';
 import { AuthenticationService } from '../../services/auth.service';
 import { AuthDialogService } from '../../services/auth-dialog.service';
@@ -11,8 +11,8 @@ import { User } from '../../models/user';
 import { Comment } from '../../models/comment/comment';
 import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
-import { EventEmitter } from '@angular/core';
 import { EditComment } from 'src/app/models/comment/edit-comment';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-post',
@@ -20,16 +20,20 @@ import { EditComment } from 'src/app/models/comment/edit-comment';
     styleUrls: ['./post.component.sass']
 })
 export class PostComponent implements OnDestroy, OnInit {
+
     @Input() public post: Post;
     @Input() public currentUser: User;
     @Output() public deleteClick = new EventEmitter<number>();
     @Output() public editClick = new EventEmitter<number>();
 
+    public likePhotos = [];
     public showComments = false;
     public newComment = {} as NewComment;
     public editableComment = {} as EditComment;
     public isEditMode = false;
     private unsubscribe$ = new Subject<void>();
+
+    @ViewChild('tt', {static: false}) tooltip: NgbTooltip;
 
     public constructor(
         private authService: AuthenticationService,
@@ -45,11 +49,7 @@ export class PostComponent implements OnDestroy, OnInit {
     }
 
     public ngOnInit() {
-        this.authService.getUser()
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(user => {
-            this.currentUser = user;
-        });
+        this.setLikePhotos();
     }
 
     public deletePost(postId: number) {
@@ -104,7 +104,7 @@ export class PostComponent implements OnDestroy, OnInit {
                     switchMap((userResp) => this.likeService.likePost(this.post, userResp)),
                     takeUntil(this.unsubscribe$)
                 )
-                .subscribe((post) => (this.post = post));
+                .subscribe((post) => (this.setPostData(post)));
 
             return;
         }
@@ -112,7 +112,7 @@ export class PostComponent implements OnDestroy, OnInit {
         this.likeService
             .likePost(this.post, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((post) => (this.post = post));
+            .subscribe((post) => (this.setPostData(post)));
     }
 
     public dislikePost() {
@@ -122,7 +122,7 @@ export class PostComponent implements OnDestroy, OnInit {
                     switchMap((userResp) => this.likeService.dislikePost(this.post, userResp)),
                     takeUntil(this.unsubscribe$)
                 )
-                .subscribe((post) => (this.post = post));
+                .subscribe((post) => (this.setPostData(post)));
 
             return;
         }
@@ -130,7 +130,7 @@ export class PostComponent implements OnDestroy, OnInit {
         this.likeService
             .dislikePost(this.post, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((post) => (this.post = post));
+            .subscribe((post) => (this.setPostData(post)));
     }
 
     public sendComment() {
@@ -209,5 +209,19 @@ export class PostComponent implements OnDestroy, OnInit {
 
     private sortCommentArray(array: Comment[]): Comment[] {
         return array.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+    }
+
+    private setPostData(post: Post) {
+        this.post = post;
+        this.setLikePhotos();
+    }
+
+    private setLikePhotos() {
+        this.likePhotos = [];      
+        if ( this.post.reactions.length > 0 ) {          
+            this.post.reactions.forEach(r => {
+                this.likePhotos.push(r.user.avatar);
+            });           
+        }
     }
 }

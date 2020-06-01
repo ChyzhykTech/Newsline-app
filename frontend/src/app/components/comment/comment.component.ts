@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../models/comment/comment';
 import { User } from 'src/app/models/user';
 import { Observable, empty, Subject } from 'rxjs';
@@ -7,6 +7,7 @@ import { AuthenticationService } from 'src/app/services/auth.service';
 import { LikeService } from 'src/app/services/like.service';
 import { AuthDialogService } from 'src/app/services/auth-dialog.service';
 import { DialogType } from 'src/app/models/common/auth-dialog-type';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-comment',
@@ -14,12 +15,15 @@ import { DialogType } from 'src/app/models/common/auth-dialog-type';
     styleUrls: ['./comment.component.sass']
 })
 export class CommentComponent implements OnInit {
-    @Input() public comment: Comment;    
+    @Input() public comment: Comment;  
+    @Input() public currentUser: User;  
     @Output() public deleteClick = new EventEmitter<number>();
     @Output() public editClick = new EventEmitter<number>();
 
-    public currentUser: User;
-    private unsubscribe$ = new Subject<void>()
+    public likePhotos = [];
+    private unsubscribe$ = new Subject<void>();
+
+    @ViewChild('tt', {static: false}) tooltip: NgbTooltip;
 
     public constructor(
         private authService: AuthenticationService,
@@ -28,11 +32,7 @@ export class CommentComponent implements OnInit {
         ) { }
 
     public ngOnInit() {
-        this.authService.getUser()
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(user => {
-            this.currentUser = user;
-        });
+        this.setLikePhotos();
     }
 
     public deleteComment(commentId: number) {
@@ -50,7 +50,7 @@ export class CommentComponent implements OnInit {
                     switchMap((userResp) => this.likeService.likeComment(this.comment, userResp)),
                     takeUntil(this.unsubscribe$)
                 )
-                .subscribe((comment) => (this.comment = comment));
+                .subscribe((comment) => (this.setCommentData(comment)));
 
             return;
         }
@@ -58,7 +58,7 @@ export class CommentComponent implements OnInit {
         this.likeService
             .likeComment(this.comment, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((comment) => (this.comment = comment));
+            .subscribe((comment) => (this.setCommentData(comment)));
     }
 
     public dislikeComment() {
@@ -68,7 +68,7 @@ export class CommentComponent implements OnInit {
                     switchMap((userResp) => this.likeService.dislikeComment(this.comment, userResp)),
                     takeUntil(this.unsubscribe$)
                 )
-                .subscribe((comment) => (this.comment = comment));
+                .subscribe((comment) => (this.setCommentData(comment)));
 
             return;
         }
@@ -76,7 +76,7 @@ export class CommentComponent implements OnInit {
         this.likeService
             .dislikeComment(this.comment, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((comment) => (this.comment = comment));
+            .subscribe((comment) => (this.setCommentData(comment)));
     }
 
     public openAuthDialog() {
@@ -96,5 +96,19 @@ export class CommentComponent implements OnInit {
                 return empty();
             })
         );
+    }
+
+    private setCommentData(comment: Comment) {
+        this.comment = comment;
+        this.setLikePhotos();
+    }
+
+    private setLikePhotos() {
+        this.likePhotos = [];      
+        if ( this.comment.reactions.length > 0 ) {          
+            this.comment.reactions.forEach(r => {
+                this.likePhotos.push(r.user.avatar);
+            });           
+        }
     }
 }

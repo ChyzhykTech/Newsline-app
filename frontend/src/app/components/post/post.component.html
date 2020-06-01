@@ -5,7 +5,7 @@
     <div class="date">{{post.createdAt | date:'d/M/yy, h:mm a'}}</div>
     <button *ngIf="isAuthor()" mat-icon-button class="button-to-right" (click)="deletePost(post.id)"><mat-icon color="warn">clear</mat-icon></button>
   </mat-card-header>
-  <img mat-card-image *ngIf="post.previewImage" mat-card-image src="{{post.previewImage}}" alt="Photo">
+  <img mat-card-image *ngIf="post.previewImage" src="{{post.previewImage}}" alt="Photo">
   <mat-card-content>
     <p>{{post.body}}</p>
   </mat-card-content>
@@ -17,11 +17,11 @@
       <mat-icon matBadge="{{post.negativeReactions.length}}" matBadgeColor="warn" matBadgeSize="medium"
       [matBadgeHidden]="post.negativeReactions.length === 0" aria-label="Like">thumb_down</mat-icon>
     </button>
-    <button mat-icon-button color="primary" (click)="likePost()">
+    <button [ngbTooltip]="tipContent" [openDelay]="300" #tt="ngbTooltip" mat-icon-button color="primary" (click)="likePost()">
       <mat-icon matBadge="{{post.reactions.length}}" matBadgeColor="accent" matBadgeSize="medium"
         [matBadgeHidden]="post.reactions.length === 0" aria-label="Like">favorite</mat-icon>
     </button>
-    <button mat-icon-button color="accent">
+    <button  mat-icon-button color="accent">
       <mat-icon aria-label="Share">share</mat-icon>
     </button>
     <button mat-icon-button color="basic" (click)=" toggleComments()">
@@ -44,7 +44,12 @@
     </div>
     <app-comment *ngFor="let _comment of post.comments" 
       [comment]="_comment"
+      [currentUser]="currentUser"
       (deleteClick)="onDeleteComment($event)"
       (editClick)="onEditComment($event)"></app-comment>
   </div>
+
+  <ng-template #tipContent>
+    <app-like-tooltip [photos]="likePhotos"></app-like-tooltip>
+  </ng-template>
 </mat-card>
