@@ -1,17 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-like-tooltip',
   templateUrl: './like-tooltip.component.html',
   styleUrls: ['./like-tooltip.component.sass']
 })
-export class LikeTooltipComponent implements OnInit {
+export class LikeTooltipComponent {
   @Input() public photos = [];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   public hasLikes() {
     return this.photos.length > 0;
