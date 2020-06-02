@@ -10,5 +10,10 @@ namespace Thread_.NET.BLL.Hubs
         {
             await Clients.All.SendAsync("NewPost", post);
         }
+
+        public async Task SendPostLike(int postId)
+        {
+            await Clients.All.SendAsync("PostLike", postId);
+        }
     }
 }
