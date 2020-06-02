@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using System.Linq;
 using System.Threading.Tasks;
+using Thread_.NET.BLL.Hubs;
 using Thread_.NET.BLL.Services.Abstract;
 using Thread_.NET.Common.DTO.Dislike;
 using Thread_.NET.Common.DTO.Like;
@@ -10,7 +12,12 @@ namespace Thread_.NET.BLL.Services
 {
     public sealed class LikeService : BaseService
     {
-        public LikeService(ThreadContext context, IMapper mapper) : base(context, mapper) { }
+        private readonly IHubContext<PostHub> _postHub;
+
+        public LikeService(ThreadContext context, IMapper mapper, IHubContext<PostHub> postHub) : base(context, mapper) 
+        {
+            _postHub = postHub;
+        }
 
         public async Task LikePost(NewReactionDTO reaction)
         {
@@ -32,6 +39,7 @@ namespace Thread_.NET.BLL.Services
             });
 
             await _context.SaveChangesAsync();
+            await _postHub.Clients.All.SendAsync("PostLike", reaction.EntityId);
         }
 
         public async Task DislikePost(NewNegativeReactionDTO reaction)
