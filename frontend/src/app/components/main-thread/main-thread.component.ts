@@ -213,6 +213,10 @@ export class MainThreadComponent implements OnInit, OnDestroy {
         this.addNewPost(newPost);
       }
     });
+
+    this.postHub.on("PostLike", (postId: number) => {
+      console.log(postId);
+    });
   }
 
   public addNewPost(newPost: Post) {
