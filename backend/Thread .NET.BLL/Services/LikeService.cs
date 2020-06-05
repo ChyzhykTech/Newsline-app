@@ -39,7 +39,6 @@ namespace Thread_.NET.BLL.Services
             });
 
             await _context.SaveChangesAsync();
-            await _postHub.Clients.All.SendAsync("PostLike", reaction.EntityId);
         }
 
         public async Task DislikePost(NewNegativeReactionDTO reaction)
