@@ -79,6 +79,10 @@ export class AuthenticationService {
             );
     }
 
+    public get accessToken() {
+        return localStorage.getItem('accessToken');
+    }
+
     private _handleAuthResponse(observable: Observable<HttpResponse<AuthUser>>) {
         return observable.pipe(
             map((resp) => {
