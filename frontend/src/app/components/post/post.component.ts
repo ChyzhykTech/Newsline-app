@@ -25,6 +25,7 @@ export class PostComponent implements OnDestroy, OnInit {
     @Input() public currentUser: User;
     @Output() public deleteClick = new EventEmitter<number>();
     @Output() public editClick = new EventEmitter<number>();
+    @Output() private likedPost = new EventEmitter<Post>();
 
     public likePhotos = [];
     public showComments = false;
@@ -98,13 +99,19 @@ export class PostComponent implements OnDestroy, OnInit {
     }
 
     public likePost() {
+        let countReactions = this.post.reactions.length;
         if (!this.currentUser) {
             this.catchErrorWrapper(this.authService.getUser())
                 .pipe(
                     switchMap((userResp) => this.likeService.likePost(this.post, userResp)),
                     takeUntil(this.unsubscribe$)
                 )
-                .subscribe((post) => (this.setPostData(post)));
+                .subscribe((post) => {
+                    this.setPostData(post);
+                    if (countReactions < post.reactions.length) {
+                        this.likedPost.emit(post);
+                    }    
+                });
 
             return;
         }
@@ -112,7 +119,12 @@ export class PostComponent implements OnDestroy, OnInit {
         this.likeService
             .likePost(this.post, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((post) => (this.setPostData(post)));
+            .subscribe((post) => {
+                this.setPostData(post);
+                if (countReactions < post.reactions.length) {
+                    this.likedPost.emit(post);
+                }              
+            });
     }
 
     public dislikePost() {
@@ -212,7 +224,7 @@ export class PostComponent implements OnDestroy, OnInit {
     }
 
     private setPostData(post: Post) {
-        this.post = post;
+        this.post = post;      
         this.setLikePhotos();
     }
 
