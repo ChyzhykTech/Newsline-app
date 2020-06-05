@@ -18,9 +18,10 @@ import { CommentComponent } from './components/comment/comment.component';
 import { MaterialComponentsModule } from './components/common/material-components.module';
 import { LikeTooltipComponent } from './components/like-tooltip/like-tooltip.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LikeSnackbarComponent } from './components/like-snackbar/like-snackbar.component';
 
 @NgModule({
-    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent],
+    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent, LikeSnackbarComponent],
     imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, MaterialComponentsModule, RouterModule.forRoot(AppRoutes), FormsModule, NgbModule],
     exports: [MaterialComponentsModule],
     providers: [
