@@ -70,7 +70,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
 
   public onNotifyUserByPost(post: Post) {
     console.log("onNotifyUserByPost(post: Post)");
-    this.postHub.invoke("SendPostLike")
+    this.postHub.invoke("SendPostLike", post.author.id)
       .catch((err) => console.log(err));
   }
 
@@ -238,8 +238,8 @@ export class MainThreadComponent implements OnInit, OnDestroy {
 
     this.postHub.on("Notify", (mess) => {console.log(mess)});
 
-    this.postHub.on("PostLike", (user: any) => {
-      console.log(user);
+    this.postHub.on("PostLike", (user: any, postId: number) => {
+      console.log(user, postId);
       // let post = this.cachedPosts.find((post) => post.id === postId);
       // if(post !== null) {
       //   this.snackBarService.showLikeMessage(post, userName, avatar);
