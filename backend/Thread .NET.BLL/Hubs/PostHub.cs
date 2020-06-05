@@ -23,11 +23,11 @@ namespace Thread_.NET.BLL.Hubs
             await Clients.All.SendAsync("NewPost", post);
         }
       
-        public async Task SendPostLike()
+        public async Task SendPostLike(int postAuthorId)
         {
             var fromUserId = Context.User.Claims.FirstOrDefault(x => x.Type == "id")?.Value;
             var userDTO = await _userService.GetUserById(int.Parse(fromUserId));
-            await Clients.All.SendAsync("PostLike", userDTO);
+            await Clients.All.SendAsync("PostLike", userDTO, postAuthorId);
         }
 
         //For debug
