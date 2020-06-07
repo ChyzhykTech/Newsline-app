@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { AuthenticationService } from '../../services/auth.service';
 import { takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
     templateUrl: './auth-dialog.component.html',
@@ -21,7 +22,11 @@ export class AuthDialogComponent implements OnInit, OnDestroy {
     public title: string;
     private unsubscribe$ = new Subject<void>();
 
+    public submitted = false;
+    public authForm: FormGroup;
+
     constructor(
+        private formBuilder: FormBuilder,
         private dialogRef: MatDialogRef<AuthDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private authService: AuthenticationService,
@@ -31,6 +36,7 @@ export class AuthDialogComponent implements OnInit, OnDestroy {
     public ngOnInit() {
         this.avatar = 'https://avatars.mds.yandex.net/get-ott/374297/2a000001616b87458162c9216ccd5144e94d/orig';
         this.title = this.data.dialogType === DialogType.SignIn ? 'Sign In' : 'Sign Up';
+        this.authForm = this.data.dialogType === DialogType.SignIn ? this.buildSignInFormGroup() : this.buildSignUpFormGroup();
     }
 
     public ngOnDestroy() {
@@ -54,5 +60,20 @@ export class AuthDialogComponent implements OnInit, OnDestroy {
             .register({ userName: this.userName, password: this.password, email: this.email, avatar: this.avatar })
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((response) => this.dialogRef.close(response), (error) => this.snackBarService.showErrorMessage(error));
+    }
+
+    private buildSignInFormGroup() {
+        return this.formBuilder.group({
+            email: ['', [Validators.required]],
+            password: ['', [Validators.required]],
+        });
+    }
+
+    private buildSignUpFormGroup() {
+        return this.formBuilder.group({
+            email: ['', [Validators.required]],
+            userName: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+        });
     }
 }
