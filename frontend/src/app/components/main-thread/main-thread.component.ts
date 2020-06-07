@@ -11,8 +11,10 @@ import { EventService } from "../../services/event.service";
 import { ImgurService } from "../../services/imgur.service";
 import { NewPost } from "../../models/post/new-post";
 import { switchMap, takeUntil } from "rxjs/operators";
-import { HubConnectionBuilder, HubConnection } from "@aspnet/signalr";
+import { HubConnectionBuilder, HubConnection, HttpTransportType } from "@aspnet/signalr";
 import { SnackBarService } from "../../services/snack-bar.service";
+import { HubUser } from 'src/app/models/hub-user';
+import { LikeSnackbar } from 'src/app/models/snackbar/like-snackbar';
 
 @Component({
   selector: "app-main-thread",
@@ -22,6 +24,7 @@ import { SnackBarService } from "../../services/snack-bar.service";
 export class MainThreadComponent implements OnInit, OnDestroy {
   public posts: Post[] = [];
   public cachedPosts: Post[] = [];
+  public usersInHub: HubUser[] = [];
   public isOnlyMine = false;
   public isOnlyLiked = false;
   public isEditMode = false;
@@ -65,6 +68,14 @@ export class MainThreadComponent implements OnInit, OnDestroy {
         this.currentUser = user;
         this.post.authorId = this.currentUser ? this.currentUser.id : undefined;
       });
+  }
+
+  public onNotifyUserByPost(post: Post) {
+    let hubUser = this.usersInHub.find((user) => user.userId === post.author.id);
+    if (hubUser !== undefined) {
+      this.postHub.invoke("SendLike", hubUser.connectionId, post.id)
+      .catch((err) => console.log(err));
+    }   
   }
 
   public onDeletePost(postId: number) {
@@ -199,11 +210,26 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public openAuthDialog() {
     this.authDialogService.openAuthDialog(DialogType.SignIn);
   }
+ 
+  private prepareToken() {
+    let token: string = this.authService.accessToken;
+    if(token === null) return;
+    let res = token.slice(1, token.length - 1);
+    return res;
+  }
+
+  private getHubOptions() {
+    let options = (this.prepareToken() === undefined) ? {} :{
+      accessTokenFactory: () => this.prepareToken()
+    };
+    return options;
+  }
 
   public registerHub() {
     this.postHub = new HubConnectionBuilder()
-      .withUrl("https://localhost:44344/notifications/post")
+      .withUrl("https://localhost:44344/notifications/post", this.getHubOptions())
       .build();
+    
     this.postHub
       .start()
       .catch((error) => this.snackBarService.showErrorMessage(error));
@@ -212,6 +238,29 @@ export class MainThreadComponent implements OnInit, OnDestroy {
       if (newPost) {
         this.addNewPost(newPost);
       }
+    });
+
+    this.postHub.on("Notify", (userId, connectionId) => {
+      let hubUser: HubUser = {
+        userId: userId,
+        connectionId: connectionId
+      };
+      this.usersInHub.push(hubUser);
+    });
+
+    this.postHub.on("UserDisconnected", (connectionId) => {
+      let user = this.usersInHub.find((user) => user.connectionId === connectionId);
+      let index = this.usersInHub.indexOf(user);
+      if (index !== -1) this.usersInHub.splice(index, 1);
+    });
+
+    this.postHub.on("LikePost", (fromUser: User, postId: number) => {
+      console.log(fromUser, postId);
+      let post = this.cachedPosts.find((post) => post.id === postId);
+      if(post !== undefined) {
+        let likeSnackbar: LikeSnackbar = {fromUser, post};
+        this.snackBarService.showLikeMessage(likeSnackbar);
+      }       
     });
   }
 

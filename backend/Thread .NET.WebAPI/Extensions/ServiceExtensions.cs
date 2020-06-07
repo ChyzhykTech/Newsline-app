@@ -34,7 +34,7 @@ namespace Thread_.NET.Extensions
             services.AddScoped<UserService>();
             services.AddScoped<CommentService>();
 
-            services.AddScoped<PostHub>();
+            services.AddScoped<PostHub>();           
         }
 
         public static void RegisterCustomValidators(this IServiceCollection services)
@@ -124,6 +124,16 @@ namespace Thread_.NET.Extensions
 
                 configureOptions.Events = new JwtBearerEvents
                 {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        if (string.IsNullOrEmpty(accessToken) == false)
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    },
+
                     OnAuthenticationFailed = context =>
                     {
                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
