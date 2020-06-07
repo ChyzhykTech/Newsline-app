@@ -255,7 +255,6 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     });
 
     this.postHub.on("LikePost", (fromUser: User, postId: number) => {
-      console.log(fromUser, postId);
       let post = this.cachedPosts.find((post) => post.id === postId);
       if(post !== undefined) {
         let likeSnackbar: LikeSnackbar = {fromUser, post};
