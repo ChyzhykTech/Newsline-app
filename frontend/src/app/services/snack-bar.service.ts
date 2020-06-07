@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LikeSnackbarComponent } from '../components/like-snackbar/like-snackbar.component';
 import { Post } from '../models/post/post';
 import { User } from '../models/user';
+import { LikeSnackbar } from '../models/snackbar/like-snackbar';
 
 @Injectable({ providedIn: 'root' })
 export class SnackBarService {
@@ -16,8 +17,8 @@ export class SnackBarService {
         this.snackBar.open(message, '', { duration: 3000, panelClass: 'usual-snack-bar' });
     }
 
-    public showLikeMessage(fromUser: User, post: Post) {
+    public showLikeMessage(likeSnackbar: LikeSnackbar) {
         this.snackBar.openFromComponent(LikeSnackbarComponent,  
-            {duration: 10000 , horizontalPosition: 'right', data: {fromUser, post} });
+            {duration: 10000 , horizontalPosition: 'right', data: likeSnackbar });
     }
 }
