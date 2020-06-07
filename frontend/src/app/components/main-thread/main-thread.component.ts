@@ -13,6 +13,7 @@ import { NewPost } from "../../models/post/new-post";
 import { switchMap, takeUntil } from "rxjs/operators";
 import { HubConnectionBuilder, HubConnection, HttpTransportType } from "@aspnet/signalr";
 import { SnackBarService } from "../../services/snack-bar.service";
+import { HubUser } from 'src/app/models/hub-user';
 
 @Component({
   selector: "app-main-thread",
@@ -22,6 +23,7 @@ import { SnackBarService } from "../../services/snack-bar.service";
 export class MainThreadComponent implements OnInit, OnDestroy {
   public posts: Post[] = [];
   public cachedPosts: Post[] = [];
+  public usersInHub: HubUser[] = [];
   public isOnlyMine = false;
   public isOnlyLiked = false;
   public isEditMode = false;
@@ -36,8 +38,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public loadingPosts = false;
 
   public postHub: HubConnection;
-  
-  private lastPostLikeId: number;
+
   private unsubscribe$ = new Subject<void>();
 
   public constructor(
@@ -70,8 +71,13 @@ export class MainThreadComponent implements OnInit, OnDestroy {
 
   public onNotifyUserByPost(post: Post) {
     console.log("onNotifyUserByPost(post: Post)");
-    this.postHub.invoke("SendPostLike", post.author.id)
-      .catch((err) => console.log(err));
+    let hubUser = this.usersInHub.find((user) => user.userId === post.author.id);
+    console.log(hubUser);
+    if (hubUser !== undefined) {
+      console.log("invoke(SendLike)");
+      // this.postHub.invoke("SendLike", hubUser.connectionId, post.id)
+      // .catch((err) => console.log(err));
+    }   
   }
 
   public onDeletePost(postId: number) {
@@ -236,10 +242,22 @@ export class MainThreadComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.postHub.on("Notify", (mess) => {console.log(mess)});
+    this.postHub.on("Notify", (userId, connectionId) => {
+      let hubUser: HubUser = {
+        userId: userId,
+        connectionId: connectionId
+      };
+      this.usersInHub.push(hubUser);
+    });
 
-    this.postHub.on("PostLike", (user: any, postId: number) => {
-      console.log(user, postId);
+    this.postHub.on("UserDisconnected", (connectionId) => {
+      let user = this.usersInHub.find((user) => user.connectionId === connectionId);
+      let index = this.usersInHub.indexOf(user);
+      if (index !== -1) this.usersInHub.splice(index, 1);
+    });
+
+    this.postHub.on("LikePost", (fromUser: User, postId: number) => {
+      console.log(fromUser, postId);
       // let post = this.cachedPosts.find((post) => post.id === postId);
       // if(post !== null) {
       //   this.snackBarService.showLikeMessage(post, userName, avatar);
