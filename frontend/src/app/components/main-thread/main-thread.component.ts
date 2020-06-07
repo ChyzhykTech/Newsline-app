@@ -14,6 +14,7 @@ import { switchMap, takeUntil } from "rxjs/operators";
 import { HubConnectionBuilder, HubConnection, HttpTransportType } from "@aspnet/signalr";
 import { SnackBarService } from "../../services/snack-bar.service";
 import { HubUser } from 'src/app/models/hub-user';
+import { LikeSnackbar } from 'src/app/models/snackbar/like-snackbar';
 
 @Component({
   selector: "app-main-thread",
@@ -257,7 +258,8 @@ export class MainThreadComponent implements OnInit, OnDestroy {
       console.log(fromUser, postId);
       let post = this.cachedPosts.find((post) => post.id === postId);
       if(post !== undefined) {
-        this.snackBarService.showLikeMessage(fromUser, post);
+        let likeSnackbar: LikeSnackbar = {fromUser, post};
+        this.snackBarService.showLikeMessage(likeSnackbar);
       }       
     });
   }
