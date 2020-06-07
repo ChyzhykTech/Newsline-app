@@ -34,7 +34,7 @@ namespace Thread_.NET.Extensions
             services.AddScoped<UserService>();
             services.AddScoped<CommentService>();
 
-            services.AddScoped<PostHub>();
+            services.AddScoped<PostHub>();           
         }
 
         public static void RegisterCustomValidators(this IServiceCollection services)
