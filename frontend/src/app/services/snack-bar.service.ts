@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LikeSnackbarComponent } from '../components/like-snackbar/like-snackbar.component';
-import { Post } from '../models/post/post';
-import { User } from '../models/user';
 import { LikeSnackbar } from '../models/snackbar/like-snackbar';
 
 @Injectable({ providedIn: 'root' })
@@ -19,6 +17,6 @@ export class SnackBarService {
 
     public showLikeMessage(likeSnackbar: LikeSnackbar) {
         this.snackBar.openFromComponent(LikeSnackbarComponent,  
-            {duration: 10000 , horizontalPosition: 'right', data: likeSnackbar });
+            {duration: 3000 , horizontalPosition: 'right', data: likeSnackbar });
     }
 }
