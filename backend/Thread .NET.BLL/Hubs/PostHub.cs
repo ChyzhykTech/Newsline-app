@@ -28,7 +28,7 @@ namespace Thread_.NET.BLL.Hubs
         {
             var fromUserId = this.GetUserIdFromToken();
             var fromUserDTO = await _userService.GetUserById(fromUserId);
-            await Clients.User(connectionId).SendAsync("LikePost", fromUserDTO, postId);
+            await Clients.Client(connectionId).SendAsync("LikePost", fromUserDTO, postId);
         }
 
         public override async Task OnConnectedAsync()
