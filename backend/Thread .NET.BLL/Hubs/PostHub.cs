@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Thread_.NET.BLL.Extensions;
 using Thread_.NET.BLL.Services;
 using Thread_.NET.Common.DTO.Post;
 
@@ -23,18 +24,25 @@ namespace Thread_.NET.BLL.Hubs
             await Clients.All.SendAsync("NewPost", post);
         }
       
-        public async Task SendPostLike(int postAuthorId)
+        public async Task SendLike(string connectionId, int postId)
         {
-            var fromUserId = Context.User.Claims.FirstOrDefault(x => x.Type == "id")?.Value;
-            var userDTO = await _userService.GetUserById(int.Parse(fromUserId));
-            await Clients.All.SendAsync("PostLike", userDTO, postAuthorId);
+            var fromUserId = this.GetUserIdFromToken();
+            var fromUserDTO = await _userService.GetUserById(fromUserId);
+            await Clients.User(connectionId).SendAsync("LikePost", fromUserDTO, postId);
         }
 
-        //For debug
         public override async Task OnConnectedAsync()
         {
-            await Clients.All.SendAsync("Notify", $"{Context.ConnectionId} вошел в чат");
+            var userId = this.GetUserIdFromToken();
+            var connectionId = Context.ConnectionId;           
+            await Clients.All.SendAsync("Notify", userId, connectionId);
             await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception ex)
+        {
+            await Clients.All.SendAsync("UserDisconnected", Context.ConnectionId);
+            await base.OnDisconnectedAsync(ex);
         }
     }
 }
