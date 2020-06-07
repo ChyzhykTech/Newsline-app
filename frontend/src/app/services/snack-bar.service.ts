@@ -16,9 +16,8 @@ export class SnackBarService {
         this.snackBar.open(message, '', { duration: 3000, panelClass: 'usual-snack-bar' });
     }
 
-    public showLikeMessage(post: Post, userName: string, avatar: string) {
-        // if(post.author.id !== userId) return;
+    public showLikeMessage(fromUser: User, post: Post) {
         this.snackBar.openFromComponent(LikeSnackbarComponent,  
-            {duration: 10000 , horizontalPosition: 'right', data: {...post, userName, avatar} });
+            {duration: 10000 , horizontalPosition: 'right', data: {fromUser, post} });
     }
 }
