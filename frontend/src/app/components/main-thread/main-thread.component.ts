@@ -70,13 +70,10 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   }
 
   public onNotifyUserByPost(post: Post) {
-    console.log("onNotifyUserByPost(post: Post)");
     let hubUser = this.usersInHub.find((user) => user.userId === post.author.id);
-    console.log(hubUser);
     if (hubUser !== undefined) {
-      console.log("invoke(SendLike)");
-      // this.postHub.invoke("SendLike", hubUser.connectionId, post.id)
-      // .catch((err) => console.log(err));
+      this.postHub.invoke("SendLike", hubUser.connectionId, post.id)
+      .catch((err) => console.log(err));
     }   
   }
 
