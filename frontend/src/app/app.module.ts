@@ -8,7 +8,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from './app.routes';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainThreadComponent } from './components/main-thread/main-thread.component';
 import { PostComponent } from './components/post/post.component';
 import { HomeComponent } from './components/home/home.component';
@@ -22,7 +22,7 @@ import { LikeSnackbarComponent } from './components/like-snackbar/like-snackbar.
 
 @NgModule({
     declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent, LikeSnackbarComponent],
-    imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, MaterialComponentsModule, RouterModule.forRoot(AppRoutes), FormsModule, NgbModule],
+    imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, MaterialComponentsModule, RouterModule.forRoot(AppRoutes), FormsModule, ReactiveFormsModule, NgbModule],
     exports: [MaterialComponentsModule],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
