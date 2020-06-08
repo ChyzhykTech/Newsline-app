@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { AuthenticationService } from '../../services/auth.service';
 import { takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     templateUrl: './auth-dialog.component.html',
@@ -13,10 +13,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 })
 export class AuthDialogComponent implements OnInit, OnDestroy {
     public dialogType = DialogType;
-    public userName: string;
-    public password: string;
     public avatar: string;
-    public email: string;
 
     public hidePass = true;
     public title: string;
@@ -26,12 +23,14 @@ export class AuthDialogComponent implements OnInit, OnDestroy {
     public authForm: FormGroup;
 
     constructor(
-        private formBuilder: FormBuilder,
         private dialogRef: MatDialogRef<AuthDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private authService: AuthenticationService,
-        private snackBarService: SnackBarService
+        private snackBarService: SnackBarService,
+        private formBuilder: FormBuilder
     ) {}
+
+    get f() { return this.authForm.controls; }
 
     public ngOnInit() {
         this.avatar = 'https://avatars.mds.yandex.net/get-ott/374297/2a000001616b87458162c9216ccd5144e94d/orig';
@@ -49,29 +48,41 @@ export class AuthDialogComponent implements OnInit, OnDestroy {
     }
 
     public signIn() {
+        this.validateForm();
+        let password = this.authForm.value.password;
+        let email = this.authForm.value.email;
         this.authService
-            .login({ email: this.email, password: this.password })
+            .login({ email: email, password: password })
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((response) => this.dialogRef.close(response), (error) => this.snackBarService.showErrorMessage(error));
     }
 
     public signUp() {
+        this.validateForm();
+        let userName = this.authForm.value.userName;
+        let password = this.authForm.value.password;
+        let email = this.authForm.value.email;
         this.authService
-            .register({ userName: this.userName, password: this.password, email: this.email, avatar: this.avatar })
+            .register({ userName: userName, password: password, email: email, avatar: this.avatar })
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((response) => this.dialogRef.close(response), (error) => this.snackBarService.showErrorMessage(error));
     }
 
+    private validateForm() {
+        this.submitted = true;
+        if (this.authForm.invalid)  return;
+    }
+
     private buildSignInFormGroup() {
         return this.formBuilder.group({
-            email: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required]],
         });
     }
 
     private buildSignUpFormGroup() {
         return this.formBuilder.group({
-            email: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.email]],
             userName: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
             password: ['', [Validators.required, Validators.minLength(6)]],
         });
