@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Thread_.NET.BLL.Extensions;
 using Thread_.NET.BLL.Services;
@@ -9,7 +8,6 @@ using Thread_.NET.Common.DTO.Post;
 
 namespace Thread_.NET.BLL.Hubs
 {
-    [Authorize]
     public sealed class PostHub : Hub
     {
         private readonly UserService _userService;
