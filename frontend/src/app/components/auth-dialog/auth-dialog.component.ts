@@ -48,29 +48,29 @@ export class AuthDialogComponent implements OnInit, OnDestroy {
     }
 
     public signIn() {
-        this.validateForm();
+        this.submitted = true;
+        if (this.authForm.invalid)  return;
+
         let password = this.authForm.value.password;
         let email = this.authForm.value.email;
         this.authService
             .login({ email: email, password: password })
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((response) => this.dialogRef.close(response), (error) => this.snackBarService.showErrorMessage(error));
+            .subscribe((response) => 
+             {this.dialogRef.close(response); this.submitted = false;}, (error) => this.snackBarService.showErrorMessage(error));
     }
 
     public signUp() {
-        this.validateForm();
+        this.submitted = true;
+        if (this.authForm.invalid)  return;
+
         let userName = this.authForm.value.userName;
         let password = this.authForm.value.password;
         let email = this.authForm.value.email;
         this.authService
             .register({ userName: userName, password: password, email: email, avatar: this.avatar })
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((response) => this.dialogRef.close(response), (error) => this.snackBarService.showErrorMessage(error));
-    }
-
-    private validateForm() {
-        this.submitted = true;
-        if (this.authForm.invalid)  return;
+            .subscribe((response) => {this.dialogRef.close(response); this.submitted = false;}, (error) => this.snackBarService.showErrorMessage(error));
     }
 
     private buildSignInFormGroup() {
@@ -83,8 +83,8 @@ export class AuthDialogComponent implements OnInit, OnDestroy {
     private buildSignUpFormGroup() {
         return this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
-            userName: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
-            password: ['', [Validators.required, Validators.minLength(6)]],
+            userName: ['', [Validators.required, Validators.minLength(3)]],
+            password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(16)]],
         });
     }
 }
