@@ -1,19 +1,41 @@
 <h2 mat-dialog-title class="title">Tell me who you are and {{title.toLowerCase()}}</h2>
 <div mat-dialog-content>
-  <form name="authForm" #authForm="ngForm" class="main-content">
+  <form [formGroup]="authForm" class="main-content">
+   
     <mat-form-field>
-      <input name="authEmail" [(ngModel)]="email" #inEmail="ngModel" matInput placeholder="Email">
+      <mat-label>Email</mat-label>
+      <input formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors,
+      'is-valid': submitted && !f.email.errors}" matInput placeholder="Email">
+      <mat-error *ngIf="submitted && f.email.errors">
+        Please enter a valid email address.
+      </mat-error>
     </mat-form-field>
+    
     <mat-form-field *ngIf="data.dialogType === dialogType.SignUp">
-      <input name="authUserName" [(ngModel)]="userName" #upNickname="ngModel" matInput placeholder="Username">
+      <mat-label>User Name</mat-label>
+      <input formControlName="userName" [ngClass]="{ 'is-invalid': submitted && f.userName.errors,
+      'is-valid': submitted && !f.userName.errors}" matInput placeholder="Username">
+      <mat-error *ngIf="submitted && f.userName.errors">
+        Username is mandatory.
+      </mat-error>
     </mat-form-field>
+
     <mat-form-field>
-      <input name="authPassword" [(ngModel)]="password" #upPassword="ngModel" matInput
-        [type]="hidePass ? 'password' : 'text'" placeholder="Password">
-      <mat-icon matSuffix (click)="hidePass = !hidePass">{{hidePass ? 'visibility' : 'visibility_off'}}</mat-icon>
+      <mat-label>Password</mat-label>
+      <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors,
+      'is-valid': submitted && !f.password.errors}" matInput
+        [type]="hidePass ? 'password' : 'text'" placeholder="Password">    
+        <mat-error *ngIf="submitted && f.password.errors && data.dialogType === dialogType.SignUp">
+          Password must be from 4 to 16 characters.
+        </mat-error>
+        <mat-error *ngIf="submitted && f.password.errors && data.dialogType === dialogType.SignIn">
+          Password is required.
+        </mat-error>
+        <mat-icon matSuffix (click)="hidePass = !hidePass">{{hidePass ? 'visibility' : 'visibility_off'}}</mat-icon>
     </mat-form-field>
   </form>
 </div>
+
 <div class="actions">
   <button mat-raised-button (click)="close()">Back</button>
   <button mat-raised-button color="primary"
