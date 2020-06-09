@@ -11,10 +11,11 @@ import { EventService } from "../../services/event.service";
 import { ImgurService } from "../../services/imgur.service";
 import { NewPost } from "../../models/post/new-post";
 import { switchMap, takeUntil } from "rxjs/operators";
-import { HubConnectionBuilder, HubConnection, HttpTransportType } from "@aspnet/signalr";
+import { HubConnection } from "@aspnet/signalr";
 import { SnackBarService } from "../../services/snack-bar.service";
 import { HubUser } from 'src/app/models/hub-user';
 import { LikeSnackbar } from 'src/app/models/snackbar/like-snackbar';
+import { PostHubService } from 'src/app/services/post-hub.service';
 
 @Component({
   selector: "app-main-thread",
@@ -24,7 +25,7 @@ import { LikeSnackbar } from 'src/app/models/snackbar/like-snackbar';
 export class MainThreadComponent implements OnInit, OnDestroy {
   public posts: Post[] = [];
   public cachedPosts: Post[] = [];
-  public usersInHub: HubUser[] = [];
+  public authUsersInHub: HubUser[] = [];
   public isOnlyMine = false;
   public isOnlyLiked = false;
   public isEditMode = false;
@@ -38,8 +39,6 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public loading = false;
   public loadingPosts = false;
 
-  public postHub: HubConnection;
-
   private unsubscribe$ = new Subject<void>();
 
   public constructor(
@@ -48,20 +47,20 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     private postService: PostService,
     private imgurService: ImgurService,
     private authDialogService: AuthDialogService,
-    private eventService: EventService
-  ) {}
+    private eventService: EventService,
+    private postHubService: PostHubService
+  ) { }
 
   public ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    this.postHub.stop();
+    this.postHubService.stopHub();
   }
 
   public ngOnInit() {
-    this.registerHub();
+    this.registerHubHandlers();
     this.getPosts();
-    this.getUser();
-
+    this.getUser();   
     this.eventService.userChangedEvent$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((user) => {
@@ -71,10 +70,11 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   }
 
   public onNotifyUserByPost(post: Post) {
-    let hubUser = this.usersInHub.find((user) => user.userId === post.author.id);
+    let connection: HubConnection = this.postHubService.getConnection();
+    let hubUser = this.authUsersInHub.find((user) => user.userId === post.author.id);
     if (hubUser !== undefined) {
-      this.postHub.invoke("SendLike", hubUser.connectionId, post.id)
-      .catch((err) => console.log(err));
+      connection.invoke("SendLike", hubUser.connectionId, post.id)
+        .catch((err) => this.snackBarService.showErrorMessage(err));
     }   
   }
 
@@ -210,51 +210,31 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public openAuthDialog() {
     this.authDialogService.openAuthDialog(DialogType.SignIn);
   }
- 
-  private prepareToken() {
-    let token: string = this.authService.accessToken;
-    if(token === null) return;
-    let res = token.slice(1, token.length - 1);
-    return res;
-  }
 
-  private getHubOptions() {
-    let options = (this.prepareToken() === undefined) ? {} :{
-      accessTokenFactory: () => this.prepareToken()
-    };
-    return options;
-  }
-
-  public registerHub() {
-    this.postHub = new HubConnectionBuilder()
-      .withUrl("https://localhost:44344/notifications/post", this.getHubOptions())
-      .build();
-    
-    this.postHub
-      .start()
-      .catch((error) => this.snackBarService.showErrorMessage(error));
-
-    this.postHub.on("NewPost", (newPost: Post) => {
+  public registerHubHandlers() {
+    let connection: HubConnection = this.postHubService.getConnection();
+    connection.on("NewPost", (newPost: Post) => {
       if (newPost) {
         this.addNewPost(newPost);
       }
     });
 
-    this.postHub.on("Notify", (userId, connectionId) => {
+    connection.on("Notify", (userId, connectionId) => {
+      if(userId === null) return;
       let hubUser: HubUser = {
         userId: userId,
         connectionId: connectionId
       };
-      this.usersInHub.push(hubUser);
+      this.authUsersInHub.push(hubUser);
     });
 
-    this.postHub.on("UserDisconnected", (connectionId) => {
-      let user = this.usersInHub.find((user) => user.connectionId === connectionId);
-      let index = this.usersInHub.indexOf(user);
-      if (index !== -1) this.usersInHub.splice(index, 1);
+    connection.on("UserDisconnected", (connectionId) => {
+      let user = this.authUsersInHub.find((user) => user.connectionId === connectionId);
+      let index = this.authUsersInHub.indexOf(user);
+      if (index !== -1) this.authUsersInHub.splice(index, 1);
     });
 
-    this.postHub.on("LikePost", (fromUser: User, postId: number) => {
+    connection.on("LikePost", (fromUser: User, postId: number) => {
       let post = this.cachedPosts.find((post) => post.id === postId);
       if(post !== undefined) {
         let likeSnackbar: LikeSnackbar = {fromUser, post};

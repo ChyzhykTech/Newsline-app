@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { AuthDialogService } from '../../services/auth-dialog.service';
 import { takeUntil } from 'rxjs/operators';
+import { PostHubService } from 'src/app/services/post-hub.service';
 
 @Component({
     selector: 'app-home',
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         private authService: AuthenticationService,
         private eventService: EventService,
         private userService: UserService,
-        private router: Router
+        private router: Router,
+        private postHubService: PostHubService
     ) {}
 
     public ngOnInit() {
@@ -44,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.authService.logout();
         this.authorizedUser = undefined;
         this.router.navigate(['/']);
+        this.postHubService.reloadConnection();
     }
 
     public openAuthDialog(type: DialogType) {

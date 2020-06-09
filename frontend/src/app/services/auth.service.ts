@@ -16,7 +16,11 @@ export class AuthenticationService {
     public routePrefix = '/api';
     private user: User;
 
-    constructor(private httpService: HttpInternalService, private userService: UserService, private eventService: EventService) {}
+    constructor(
+        private httpService: HttpInternalService, 
+        private userService: UserService, 
+        private eventService: EventService
+    ) {}
 
     public getUser() {
         return this.user
