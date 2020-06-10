@@ -59,7 +59,15 @@ export class ResetPasswordDialogComponent implements OnInit {
       newPassword: this.password, 
       confirmPassword: this.confirmPassword
     };
-    this.authService.resetPassword(userPasswords);
+    this.authService.resetPassword(userPasswords)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((resp) => {
+        if(resp) {
+          this.submitted = false;
+          this.close();
+          // this.snackBarService.showSuccessMessage();
+        }
+      });
   }
 
   public close() {
