@@ -34,5 +34,20 @@ namespace Thread_.NET.WebAPI.Controllers
 
             return CreatedAtAction("GetById", "users", new { id = createdUser.Id }, result);
         }
+
+        [HttpPatch]
+        public async Task<ActionResult> Patch([FromBody] UserResetPasswordDTO resetPasswordDTO)
+        {
+            var updatedUser = await _userService.ResetPassword(resetPasswordDTO);
+            var token = await _authService.GenerateAccessToken(updatedUser.Id, updatedUser.UserName, updatedUser.Email);
+
+            var result = new AuthUserDTO
+            {
+                User = updatedUser,
+                Token = token
+            };
+
+            return CreatedAtAction("GetById", "users", new { id = updatedUser.Id }, result);
+        }
     }
 }
