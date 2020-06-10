@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../models/user';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
@@ -7,6 +7,7 @@ import { AuthenticationService } from '../../services/auth.service';
 import { ImgurService } from '../../services/imgur.service';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
+import { ResetPasswordDialogService } from 'src/app/services/reset-password-dialog.service';
 
 @Component({
     selector: 'app-user-profile',
@@ -25,7 +26,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         private userService: UserService,
         private snackBarService: SnackBarService,
         private authService: AuthenticationService,
-        private imgurService: ImgurService
+        private imgurService: ImgurService,
+        private resetPasswordDialogService: ResetPasswordDialogService
     ) {}
 
     public ngOnInit() {
@@ -38,6 +40,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     public ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
+
+    public openResetPasswordDialog() {
+        this.resetPasswordDialogService.openResetPasswordDialog();
     }
 
     public saveNewInfo() {
