@@ -10,6 +10,7 @@ import { Observable, of } from 'rxjs';
 import { User } from '../models/user';
 import { UserService } from './user.service';
 import { EventService } from './event.service';
+import { UserResetPasswordDto } from '../models/auth/user-reset-password-dto';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -37,6 +38,10 @@ export class AuthenticationService {
     public setUser(user: User) {
         this.user = user;
         this.eventService.userChanged(user);
+    }
+
+    public resetPassword(userPasswords: UserResetPasswordDto) {
+        return this._handleAuthResponse(this.httpService.patchFullRequest<AuthUser>(`${this.routePrefix}/register`, userPasswords));
     }
 
     public register(user: UserRegisterDto) {

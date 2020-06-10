@@ -36,6 +36,20 @@ namespace Thread_.NET.BLL.Services
             return _mapper.Map<UserDTO>(user);
         }
 
+        public async Task<UserDTO> ResetPassword(UserResetPasswordDTO resetPasswordDTO)
+        {
+            var userEntity = await GetUserByIdInternal(resetPasswordDTO.UserId);
+            var salt = SecurityHelper.GetRandomBytes();
+
+            userEntity.Salt = Convert.ToBase64String(salt);
+            userEntity.Password = SecurityHelper.HashPassword(resetPasswordDTO.NewPassword, salt);
+
+            _context.Users.Update(userEntity);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<UserDTO>(userEntity);
+        }
+
         public async Task<UserDTO> CreateUser(UserRegisterDTO userDto)
         {
             var userEntity = _mapper.Map<User>(userDto);

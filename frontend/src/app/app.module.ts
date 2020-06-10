@@ -19,9 +19,10 @@ import { MaterialComponentsModule } from './components/common/material-component
 import { LikeTooltipComponent } from './components/like-tooltip/like-tooltip.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LikeSnackbarComponent } from './components/like-snackbar/like-snackbar.component';
+import { ResetPasswordDialogComponent } from './components/reset-password-dialog/reset-password-dialog.component';
 
 @NgModule({
-    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent, LikeSnackbarComponent],
+    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent, LikeSnackbarComponent, ResetPasswordDialogComponent],
     imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, MaterialComponentsModule, RouterModule.forRoot(AppRoutes), FormsModule, ReactiveFormsModule, NgbModule],
     exports: [MaterialComponentsModule],
     providers: [
