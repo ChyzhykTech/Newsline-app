@@ -13,10 +13,12 @@ namespace Thread_.NET.BLL.Services
     public sealed class LikeService : BaseService
     {
         private readonly IHubContext<PostHub> _postHub;
+        private readonly EmailService _emailService;
 
-        public LikeService(ThreadContext context, IMapper mapper, IHubContext<PostHub> postHub) : base(context, mapper) 
+        public LikeService(ThreadContext context, IMapper mapper, IHubContext<PostHub> postHub, EmailService emailService) : base(context, mapper) 
         {
             _postHub = postHub;
+            _emailService = emailService;
         }
 
         public async Task LikePost(NewReactionDTO reaction)
@@ -39,6 +41,7 @@ namespace Thread_.NET.BLL.Services
             });
 
             await _context.SaveChangesAsync();
+            await _emailService.SendLikeMessageToEmail(reaction.EntityId, reaction.UserId);
         }
 
         public async Task DislikePost(NewNegativeReactionDTO reaction)

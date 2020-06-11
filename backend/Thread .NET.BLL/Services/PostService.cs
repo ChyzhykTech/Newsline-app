@@ -127,5 +127,12 @@ namespace Thread_.NET.BLL.Services
                 return true;
             }
         }
+
+        public async Task<Post> GetPostById(int postId) 
+            => await _context.Posts
+                .Where(p => p.Id == postId)
+                .FirstOrDefaultAsync();
+
+        
     }
 }

@@ -13,5 +13,10 @@ namespace Thread_.NET.BLL.Services.Abstract
             _context = context;
             _mapper = mapper;
         }
+
+        public BaseService(ThreadContext context)
+        {
+            _context = context;
+        }
     }
 }
