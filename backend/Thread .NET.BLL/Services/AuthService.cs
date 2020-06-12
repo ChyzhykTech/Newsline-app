@@ -114,5 +114,18 @@ namespace Thread_.NET.BLL.Services
             _context.RefreshTokens.Remove(rToken);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<string> GeneratePasswordResetToken(int userId)
+        {
+            var token = _jwtFactory.GeneratePasswordResetToken();
+            _context.PasswordResetTokens.Add(new PasswordResetToken
+            {
+                UserId = userId,
+                Token = token
+            });
+
+            await _context.SaveChangesAsync();
+            return token;
+        }
     }
 }
