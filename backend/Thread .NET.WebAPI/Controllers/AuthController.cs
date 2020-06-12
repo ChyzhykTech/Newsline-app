@@ -37,8 +37,8 @@ namespace Thread_.NET.WebAPI.Controllers
             return Redirect(uri);
         }
 
-        [HttpPost("password/forgot")]
-        public async Task<ActionResult> ForgotPassword()
+        [HttpPost("password/confirm-reset-password")]
+        public async Task<ActionResult> ConfirmResetPassword()
         {
             var userId = this.GetUserIdFromToken();
             var protocol = Request.IsHttps ? "https" : "http";
