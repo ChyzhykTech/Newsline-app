@@ -28,12 +28,14 @@ namespace Thread_.NET.WebAPI.Controllers
             return Ok(await _authService.Authorize(dto));
         }
 
-        //[HttpGet("password/reset")]
-        //[AllowAnonymous]
-        //public async Task<ActionResult> Reset(string token)
-        //{
-
-        //}
+        [HttpGet("password/reset")]
+        [AllowAnonymous]
+        public async Task<ActionResult> Reset(string email, string token)
+        {
+            var confirmKey = await _authService.Reset(email, token);
+            var uri = $"https://{Request.Host.Host + Request.Host.Port}/profile?confirmKey={confirmKey}";
+            return Redirect(uri);
+        }
 
         [HttpPost("password/forgot")]
         public async Task<ActionResult> ForgotPassword()
