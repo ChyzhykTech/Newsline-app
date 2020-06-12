@@ -17,17 +17,6 @@ namespace Thread_.NET.Common.Security
                     )
                 );
 
-        public static string HashPasswordResetToken(string emailAddress, byte[] salt)
-        => Convert.ToBase64String(
-                    KeyDerivation.Pbkdf2(
-                        password: emailAddress,
-                        salt: salt,
-                        prf: KeyDerivationPrf.HMACSHA256,
-                        iterationCount: 10000,
-                        numBytesRequested: 256 / 8
-                    )
-                );
-
         public static byte[] GetRandomBytes(int length = 32)
         {
             using (var randomNumberGenerator = new RNGCryptoServiceProvider())
@@ -42,6 +31,11 @@ namespace Thread_.NET.Common.Security
         public static bool ValidatePassword(string password, string hash, string salt)
         {
             return HashPassword(password, Convert.FromBase64String(salt)) == hash;
+        }
+
+        public static bool ValidatePasswordResetToken(string tokenFromLink, string tokenFromDb)
+        {
+            return tokenFromLink == tokenFromDb;
         }
     }
 }
