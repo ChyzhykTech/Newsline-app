@@ -16,6 +16,7 @@ namespace Thread_.NET.DAL.Context
         public static void Configure(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RefreshToken>().Ignore(t => t.IsActive);
+            modelBuilder.Entity<PasswordResetToken>().Ignore(t => t.IsActive);
 
             //modelBuilder.Entity<PostReaction>()
             //    .HasAlternateKey(pr => new { pr.PostId, pr.UserId });
