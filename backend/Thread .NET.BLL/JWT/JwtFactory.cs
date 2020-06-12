@@ -51,6 +51,11 @@ namespace Thread_.NET.BLL.JWT
             return new AccessToken(_jwtSecurityTokenHandler.WriteToken(jwt), (int)_jwtOptions.ValidFor.TotalSeconds);
         }
 
+        public string GeneratePasswordResetToken()
+        {
+            return Convert.ToBase64String(SecurityHelper.GetRandomBytes());
+        }
+
         public string GenerateRefreshToken()
         {
             return Convert.ToBase64String(SecurityHelper.GetRandomBytes());
