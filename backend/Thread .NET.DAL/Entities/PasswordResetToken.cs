@@ -13,6 +13,7 @@ namespace Thread_.NET.DAL.Entities
         }
 
         public string Token { get; set; }
+        public string ConfirmToken { get; set; }
         public DateTime Expires { get; private set; }
 
         public int UserId { get; set; }
