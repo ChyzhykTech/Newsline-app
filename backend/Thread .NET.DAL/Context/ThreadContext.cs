@@ -15,6 +15,7 @@ namespace Thread_.NET.DAL.Context
         public DbSet<PostReaction> PostReactions { get; private set; }
         public DbSet<PostNegativeReaction> PostNegativeReactions { get; private set; }
         public DbSet<RefreshToken> RefreshTokens { get; private set; }
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; private set; }
         public DbSet<User> Users { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
