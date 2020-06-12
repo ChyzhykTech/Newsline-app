@@ -33,7 +33,7 @@ namespace Thread_.NET.Common.Security
             return HashPassword(password, Convert.FromBase64String(salt)) == hash;
         }
 
-        public static bool ValidatePasswordResetToken(string tokenFromLink, string tokenFromDb)
+        public static bool ValidatePasswordResetOrConfirmToken(string tokenFromLink, string tokenFromDb)
         {
             return tokenFromLink == tokenFromDb;
         }
