@@ -48,6 +48,30 @@ namespace Thread_.NET.BLL.Services
             };
         }
 
+        public async Task Reset(string email, string token)
+        {
+            var passwordResetTokenEntity = await _context.PasswordResetTokens
+                .Include(u => u.User)
+                .FirstOrDefaultAsync(t => t.Token == token);
+
+            if (passwordResetTokenEntity.User == null)
+            {
+                throw new NotFoundException(nameof(User));
+            }
+
+            if (!SecurityHelper.ValidatePasswordResetToken(token, passwordResetTokenEntity.Token) && passwordResetTokenEntity.User.Email != email)
+            {               
+                throw new InvalidPasswordResetTokenException();
+            }
+
+            if (!passwordResetTokenEntity.IsActive)
+            {
+                _context.PasswordResetTokens.Remove(passwordResetTokenEntity);
+                await _context.SaveChangesAsync();
+                throw new ExpiredPasswordResetTokenException();
+            }
+        }
+
         public async Task<AccessTokenDTO> GenerateAccessToken(int userId, string userName, string email)
         {
             var refreshToken = _jwtFactory.GenerateRefreshToken();
