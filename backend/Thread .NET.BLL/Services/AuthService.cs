@@ -48,7 +48,7 @@ namespace Thread_.NET.BLL.Services
             };
         }
 
-        public async Task Reset(string email, string token)
+        public async Task<string> Reset(string email, string token)
         {
             var passwordResetTokenEntity = await _context.PasswordResetTokens
                 .Include(u => u.User)
@@ -59,7 +59,7 @@ namespace Thread_.NET.BLL.Services
                 throw new NotFoundException(nameof(User));
             }
 
-            if (!SecurityHelper.ValidatePasswordResetToken(token, passwordResetTokenEntity.Token) && passwordResetTokenEntity.User.Email != email)
+            if (!SecurityHelper.ValidatePasswordResetOrConfirmToken(token, passwordResetTokenEntity.Token) && passwordResetTokenEntity.User.Email != email)
             {               
                 throw new InvalidPasswordResetTokenException();
             }
@@ -70,6 +70,8 @@ namespace Thread_.NET.BLL.Services
                 await _context.SaveChangesAsync();
                 throw new ExpiredPasswordResetTokenException();
             }
+            var confirmToken = await GenerateConfirmPasswordKey(passwordResetTokenEntity);
+            return confirmToken;
         }
 
         public async Task<AccessTokenDTO> GenerateAccessToken(int userId, string userName, string email)
@@ -150,6 +152,18 @@ namespace Thread_.NET.BLL.Services
 
             await _context.SaveChangesAsync();
             return token;
+        }
+
+        public async Task<string> GenerateConfirmPasswordKey(PasswordResetToken resetToken)
+        {
+            var confirmToken = _jwtFactory.GeneratePasswordResetToken();
+
+            resetToken.ConfirmToken = confirmToken;
+
+            _context.PasswordResetTokens.Update(resetToken);
+            await _context.SaveChangesAsync();
+            
+            return confirmToken;
         }
     }
 }
