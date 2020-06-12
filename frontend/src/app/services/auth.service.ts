@@ -40,6 +40,10 @@ export class AuthenticationService {
         this.eventService.userChanged(user);
     }
 
+    public confirmResetPassword() {
+        return this.httpService.postFullRequest(`${this.routePrefix}/auth/password/confirm-reset-password`, {});
+    }
+
     public resetPassword(userPasswords: UserResetPasswordDto) {
         return this._handleAuthResponse(this.httpService.patchFullRequest<AuthUser>(`${this.routePrefix}/register`, userPasswords));
     }
