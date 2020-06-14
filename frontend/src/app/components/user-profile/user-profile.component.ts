@@ -8,6 +8,7 @@ import { ImgurService } from '../../services/imgur.service';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
 import { ResetPasswordDialogService } from 'src/app/services/reset-password-dialog.service';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 @Component({
     selector: 'app-user-profile',
@@ -19,22 +20,36 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     public loading = false;
     public imageFile: File;
 
+
     private unsubscribe$ = new Subject<void>();
 
     constructor(
+        private route: ActivatedRoute,
+        private router: Router,
         private location: Location,
         private userService: UserService,
         private snackBarService: SnackBarService,
         private authService: AuthenticationService,
         private imgurService: ImgurService,
         private resetPasswordDialogService: ResetPasswordDialogService
-    ) {}
+    ) {
+        this.route.queryParams
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(params => {
+               let confirmToken = params["confirmToken"];
+               if (confirmToken !== null && confirmToken !== undefined) {
+                   this.authService.setConfirmToken(confirmToken);
+                   this.router.navigate(["/profile"])
+                    .then(r => this.openResetPasswordDialogWithNewPasswordFields());
+               }
+            });
+    }
 
     public ngOnInit() {
         this.authService
             .getUser()
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe((user) => (this.user = this.userService.copyUser(user)), (error) => this.snackBarService.showErrorMessage(error));
+            .subscribe((user) => (this.user = this.userService.copyUser(user)), (error) => this.snackBarService.showErrorMessage(error));       
     }
 
     public ngOnDestroy() {
@@ -88,4 +103,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     }
 
     public goBack = () => this.location.back();
+
+    private hasConfirmToken() {
+        return localStorage.getItem('confirmPassword') !== null;
+    }
+
+    private openResetPasswordDialogWithNewPasswordFields() {
+        this.resetPasswordDialogService.openResetPasswordDialog(true);
+    }
 }
