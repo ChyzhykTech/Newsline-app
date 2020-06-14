@@ -76,6 +76,7 @@ export class AuthenticationService {
     public removeTokensFromStorage() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('confirmToken');
     }
 
     public refreshTokens() {
