@@ -30,11 +30,11 @@ namespace Thread_.NET.WebAPI.Controllers
 
         [HttpGet("password/reset")]
         [AllowAnonymous]
-        public async Task<ActionResult> Reset(string email, string token)
+        public async Task<ActionResult> Reset(string token)
         {
-            var confirmKey = await _authService.Reset(email, token);
-            var uri = $"https://{Request.Host.Host + Request.Host.Port}/profile?confirmKey={confirmKey}";
-            return Redirect(uri);
+            var confirmToken = await _authService.Reset(token);
+            var url = $"http://{Request.Host.Host + ":" + 4200}/profile?confirmToken={confirmToken}";
+            return Redirect(url);
         }
 
         [HttpPost("password/confirm-reset-password")]
@@ -42,7 +42,7 @@ namespace Thread_.NET.WebAPI.Controllers
         {
             var userId = this.GetUserIdFromToken();
             var protocol = Request.IsHttps ? "https" : "http";
-            var uri = $"{protocol}://{Request.Host.Host + Request.Host.Port}/api/auth/password/reset";
+            var uri = $"{protocol}://{Request.Host.Host + ":" + Request.Host.Port}/api/auth/password/reset";
             await _emailService.SendResetPasswordLinkToEmail(userId, uri);
             return Ok();
         }
