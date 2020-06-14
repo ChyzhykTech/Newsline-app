@@ -15,6 +15,7 @@ export class SnackBarService {
         this.snackBar.open(message, '', { duration: 3000, panelClass: 'usual-snack-bar' });
     }
 
+    // TODO green color of snack bar
     public showSuccessMessage(message: any) {
         this.snackBar.open(message, '', { duration: 3000, panelClass: 'success-snack-bar' });
     }
