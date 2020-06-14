@@ -3,4 +3,5 @@ export interface UserResetPasswordDto {
     oldPassword: string;
     newPassword: string;
     confirmPassword: string;
+    confirmToken: string;
 }
