@@ -15,6 +15,10 @@ export class SnackBarService {
         this.snackBar.open(message, '', { duration: 3000, panelClass: 'usual-snack-bar' });
     }
 
+    public showSuccessMessage(message: any) {
+        this.snackBar.open(message, '', { duration: 3000, panelClass: 'usual-snack-bar' });
+    }
+
     public showLikeMessage(likeSnackbar: LikeSnackbar) {
         this.snackBar.openFromComponent(LikeSnackbarComponent,  
             {duration: 3000 , horizontalPosition: 'right', data: likeSnackbar });
