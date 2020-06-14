@@ -96,6 +96,14 @@ export class AuthenticationService {
         return localStorage.getItem('accessToken');
     }
 
+    public get confirmToken() {
+        return localStorage.getItem('confirmToken');
+    }
+
+    public setConfirmToken(confirmToken: string) {
+        localStorage.setItem("confirmToken", confirmToken);
+    }
+
     private _handleAuthResponse(observable: Observable<HttpResponse<AuthUser>>) {
         return observable.pipe(
             map((resp) => {
@@ -106,6 +114,8 @@ export class AuthenticationService {
             })
         );
     }
+
+    
 
     private _setTokens(tokens: AccessTokenDto) {
         if (tokens && tokens.accessToken && tokens.refreshToken) {
