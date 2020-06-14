@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { User } from 'src/app/models/user';
 import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password-dialog',
@@ -33,6 +34,7 @@ export class ResetPasswordDialogComponent implements OnInit {
 
   constructor( 
     @Inject(MAT_DIALOG_DATA) public data: boolean,
+    private router: Router,
     private dialogRef: MatDialogRef<ResetPasswordDialogComponent>,
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
@@ -74,11 +76,13 @@ export class ResetPasswordDialogComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
         if(resp) {
-          this.submitted = false;
-          this.close();
+          this.submitted = this.allowEditPassword = this.isConfirmed = false;
           this.snackBarService.showSuccessMessage("New password saved");
+          this.authService.logout();
+          this.close();
+          this.router.navigate(["/"]);
         }
-      });
+      }, (err) => this.snackBarService.showErrorMessage(err));
   }
 
   public confirm() {
