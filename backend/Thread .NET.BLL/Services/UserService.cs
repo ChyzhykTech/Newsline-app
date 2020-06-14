@@ -39,6 +39,16 @@ namespace Thread_.NET.BLL.Services
 
         public async Task<UserDTO> ResetPassword(UserResetPasswordDTO resetPasswordDTO)
         {
+            var confirmPasswordResetToken = await _context.PasswordResetTokens
+                .Select(t => t.ConfirmToken)
+                .Where(t => t == resetPasswordDTO.ConfirmToken)
+                .FirstOrDefaultAsync();
+                
+            if (confirmPasswordResetToken == null)
+            {
+                throw new InvalidConfirmPasswordTokenException();
+            }
+
             var userEntity = await GetUserByIdInternal(resetPasswordDTO.UserId);
             var salt = SecurityHelper.GetRandomBytes();
 
