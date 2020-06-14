@@ -48,10 +48,10 @@ namespace Thread_.NET.BLL.Services
             };
         }
 
-        public async Task<string> Reset(string email, string token)
+        public async Task<string> Reset(string token)
         {
             var passwordResetTokenEntity = await _context.PasswordResetTokens
-                .Include(u => u.User)
+                .Include(t => t.User)
                 .FirstOrDefaultAsync(t => t.Token == token);
 
             if (passwordResetTokenEntity.User == null)
@@ -59,7 +59,7 @@ namespace Thread_.NET.BLL.Services
                 throw new NotFoundException(nameof(User));
             }
 
-            if (!SecurityHelper.ValidatePasswordResetOrConfirmToken(token, passwordResetTokenEntity.Token) && passwordResetTokenEntity.User.Email != email)
+            if (!SecurityHelper.ValidatePasswordResetOrConfirmToken(token, passwordResetTokenEntity.Token))
             {               
                 throw new InvalidPasswordResetTokenException();
             }
