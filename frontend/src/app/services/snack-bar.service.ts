@@ -16,7 +16,7 @@ export class SnackBarService {
     }
 
     public showSuccessMessage(message: any) {
-        this.snackBar.open(message, '', { duration: 3000, panelClass: 'usual-snack-bar' });
+        this.snackBar.open(message, '', { duration: 3000, panelClass: 'success-snack-bar' });
     }
 
     public showLikeMessage(likeSnackbar: LikeSnackbar) {
