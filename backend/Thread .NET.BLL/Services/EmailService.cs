@@ -41,7 +41,7 @@ namespace Thread_.NET.BLL.Services
 		{
 			var user = await _userService.GetUserEntityById(userId);
 			var token = await _authService.GeneratePasswordResetToken(user.Id);
-			var parameters = $"?email={user.Email}&token={token}";
+			var parameters = $"?token={token}";
 			var message = GetAbstractMimeMessage();
 			message.To.Add(new MailboxAddress(user.UserName, user.Email));
 			message.Subject = "Reset password";
