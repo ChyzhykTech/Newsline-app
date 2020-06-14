@@ -13,6 +13,7 @@ import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
 import { EditComment } from 'src/app/models/comment/edit-comment';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ShareByEmailSheetService } from 'src/app/services/share-by-email-sheet.service';
 
 @Component({
     selector: 'app-post',
@@ -39,6 +40,7 @@ export class PostComponent implements OnDestroy, OnInit {
     public constructor(
         private authService: AuthenticationService,
         private authDialogService: AuthDialogService,
+        private sheetService: ShareByEmailSheetService,
         private likeService: LikeService,
         private commentService: CommentService,
         private snackBarService: SnackBarService
@@ -143,6 +145,17 @@ export class PostComponent implements OnDestroy, OnInit {
             .dislikePost(this.post, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((post) => (this.setPostData(post)));
+    }
+
+    public openShareSheet() {
+        if (!this.currentUser) {
+            this.catchErrorWrapper(this.authService.getUser())
+                .pipe(takeUntil(this.unsubscribe$))
+                .subscribe(() => (this.sheetService.open()));
+
+            return;
+        }
+        this.sheetService.open();
     }
 
     public sendComment() {
