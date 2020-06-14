@@ -34,4 +34,8 @@ export class PostService {
     public dislikePost(reaction: NewNegativeReaction) {
         return this.httpService.postFullRequest<Post>(`${this.routePrefix}/dislike`, reaction);
     }
+
+    public sharePostByEmail(email: string) {
+        return this.httpService.postFullRequest<Post>(`${this.routePrefix}/share-post-by-email`, {email});
+    }
 }
