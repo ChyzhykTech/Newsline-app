@@ -40,6 +40,10 @@ export class AuthenticationService {
         this.eventService.userChanged(user);
     }
 
+    public confirmResetPassword() {
+        return this.httpService.postFullRequest(`${this.routePrefix}/auth/password/confirm-reset-password`, {});
+    }
+
     public resetPassword(userPasswords: UserResetPasswordDto) {
         return this._handleAuthResponse(this.httpService.patchFullRequest<AuthUser>(`${this.routePrefix}/register`, userPasswords));
     }
@@ -72,6 +76,7 @@ export class AuthenticationService {
     public removeTokensFromStorage() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('confirmToken');
     }
 
     public refreshTokens() {
@@ -92,6 +97,14 @@ export class AuthenticationService {
         return localStorage.getItem('accessToken');
     }
 
+    public get confirmToken() {
+        return localStorage.getItem('confirmToken');
+    }
+
+    public setConfirmToken(confirmToken: string) {
+        localStorage.setItem("confirmToken", confirmToken);
+    }
+
     private _handleAuthResponse(observable: Observable<HttpResponse<AuthUser>>) {
         return observable.pipe(
             map((resp) => {
@@ -102,6 +115,8 @@ export class AuthenticationService {
             })
         );
     }
+
+    
 
     private _setTokens(tokens: AccessTokenDto) {
         if (tokens && tokens.accessToken && tokens.refreshToken) {

@@ -48,6 +48,32 @@ namespace Thread_.NET.BLL.Services
             };
         }
 
+        public async Task<string> Reset(string token)
+        {
+            var passwordResetTokenEntity = await _context.PasswordResetTokens
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(t => t.Token == token);
+
+            if (passwordResetTokenEntity.User == null)
+            {
+                throw new NotFoundException(nameof(User));
+            }
+
+            if (!SecurityHelper.ValidatePasswordResetOrConfirmToken(token, passwordResetTokenEntity.Token))
+            {               
+                throw new InvalidPasswordResetTokenException();
+            }
+
+            if (!passwordResetTokenEntity.IsActive)
+            {
+                _context.PasswordResetTokens.Remove(passwordResetTokenEntity);
+                await _context.SaveChangesAsync();
+                throw new ExpiredPasswordResetTokenException();
+            }
+            var confirmToken = await GenerateConfirmPasswordKey(passwordResetTokenEntity);
+            return confirmToken;
+        }
+
         public async Task<AccessTokenDTO> GenerateAccessToken(int userId, string userName, string email)
         {
             var refreshToken = _jwtFactory.GenerateRefreshToken();
@@ -113,6 +139,31 @@ namespace Thread_.NET.BLL.Services
 
             _context.RefreshTokens.Remove(rToken);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<string> GeneratePasswordResetToken(int userId)
+        {
+            var token = _jwtFactory.GeneratePasswordResetToken();
+            _context.PasswordResetTokens.Add(new PasswordResetToken
+            {
+                UserId = userId,
+                Token = token
+            });
+
+            await _context.SaveChangesAsync();
+            return token;
+        }
+
+        public async Task<string> GenerateConfirmPasswordKey(PasswordResetToken resetToken)
+        {
+            var confirmToken = _jwtFactory.GeneratePasswordResetToken();
+
+            resetToken.ConfirmToken = confirmToken;
+
+            _context.PasswordResetTokens.Update(resetToken);
+            await _context.SaveChangesAsync();
+            
+            return confirmToken;
         }
     }
 }

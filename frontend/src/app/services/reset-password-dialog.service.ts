@@ -17,10 +17,11 @@ export class ResetPasswordDialogService implements OnDestroy {
     private authService: AuthenticationService
   ) { }
 
-  public openResetPasswordDialog() {
+  public openResetPasswordDialog(withOpenResetPassFields: boolean = false) {
     const dialog = this.dialog.open(ResetPasswordDialogComponent, {
         minWidth: 300,
         autoFocus: true,
+        data: withOpenResetPassFields,
         backdropClass: 'dialog-backdrop',
     });
 

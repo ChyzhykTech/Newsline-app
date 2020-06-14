@@ -37,8 +37,18 @@ namespace Thread_.NET.BLL.Services
             return _mapper.Map<UserDTO>(user);
         }
 
+        //Test else this method
         public async Task<UserDTO> ResetPassword(UserResetPasswordDTO resetPasswordDTO)
         {
+            var confirmPasswordResetToken = await _context.PasswordResetTokens
+                .Where(t => t.ConfirmToken == resetPasswordDTO.ConfirmToken)
+                .FirstOrDefaultAsync();
+                
+            if (confirmPasswordResetToken == null)
+            {
+                throw new InvalidConfirmPasswordTokenException();
+            }
+
             var userEntity = await GetUserByIdInternal(resetPasswordDTO.UserId);
             var salt = SecurityHelper.GetRandomBytes();
 
@@ -46,6 +56,7 @@ namespace Thread_.NET.BLL.Services
             userEntity.Password = SecurityHelper.HashPassword(resetPasswordDTO.NewPassword, salt);
 
             _context.Users.Update(userEntity);
+            _context.PasswordResetTokens.Remove(confirmPasswordResetToken);
             await _context.SaveChangesAsync();
 
             return _mapper.Map<UserDTO>(userEntity);
