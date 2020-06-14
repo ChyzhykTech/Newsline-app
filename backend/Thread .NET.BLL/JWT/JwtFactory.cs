@@ -53,7 +53,7 @@ namespace Thread_.NET.BLL.JWT
 
         public string GeneratePasswordResetToken()
         {
-            return Convert.ToBase64String(SecurityHelper.GetRandomBytes());
+            return SecurityHelper.GetRandomToken();
         }
 
         public string GenerateRefreshToken()
