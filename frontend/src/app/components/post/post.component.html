@@ -5,7 +5,7 @@
     <div class="date">{{post.createdAt | date:'d/M/yy, h:mm a'}}</div>
     <button *ngIf="isAuthor()" mat-icon-button class="button-to-right" (click)="deletePost(post.id)"><mat-icon color="warn">clear</mat-icon></button>
   </mat-card-header>
-  <img mat-card-image *ngIf="post.previewImage" src="{{post.previewImage}}" alt="Photo">
+  <img mat-card-image (click)="showSinglePost(post.id)" *ngIf="post.previewImage" src="{{post.previewImage}}" alt="Photo">
   <mat-card-content>
     <p>{{post.body}}</p>
   </mat-card-content>
@@ -21,7 +21,7 @@
       <mat-icon matBadge="{{post.reactions.length}}" matBadgeColor="accent" matBadgeSize="medium"
         [matBadgeHidden]="post.reactions.length === 0" aria-label="Like">favorite</mat-icon>
     </button>
-    <button  mat-icon-button color="accent" (click)="openShareSheet()">
+    <button  mat-icon-button color="accent" (click)="openShareSheet(post)">
       <mat-icon aria-label="Share">share</mat-icon>
     </button>
     <button mat-icon-button color="basic" (click)=" toggleComments()">
