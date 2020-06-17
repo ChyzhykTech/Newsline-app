@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, Output, OnInit, EventEmitter, ViewChildren, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, Output, OnInit, EventEmitter, ViewChildren, ViewChild, OnChanges } from '@angular/core';
 import { Post } from '../../models/post/post';
 import { AuthenticationService } from '../../services/auth.service';
 import { AuthDialogService } from '../../services/auth-dialog.service';
@@ -13,6 +13,8 @@ import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 import { SnackBarService } from '../../services/snack-bar.service';
 import { EditComment } from 'src/app/models/comment/edit-comment';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ShareByEmailSheetService } from 'src/app/services/share-by-email-sheet.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-post',
@@ -23,6 +25,7 @@ export class PostComponent implements OnDestroy, OnInit {
 
     @Input() public post: Post;
     @Input() public currentUser: User;
+    @Input() public asSinglePost: boolean = false;
     @Output() public deleteClick = new EventEmitter<number>();
     @Output() public editClick = new EventEmitter<number>();
     @Output() private likedPost = new EventEmitter<Post>();
@@ -39,9 +42,11 @@ export class PostComponent implements OnDestroy, OnInit {
     public constructor(
         private authService: AuthenticationService,
         private authDialogService: AuthDialogService,
+        private sheetService: ShareByEmailSheetService,
         private likeService: LikeService,
         private commentService: CommentService,
-        private snackBarService: SnackBarService
+        private snackBarService: SnackBarService,
+        private router: Router
     ) { }
 
     public ngOnDestroy() {
@@ -51,6 +56,11 @@ export class PostComponent implements OnDestroy, OnInit {
 
     public ngOnInit() {
         this.setLikePhotos();
+        this.showComments = this.asSinglePost;
+    }
+
+    public showSinglePost(postId: number) {
+        this.router.navigate(["thread"], { queryParams: {postId}});
     }
 
     public deletePost(postId: number) {
@@ -143,6 +153,17 @@ export class PostComponent implements OnDestroy, OnInit {
             .dislikePost(this.post, this.currentUser)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((post) => (this.setPostData(post)));
+    }
+
+    public openShareSheet(post: Post) {
+        if (!this.currentUser) {
+            this.catchErrorWrapper(this.authService.getUser())
+                .pipe(takeUntil(this.unsubscribe$))
+                .subscribe(() => (this.sheetService.open(post)));
+
+            return;
+        }
+        this.sheetService.open(post);
     }
 
     public sendComment() {

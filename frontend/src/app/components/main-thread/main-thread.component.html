@@ -49,6 +49,7 @@
     </mat-toolbar>
     <div *ngFor="let _post of posts" class="user-post">
       <app-post [post]="_post" [currentUser]="currentUser"
+        [asSinglePost]="asSinglePost"
         (likedPost)="onNotifyUserByPost($event)"
         (editClick)="onEditPost($event)"
         (deleteClick)="onDeletePost($event)"></app-post>

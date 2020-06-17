@@ -13,15 +13,13 @@ namespace Thread_.NET.BLL.Services
     public sealed class LikeService : BaseService
     {
         private readonly IHubContext<PostHub> _postHub;
-        private readonly EmailService _emailService;
 
-        public LikeService(ThreadContext context, IMapper mapper, IHubContext<PostHub> postHub, EmailService emailService) : base(context, mapper) 
+        public LikeService(ThreadContext context, IMapper mapper, IHubContext<PostHub> postHub) : base(context, mapper) 
         {
             _postHub = postHub;
-            _emailService = emailService;
         }
 
-        public async Task LikePost(NewReactionDTO reaction)
+        public async Task<bool> LikePost(NewReactionDTO reaction)
         {
             var likes = _context.PostReactions.Where(x => x.UserId == reaction.UserId && x.PostId == reaction.EntityId);
 
@@ -30,7 +28,7 @@ namespace Thread_.NET.BLL.Services
                 _context.PostReactions.RemoveRange(likes);
                 await _context.SaveChangesAsync();
 
-                return;
+                return false;
             }
 
             _context.PostReactions.Add(new DAL.Entities.PostReaction
@@ -41,7 +39,7 @@ namespace Thread_.NET.BLL.Services
             });
 
             await _context.SaveChangesAsync();
-            await _emailService.SendLikeMessageToEmail(reaction.EntityId, reaction.UserId);
+            return true;
         }
 
         public async Task DislikePost(NewNegativeReactionDTO reaction)

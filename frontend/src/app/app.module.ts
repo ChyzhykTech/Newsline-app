@@ -20,14 +20,17 @@ import { LikeTooltipComponent } from './components/like-tooltip/like-tooltip.com
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LikeSnackbarComponent } from './components/like-snackbar/like-snackbar.component';
 import { ResetPasswordDialogComponent } from './components/reset-password-dialog/reset-password-dialog.component';
+import { ShareByEmailSheetComponent } from './components/share-by-email-sheet/share-by-email-sheet.component';
+import { MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 @NgModule({
-    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent, LikeSnackbarComponent, ResetPasswordDialogComponent],
-    imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, MaterialComponentsModule, RouterModule.forRoot(AppRoutes), FormsModule, ReactiveFormsModule, NgbModule],
+    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent, LikeSnackbarComponent, ResetPasswordDialogComponent, ShareByEmailSheetComponent],
+    imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, MaterialComponentsModule, RouterModule.forRoot(AppRoutes), FormsModule, ReactiveFormsModule, NgbModule, MatBottomSheetModule],
     exports: [MaterialComponentsModule],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: MatBottomSheetRef, useValue: {} }
     ],
     bootstrap: [AppComponent]
 })

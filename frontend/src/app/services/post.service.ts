@@ -4,6 +4,7 @@ import { Post } from '../models/post/post';
 import { NewReaction } from '../models/reactions/newReaction';
 import { NewPost } from '../models/post/new-post';
 import { NewNegativeReaction } from '../models/negativeReactions/newNegativeReaction';
+import { SharePostByEmail } from '../models/post/share-post-by-email';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -33,5 +34,9 @@ export class PostService {
 
     public dislikePost(reaction: NewNegativeReaction) {
         return this.httpService.postFullRequest<Post>(`${this.routePrefix}/dislike`, reaction);
+    }
+
+    public sharePostByEmail(sharePost: SharePostByEmail) {
+        return this.httpService.postFullRequest<Post>(`${this.routePrefix}/share-post-by-email`, sharePost);
     }
 }

@@ -6,6 +6,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 export const AppRoutes: Routes = [
     { path: '', component: MainThreadComponent, pathMatch: 'full' },
     { path: 'thread', component: MainThreadComponent, pathMatch: 'full' },
+    { path: 'thread/:postId', component: MainThreadComponent, pathMatch: 'full' },
     { path: 'profile', component: UserProfileComponent, pathMatch: 'full', canActivate: [AuthGuard] },
     { path: '**', redirectTo: '' }
 ];

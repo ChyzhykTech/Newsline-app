@@ -1,22 +1,24 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
+using System;
 using System.Threading.Tasks;
-using Thread_.NET.BLL.Extensions;
+using Thread_.NET.BLL.Exceptions;
+using Thread_.NET.BLL.Services;
 using Thread_.NET.BLL.Services.Abstract;
+using Thread_.NET.Common.DTO.Post;
 using Thread_.NET.DAL.Context;
 using Thread_.NET.DAL.Entities;
+using static Thread_.NET.Mail.Smtp.SmtpOptions;
 
-namespace Thread_.NET.BLL.Services
+namespace Thread_.NET.Mail.Services
 {
     public class EmailService : BaseService
     {
-		private readonly PostService _postService;
 		private readonly UserService _userService;
 		private readonly AuthService _authService;
 
-		public EmailService(ThreadContext context, PostService postService, UserService userService, AuthService authService) : base(context) 
+		public EmailService(ThreadContext context, UserService userService, AuthService authService) : base(context) 
 		{
-			_postService = postService;
 			_userService = userService;
 			_authService = authService;
 		}
@@ -53,6 +55,25 @@ namespace Thread_.NET.BLL.Services
 			SendMail(message);
 		}
 
+		public void SendPostByEmail(SharePostByEmailDTO sharePost)
+		{
+			if (sharePost.Post == null)
+			{
+				throw new NotFoundException("Post was not found");
+			}
+			var link = $"http://localhost:4200/thread?postId={sharePost.Post.Id}";
+			var message = GetAbstractMimeMessage();
+			message.To.Add(new MailboxAddress(sharePost.Email, sharePost.Email));
+			message.Subject = "Share post";
+
+			message.Body = new TextPart("plain")
+			{
+				Text = $"Your recived link to post. Click ---->    {link}"
+			};
+
+			SendMail(message);
+		}
+
 		private async Task<User> GetUserByPostId(int postId) => await _userService.GetUserEntityByPostId(postId);
 
 		private async Task<User> GetUserById(int userId) => await _userService.GetUserEntityById(userId);
@@ -60,17 +81,19 @@ namespace Thread_.NET.BLL.Services
 		private MimeMessage GetAbstractMimeMessage()
 		{
 			var message = new MimeMessage();
-			message.From.Add(new MailboxAddress(this.GetAuthor(), this.GetEmail()));
+			message.From.Add(new MailboxAddress(GetAuthor(), GetEmail()));
 			return message;
 		}
 
 		private void SendMail(MimeMessage message)
 		{
-			using var client = new SmtpClient();
-			client.Connect(this.GetSmtp(), this.GetPort(), true);
-			client.Authenticate(this.GetEmail(), this.GetSmtpPassword());
-			client.Send(message);
-			client.Disconnect(true);
+			using (var client = new SmtpClient()) 
+			{
+				client.Connect(GetSmtp(), GetPort(), true);
+				client.Authenticate(GetEmail(), GetSmtpPassword());
+				client.Send(message);
+				client.Disconnect(true);
+			}			
 		}
     }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Thread_.NET.BLL.Services;
 using Thread_.NET.Common.DTO.User;
 using Thread_.NET.Extensions;
+using Thread_.NET.Mail.Services;
 
 namespace Thread_.NET.WebAPI.Controllers
 {
