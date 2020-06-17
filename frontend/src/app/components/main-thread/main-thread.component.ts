@@ -29,6 +29,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public posts: Post[] = [];
   public cachedPosts: Post[] = [];
   public authUsersInHub: HubUser[] = [];
+  public hideOwnPosts = false;
   public isOnlyMine = false;
   public isOnlyLiked = false;
   public isEditMode = false;
@@ -60,11 +61,9 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.postHubService.stopHub();
-    console.log('ngOnDestroy')
   }
 
   public ngOnInit() {
-    console.log('ngOnInit')
     this.registerHubHandlers();
     this.getPosts();
     this.getUser();   
@@ -74,11 +73,6 @@ export class MainThreadComponent implements OnInit, OnDestroy {
         this.currentUser = user;
         this.post.authorId = this.currentUser ? this.currentUser.id : undefined;
       });    
-  }
-
-  private isSinglePost() {
-    const prevUrl = this.routerExt.getPreviousUrl();
-    this.asSinglePost = (prevUrl === '/')
   }
 
   public onNotifyUserByPost(post: Post) {
@@ -198,9 +192,30 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     this.editablePost.previewImage = null;
   }
 
+  public hideSliderChanged(event: MatSlideToggleChange) {
+    if (event.checked) {
+
+      if (this.isOnlyMine) {
+        this.isOnlyMine = !this.isOnlyMine;
+      }
+
+      this.hideOwnPosts = true;
+
+    } else {
+      this.hideOwnPosts = false;
+    }
+    this.posts = this.showPostsByFilterParams();
+  }
+
   public sliderChanged(event: MatSlideToggleChange) {
     if (event.checked) {
+
+      if(this.hideOwnPosts) {
+        this.hideOwnPosts = !this.hideOwnPosts;
+      }
+
       this.isOnlyMine = true;
+
     } else {
       this.isOnlyMine = false;
     }
@@ -296,13 +311,16 @@ export class MainThreadComponent implements OnInit, OnDestroy {
 
   private showPostsByFilterParams() {
     this.resetVisiblePosts();
-    let isOnlyMine = [];
+    let filteringArr = [];
     let isOnlyLiked = [];
 
     if(!this.isOnlyMine && !this.isOnlyLiked) return this.cachedPosts;
 
-    if (this.isOnlyMine) {
-      isOnlyMine = this.cachedPosts.filter(
+    if(this.hideOwnPosts) {
+      filteringArr = this.cachedPosts.filter(
+        (x) => x.author.id !== this.currentUser.id);
+    } else if (this.isOnlyMine) {
+      filteringArr = this.cachedPosts.filter(
         (x) => x.author.id === this.currentUser.id);
     }
 
@@ -317,7 +335,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
         });
     }
 
-    let filterRes = [...isOnlyMine, ...isOnlyLiked];
+    let filterRes = [...filteringArr, ...isOnlyLiked];
 
     return filterRes.length > 0 ? this.sortPostArray(filterRes) : [];
   }
