@@ -16,6 +16,8 @@ import { SnackBarService } from "../../services/snack-bar.service";
 import { HubUser } from 'src/app/models/hub-user';
 import { LikeSnackbar } from 'src/app/models/snackbar/like-snackbar';
 import { PostHubService } from 'src/app/services/post-hub.service';
+import { ActivatedRoute } from '@angular/router';
+import { RouterExtService } from 'src/app/services/router-ext.service';
 
 @Component({
   selector: "app-main-thread",
@@ -23,6 +25,7 @@ import { PostHubService } from 'src/app/services/post-hub.service';
   styleUrls: ["./main-thread.component.sass"],
 })
 export class MainThreadComponent implements OnInit, OnDestroy {
+  public asSinglePost: boolean = false;
   public posts: Post[] = [];
   public cachedPosts: Post[] = [];
   public authUsersInHub: HubUser[] = [];
@@ -42,6 +45,8 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
   public constructor(
+    private route: ActivatedRoute,
+    private routerExt: RouterExtService,
     private snackBarService: SnackBarService,
     private authService: AuthenticationService,
     private postService: PostService,
@@ -55,9 +60,11 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.postHubService.stopHub();
+    console.log('ngOnDestroy')
   }
 
   public ngOnInit() {
+    console.log('ngOnInit')
     this.registerHubHandlers();
     this.getPosts();
     this.getUser();   
@@ -66,7 +73,12 @@ export class MainThreadComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         this.currentUser = user;
         this.post.authorId = this.currentUser ? this.currentUser.id : undefined;
-      });
+      });    
+  }
+
+  private isSinglePost() {
+    const prevUrl = this.routerExt.getPreviousUrl();
+    this.asSinglePost = (prevUrl === '/')
   }
 
   public onNotifyUserByPost(post: Post) {
@@ -75,7 +87,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     if (hubUser !== undefined) {
       connection.invoke("SendLike", hubUser.connectionId, post.id)
         .catch((err) => this.snackBarService.showErrorMessage(err));
-    }   
+    }       
   }
 
   public onDeletePost(postId: number) {
@@ -123,6 +135,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
         (resp) => {
           this.loadingPosts = false;
           this.posts = this.cachedPosts = resp.body;
+          this.setSelectedPostFromQueryParams();
         },
         (error) => (this.loadingPosts = false)
       );
@@ -253,6 +266,21 @@ export class MainThreadComponent implements OnInit, OnDestroy {
         this.posts = this.sortPostArray(this.posts.concat(newPost));
       }
     }
+  }
+
+  private setSelectedPostFromQueryParams() {
+    this.route.queryParams
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(params => {
+         let postId = params["postId"];
+         if (postId !== null && postId !== undefined) {
+            this.posts = this.cachedPosts.filter(post => post.id == postId);
+            this.asSinglePost = true;
+          } else {
+            this.asSinglePost = false;
+          }
+          console.log(this.asSinglePost)
+      });
   }
 
   private updatePost(updatedPost: Post) {
