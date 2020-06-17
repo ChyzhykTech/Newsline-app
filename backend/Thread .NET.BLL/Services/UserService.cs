@@ -44,7 +44,7 @@ namespace Thread_.NET.BLL.Services
                 .Where(t => t.ConfirmToken == resetPasswordDTO.ConfirmToken)
                 .FirstOrDefaultAsync();
                 
-            if (confirmPasswordResetToken == null)
+            if (confirmPasswordResetToken == null && confirmPasswordResetToken.ConfirmToken == null)
             {
                 throw new InvalidConfirmPasswordTokenException();
             }
