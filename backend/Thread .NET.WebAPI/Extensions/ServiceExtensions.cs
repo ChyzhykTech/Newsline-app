@@ -17,6 +17,7 @@ using Thread_.NET.BLL.Services;
 using Thread_.NET.Common.Auth;
 using Thread_.NET.Common.DTO.Auth;
 using Thread_.NET.Common.DTO.User;
+using Thread_.NET.Mail.Services;
 using Thread_.NET.Validators;
 
 namespace Thread_.NET.Extensions
