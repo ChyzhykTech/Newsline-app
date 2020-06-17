@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.28721.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thread .NET.WebAPI", "Thread .NET.WebAPI\Thread .NET.WebAPI.csproj", "{56CAC359-EB3F-4607-9C20-6BDF8532791A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread .NET.BLL", "Thread .NET.BLL\Thread .NET.BLL.csproj", "{69349A18-A473-430A-A9A6-28B13EC594F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thread .NET.BLL", "Thread .NET.BLL\Thread .NET.BLL.csproj", "{69349A18-A473-430A-A9A6-28B13EC594F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread .NET.DAL", "Thread .NET.DAL\Thread .NET.DAL.csproj", "{3CD02A99-6881-4688-836E-B54284AA0B11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thread .NET.DAL", "Thread .NET.DAL\Thread .NET.DAL.csproj", "{3CD02A99-6881-4688-836E-B54284AA0B11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread .NET.Common", "Thread .NET.Common\Thread .NET.Common.csproj", "{16E895B4-617A-413F-81AD-6B6FC3EEFF5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thread .NET.Common", "Thread .NET.Common\Thread .NET.Common.csproj", "{16E895B4-617A-413F-81AD-6B6FC3EEFF5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread .NET.Mail", "Thread .NET.Mail\Thread .NET.Mail.csproj", "{F841B75D-A0FA-45D0-AB3B-E9632025BA91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{16E895B4-617A-413F-81AD-6B6FC3EEFF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16E895B4-617A-413F-81AD-6B6FC3EEFF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16E895B4-617A-413F-81AD-6B6FC3EEFF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F841B75D-A0FA-45D0-AB3B-E9632025BA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F841B75D-A0FA-45D0-AB3B-E9632025BA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F841B75D-A0FA-45D0-AB3B-E9632025BA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F841B75D-A0FA-45D0-AB3B-E9632025BA91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
