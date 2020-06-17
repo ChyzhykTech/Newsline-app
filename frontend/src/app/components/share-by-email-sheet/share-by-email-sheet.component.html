@@ -1,29 +1,31 @@
-<h2 mat-dialog-title class="title">Please enter email</h2>
-<div mat-dialog-content *ngIf="!loading">
-  <form [formGroup]="authForm" class="main-content">
-   
-    <mat-form-field>
-      <mat-label>Email address</mat-label>
-      <input formControlName="email" [(ngModel)]="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors,
-      'is-valid': submitted && !f.email.errors}" matInput placeholder="Old password">
-      <mat-error *ngIf="submitted && f.oldPassword.errors">
-        Please enter a valid email.
-      </mat-error>
-    </mat-form-field>
-
-  </form>
-</div>
-
-<div class="actions" *ngIf="!loading">
-  <button mat-raised-button (click)="close()">Back</button>
-  <button mat-raised-button color="accent"
-    (click)="share()">share</button>
-</div>
-
-<div *ngIf="isSent && !loading">
-  Shared!
-</div>
-
-<div  class="mat-spinner-wrapper position-relative">
-  <mat-spinner *ngIf="loading"></mat-spinner>
+<div class="main-content">
+  <h2 mat-dialog-title class="title">Please enter email</h2>
+  <div mat-dialog-content *ngIf="!loading">
+    <form [formGroup]="shareForm" class="main-content">
+    
+      <mat-form-field>
+        <mat-label>Email address</mat-label>
+        <input formControlName="email" class="text-center" [(ngModel)]="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors,
+        'is-valid': submitted && !f.email.errors}" matInput placeholder="Enter email">
+        <mat-error *ngIf="submitted && f.email.errors">
+          Please enter a valid email.
+        </mat-error>
+      </mat-form-field>
+  
+    </form>
+  </div>
+  
+  <div class="actions" *ngIf="!loading" >
+    <button mat-raised-button (click)="cancel()">cancel</button>
+    <button mat-raised-button color="accent"
+      (click)="share()">share</button>
+  </div>
+  
+  <div *ngIf="isSent && !loading">
+    Shared!
+  </div>
+  
+  <div *ngIf="loading" class="mat-spinner-wrapper position-relative">
+    <mat-spinner ></mat-spinner>
+  </div>
 </div>
