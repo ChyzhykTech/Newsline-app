@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@aspnet/signalr';
 import { AuthenticationService } from './auth.service';
 import { SnackBarService } from './snack-bar.service';
 
@@ -22,7 +22,10 @@ export class PostHubService  {
   }
 
   public getConnection() {
-      return this.hubConnection;
+    if (this.hubConnection.state === HubConnectionState.Disconnected) {
+      this.startHub();
+    }
+    return this.hubConnection;
   }
 
   public reloadConnection() {
