@@ -120,25 +120,37 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getPosts() {
+  public loadMorePosts() {
+    if (this.loadingPosts) { return; }
+    this.threadPage++;
     this.loadingPosts = true;
     this.postService
-      .getPosts(this.pageSize, this.threadPage)
+      .getMorePosts(this.pageSize, this.threadPage, this.isOnlyMine)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (resp) => {
           this.loadingPosts = false;
-          if(this.cachedPosts.length === 0 || this.cachedPosts === null || this.cachedPosts === undefined) {
-            this.posts = this.cachedPosts = resp.body;
-          } else {
-            let newPosts = resp.body;
-            newPosts.forEach((newPost) => {
-              this.cachedPosts.push(newPost)
-            });
-            this.posts = this.cachedPosts;
-          }         
+          let newPosts = resp.body;
+          newPosts.forEach((newPost) => {
+            this.cachedPosts.push(newPost);                    
+          });
+          this.posts = this.showPostsByFilterParams();    
           this.setSelectedPostFromQueryParams();
-          this.threadPage++;
+        },
+        (error) => (this.loadingPosts = false)
+      );
+  }
+
+  public getPosts() {
+    this.loadingPosts = true;
+    this.postService
+      .getPosts()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (resp) => {
+          this.loadingPosts = false;
+          this.posts = this.cachedPosts = resp.body;      
+          this.setSelectedPostFromQueryParams();
         },
         (error) => (this.loadingPosts = false)
       );
@@ -322,7 +334,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     let filteringArr = [];
     let isOnlyLiked = [];
 
-    if(!this.isOnlyMine && !this.isOnlyLiked) return this.cachedPosts;
+    if(!this.isOnlyMine && !this.isOnlyLiked && !this.hideOwnPosts) return this.cachedPosts;
 
     if(this.hideOwnPosts) {
       filteringArr = this.cachedPosts.filter(
