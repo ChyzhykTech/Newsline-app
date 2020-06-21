@@ -20,8 +20,8 @@ export class PostService {
         return this.httpService.putFullRequest<Post>(`${this.routePrefix}`, post);    
     }
 
-    public getPosts() {
-        return this.httpService.getFullRequest<Post[]>(`${this.routePrefix}`);
+    public getPosts(pageSize: number, threadPage: number) {
+        return this.httpService.getFullRequest<Post[]>(`${this.routePrefix}/all?threadSize=${pageSize}&threadPage=${threadPage}`);
     }
 
     public createPost(post: NewPost) {
