@@ -11,6 +11,7 @@ import { InfiniteScrollOptions } from 'src/app/helpers/InfiniteScrollOptions';
 export class InfinityScrollComponent implements AfterViewInit, OnDestroy {
 
   @Input() options: Partial<InfiniteScrollOptions> = {};
+  @Input() loading: boolean;
 
   @Output() scrolled = new EventEmitter<void>();
 
