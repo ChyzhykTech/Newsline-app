@@ -33,3 +33,6 @@ import '@angular/localize/init';
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+ /** IntersectionObserver polyfill for IE and Edge */
+import 'intersection-observer';
