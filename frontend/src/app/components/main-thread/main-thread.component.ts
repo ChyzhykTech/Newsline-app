@@ -17,12 +17,11 @@ import { HubUser } from 'src/app/models/hub-user';
 import { LikeSnackbar } from 'src/app/models/snackbar/like-snackbar';
 import { PostHubService } from 'src/app/services/post-hub.service';
 import { ActivatedRoute } from '@angular/router';
-import { RouterExtService } from 'src/app/services/router-ext.service';
 
 @Component({
   selector: "app-main-thread",
   templateUrl: "./main-thread.component.html",
-  styleUrls: ["./main-thread.component.sass"],
+  styleUrls: ["./main-thread.component.sass"]
 })
 export class MainThreadComponent implements OnInit, OnDestroy {
   public asSinglePost: boolean = false;
@@ -43,11 +42,12 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public loading = false;
   public loadingPosts = false;
 
+  private pageSize = 5;
+  private threadPage = 1;
   private unsubscribe$ = new Subject<void>();
-
+ 
   public constructor(
     private route: ActivatedRoute,
-    private routerExt: RouterExtService,
     private snackBarService: SnackBarService,
     private authService: AuthenticationService,
     private postService: PostService,
@@ -123,13 +123,22 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public getPosts() {
     this.loadingPosts = true;
     this.postService
-      .getPosts()
+      .getPosts(this.pageSize, this.threadPage)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (resp) => {
           this.loadingPosts = false;
-          this.posts = this.cachedPosts = resp.body;
+          if(this.cachedPosts.length === 0 || this.cachedPosts === null || this.cachedPosts === undefined) {
+            this.posts = this.cachedPosts = resp.body;
+          } else {
+            let newPosts = resp.body;
+            newPosts.forEach((newPost) => {
+              this.cachedPosts.push(newPost)
+            });
+            this.posts = this.cachedPosts;
+          }         
           this.setSelectedPostFromQueryParams();
+          this.threadPage++;
         },
         (error) => (this.loadingPosts = false)
       );
@@ -294,7 +303,6 @@ export class MainThreadComponent implements OnInit, OnDestroy {
           } else {
             this.asSinglePost = false;
           }
-          console.log(this.asSinglePost)
       });
   }
 
