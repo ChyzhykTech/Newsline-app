@@ -28,11 +28,11 @@ namespace Thread_.NET.WebAPI.Controllers
             _emailService = emailService;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         [AllowAnonymous]
-        public async Task<ActionResult<ICollection<PostDTO>>> Get()
+        public async Task<ActionResult<ICollection<PostDTO>>> Get(int threadSize, int threadPage)
         {
-            return Ok(await _postService.GetAllPosts());
+            return Ok(await _postService.GetPosts(threadSize, threadPage));
         }
 
         [HttpPost]
