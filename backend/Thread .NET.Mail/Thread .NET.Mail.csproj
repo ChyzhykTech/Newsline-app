@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Thread_.NET.Mail</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Thread .NET.BLL\Thread .NET.BLL.csproj" />
+    <ProjectReference Include="..\Thread .NET.DAL\Thread .NET.DAL.csproj" />
+  </ItemGroup>
+
+</Project>

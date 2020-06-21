@@ -41,11 +41,11 @@ namespace Thread_.NET.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] UserDTO user)
+        public async Task<ActionResult> Put([FromBody] UserDTO user)
         {
             await _userService.UpdateUser(user);
             return NoContent();
-        }
+        }       
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

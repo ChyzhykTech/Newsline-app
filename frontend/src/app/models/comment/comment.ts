@@ -1,5 +1,6 @@
 import { User } from '../user';
 import { Reaction } from '../reactions/reaction';
+import { NegativeReaction } from '../negativeReactions/negativeReaction';
 
 export interface Comment {
     id: number;
@@ -7,4 +8,5 @@ export interface Comment {
     author: User;
     body: string;
     reactions: Reaction[];
+    negativeReactions: NegativeReaction[];
 }

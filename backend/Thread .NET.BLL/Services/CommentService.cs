@@ -28,6 +28,24 @@ namespace Thread_.NET.BLL.Services
             return _mapper.Map<CommentDTO>(createdComment);
         }
 
+        public async Task<CommentDTO> UpdateComment(EditCommentDTO editComment)
+        {
+            var editedComment = await _context.Comments               
+                .Include(comment => comment.Author)
+                    .ThenInclude(user => user.Avatar)
+                .Where(c => c.Id == editComment.CommentId)
+                .FirstAsync();
+
+            if (editedComment != null)
+            {
+                editedComment.Body = editComment.Body;
+                _context.Comments.Update(editedComment);
+                await _context.SaveChangesAsync();
+            }
+            
+            return _mapper.Map<CommentDTO>(editedComment);
+        }
+
         public async Task<bool> DeleteComment(int commentId)
         {
             var comment = await _context.Comments.Where(c => c.Id == commentId)

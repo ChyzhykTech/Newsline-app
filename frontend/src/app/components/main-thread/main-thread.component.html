@@ -41,13 +41,17 @@
       <button mat-raised-button matTooltip="Write a post" (click)="toggleNewPostContainer()">
         <mat-icon color="accent">add_comment</mat-icon>
       </button>
-      <mat-slide-toggle (change)="sliderChanged($event)">Only mine</mat-slide-toggle>
+      <mat-slide-toggle [checked]="hideOwnPosts" (change)="hideSliderChanged($event)">Hide my posts</mat-slide-toggle>
+      <mat-slide-toggle [checked]="isOnlyLiked" (change)="likeSliderChanged($event)">Only liked</mat-slide-toggle>
+      <mat-slide-toggle [checked]="isOnlyMine" (change)="sliderChanged($event)">Only mine</mat-slide-toggle>
     </div>
     <mat-toolbar *ngIf="posts.length === 0 && !loadingPosts">
       <p class="no-content">There is nothing</p>
     </mat-toolbar>
     <div *ngFor="let _post of posts" class="user-post">
       <app-post [post]="_post" [currentUser]="currentUser"
+        [asSinglePost]="asSinglePost"
+        (likedPost)="onNotifyUserByPost($event)"
         (editClick)="onEditPost($event)"
         (deleteClick)="onDeletePost($event)"></app-post>
     </div>

@@ -10,13 +10,18 @@ import { Observable, of } from 'rxjs';
 import { User } from '../models/user';
 import { UserService } from './user.service';
 import { EventService } from './event.service';
+import { UserResetPasswordDto } from '../models/auth/user-reset-password-dto';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     public routePrefix = '/api';
     private user: User;
 
-    constructor(private httpService: HttpInternalService, private userService: UserService, private eventService: EventService) {}
+    constructor(
+        private httpService: HttpInternalService, 
+        private userService: UserService, 
+        private eventService: EventService
+    ) {}
 
     public getUser() {
         return this.user
@@ -33,6 +38,14 @@ export class AuthenticationService {
     public setUser(user: User) {
         this.user = user;
         this.eventService.userChanged(user);
+    }
+
+    public confirmResetPassword() {
+        return this.httpService.postFullRequest(`${this.routePrefix}/auth/password/confirm-reset-password`, {});
+    }
+
+    public resetPassword(userPasswords: UserResetPasswordDto) {
+        return this._handleAuthResponse(this.httpService.patchFullRequest<AuthUser>(`${this.routePrefix}/register`, userPasswords));
     }
 
     public register(user: UserRegisterDto) {
@@ -63,6 +76,7 @@ export class AuthenticationService {
     public removeTokensFromStorage() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('confirmToken');
     }
 
     public refreshTokens() {
@@ -79,6 +93,18 @@ export class AuthenticationService {
             );
     }
 
+    public get accessToken() {
+        return localStorage.getItem('accessToken');
+    }
+
+    public get confirmToken() {
+        return localStorage.getItem('confirmToken');
+    }
+
+    public setConfirmToken(confirmToken: string) {
+        localStorage.setItem("confirmToken", confirmToken);
+    }
+
     private _handleAuthResponse(observable: Observable<HttpResponse<AuthUser>>) {
         return observable.pipe(
             map((resp) => {
@@ -89,6 +115,8 @@ export class AuthenticationService {
             })
         );
     }
+
+    
 
     private _setTokens(tokens: AccessTokenDto) {
         if (tokens && tokens.accessToken && tokens.refreshToken) {

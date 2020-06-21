@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Thread_.NET.BLL.Exceptions;
 using Thread_.NET.BLL.Services.Abstract;
@@ -34,6 +35,31 @@ namespace Thread_.NET.BLL.Services
             }
 
             return _mapper.Map<UserDTO>(user);
+        }
+
+        //Test else this method
+        public async Task<UserDTO> ResetPassword(UserResetPasswordDTO resetPasswordDTO)
+        {
+            var confirmPasswordResetToken = await _context.PasswordResetTokens
+                .Where(t => t.ConfirmToken == resetPasswordDTO.ConfirmToken)
+                .FirstOrDefaultAsync();
+                
+            if (confirmPasswordResetToken == null && confirmPasswordResetToken.ConfirmToken == null)
+            {
+                throw new InvalidConfirmPasswordTokenException();
+            }
+
+            var userEntity = await GetUserByIdInternal(resetPasswordDTO.UserId);
+            var salt = SecurityHelper.GetRandomBytes();
+
+            userEntity.Salt = Convert.ToBase64String(salt);
+            userEntity.Password = SecurityHelper.HashPassword(resetPasswordDTO.NewPassword, salt);
+
+            _context.Users.Update(userEntity);
+            _context.PasswordResetTokens.Remove(confirmPasswordResetToken);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<UserDTO>(userEntity);
         }
 
         public async Task<UserDTO> CreateUser(UserRegisterDTO userDto)
@@ -103,6 +129,17 @@ namespace Thread_.NET.BLL.Services
             _context.Users.Remove(userEntity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<User> GetUserEntityByPostId(int postId)
+             => await _context.Posts                 
+                 .Where(p => p.Id == postId)
+                 .Select(p => p.Author)
+                 .FirstOrDefaultAsync();
+
+        public async Task<User> GetUserEntityById(int userId)
+             => await _context.Users
+                 .Where(p => p.Id == userId)
+                 .FirstOrDefaultAsync();
 
         private async Task<User> GetUserByIdInternal(int id)
         {

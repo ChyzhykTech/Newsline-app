@@ -3,7 +3,8 @@ import { HttpInternalService } from './http-internal.service';
 import { Post } from '../models/post/post';
 import { NewReaction } from '../models/reactions/newReaction';
 import { NewPost } from '../models/post/new-post';
-import { Observable } from 'rxjs';
+import { NewNegativeReaction } from '../models/negativeReactions/newNegativeReaction';
+import { SharePostByEmail } from '../models/post/share-post-by-email';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -29,5 +30,13 @@ export class PostService {
 
     public likePost(reaction: NewReaction) {
         return this.httpService.postFullRequest<Post>(`${this.routePrefix}/like`, reaction);
+    }
+
+    public dislikePost(reaction: NewNegativeReaction) {
+        return this.httpService.postFullRequest<Post>(`${this.routePrefix}/dislike`, reaction);
+    }
+
+    public sharePostByEmail(sharePost: SharePostByEmail) {
+        return this.httpService.postFullRequest<Post>(`${this.routePrefix}/share-post-by-email`, sharePost);
     }
 }

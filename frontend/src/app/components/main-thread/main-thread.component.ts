@@ -11,8 +11,13 @@ import { EventService } from "../../services/event.service";
 import { ImgurService } from "../../services/imgur.service";
 import { NewPost } from "../../models/post/new-post";
 import { switchMap, takeUntil } from "rxjs/operators";
-import { HubConnectionBuilder, HubConnection } from "@aspnet/signalr";
+import { HubConnection } from "@aspnet/signalr";
 import { SnackBarService } from "../../services/snack-bar.service";
+import { HubUser } from 'src/app/models/hub-user';
+import { LikeSnackbar } from 'src/app/models/snackbar/like-snackbar';
+import { PostHubService } from 'src/app/services/post-hub.service';
+import { ActivatedRoute } from '@angular/router';
+import { RouterExtService } from 'src/app/services/router-ext.service';
 
 @Component({
   selector: "app-main-thread",
@@ -20,9 +25,13 @@ import { SnackBarService } from "../../services/snack-bar.service";
   styleUrls: ["./main-thread.component.sass"],
 })
 export class MainThreadComponent implements OnInit, OnDestroy {
+  public asSinglePost: boolean = false;
   public posts: Post[] = [];
   public cachedPosts: Post[] = [];
+  public authUsersInHub: HubUser[] = [];
+  public hideOwnPosts = false;
   public isOnlyMine = false;
+  public isOnlyLiked = false;
   public isEditMode = false;
 
   public currentUser: User;
@@ -34,36 +43,45 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public loading = false;
   public loadingPosts = false;
 
-  public postHub: HubConnection;
-
   private unsubscribe$ = new Subject<void>();
 
   public constructor(
+    private route: ActivatedRoute,
+    private routerExt: RouterExtService,
     private snackBarService: SnackBarService,
     private authService: AuthenticationService,
     private postService: PostService,
     private imgurService: ImgurService,
     private authDialogService: AuthDialogService,
-    private eventService: EventService
-  ) {}
+    private eventService: EventService,
+    private postHubService: PostHubService
+  ) { }
 
   public ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    this.postHub.stop();
+    this.postHubService.stopHub();
   }
 
   public ngOnInit() {
-    this.registerHub();
+    this.registerHubHandlers();
     this.getPosts();
-    this.getUser();
-
+    this.getUser();   
     this.eventService.userChangedEvent$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((user) => {
         this.currentUser = user;
         this.post.authorId = this.currentUser ? this.currentUser.id : undefined;
-      });
+      });    
+  }
+
+  public onNotifyUserByPost(post: Post) {
+    let connection: HubConnection = this.postHubService.getConnection();
+    let hubUser = this.authUsersInHub.find((user) => user.userId === post.author.id);
+    if (hubUser !== undefined) {
+      connection.invoke("SendLike", hubUser.connectionId, post.id)
+        .catch((err) => this.snackBarService.showErrorMessage(err));
+    }       
   }
 
   public onDeletePost(postId: number) {
@@ -79,8 +97,8 @@ export class MainThreadComponent implements OnInit, OnDestroy {
               (post) => post.id !== postId
             );
 
-            if (this.isOnlyMine) {
-              this.posts = this.showOnlyMine();
+            if (this.isOnlyMine || this.isOnlyLiked) {
+              this.posts = this.showPostsByFilterParams();
             }
           }
         },
@@ -111,6 +129,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
         (resp) => {
           this.loadingPosts = false;
           this.posts = this.cachedPosts = resp.body;
+          this.setSelectedPostFromQueryParams();
         },
         (error) => (this.loadingPosts = false)
       );
@@ -173,14 +192,43 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     this.editablePost.previewImage = null;
   }
 
+  public hideSliderChanged(event: MatSlideToggleChange) {
+    if (event.checked) {
+
+      if (this.isOnlyMine) {
+        this.isOnlyMine = !this.isOnlyMine;
+      }
+
+      this.hideOwnPosts = true;
+
+    } else {
+      this.hideOwnPosts = false;
+    }
+    this.posts = this.showPostsByFilterParams();
+  }
+
   public sliderChanged(event: MatSlideToggleChange) {
     if (event.checked) {
+
+      if(this.hideOwnPosts) {
+        this.hideOwnPosts = !this.hideOwnPosts;
+      }
+
       this.isOnlyMine = true;
-      this.posts = this.showOnlyMine();
+
     } else {
       this.isOnlyMine = false;
-      this.posts = this.cachedPosts;
     }
+    this.posts = this.showPostsByFilterParams();
+  }
+
+  public likeSliderChanged(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.isOnlyLiked= true;      
+    } else {
+      this.isOnlyLiked = false;
+    }
+    this.posts = this.showPostsByFilterParams();
   }
 
   public toggleNewPostContainer() {
@@ -191,18 +239,35 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     this.authDialogService.openAuthDialog(DialogType.SignIn);
   }
 
-  public registerHub() {
-    this.postHub = new HubConnectionBuilder()
-      .withUrl("https://localhost:44344/notifications/post")
-      .build();
-    this.postHub
-      .start()
-      .catch((error) => this.snackBarService.showErrorMessage(error));
-
-    this.postHub.on("NewPost", (newPost: Post) => {
+  public registerHubHandlers() {
+    let connection: HubConnection = this.postHubService.getConnection();
+    connection.on("NewPost", (newPost: Post) => {
       if (newPost) {
         this.addNewPost(newPost);
       }
+    });
+
+    connection.on("Notify", (userId, connectionId) => {
+      if(userId === null) return;
+      let hubUser: HubUser = {
+        userId: userId,
+        connectionId: connectionId
+      };
+      this.authUsersInHub.push(hubUser);
+    });
+
+    connection.on("UserDisconnected", (connectionId) => {
+      let user = this.authUsersInHub.find((user) => user.connectionId === connectionId);
+      let index = this.authUsersInHub.indexOf(user);
+      if (index !== -1) this.authUsersInHub.splice(index, 1);
+    });
+
+    connection.on("LikePost", (fromUser: User, postId: number) => {
+      let post = this.cachedPosts.find((post) => post.id === postId);
+      if(post !== undefined) {
+        let likeSnackbar: LikeSnackbar = {fromUser, post};
+        this.snackBarService.showLikeMessage(likeSnackbar);
+      }       
     });
   }
 
@@ -218,19 +283,65 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     }
   }
 
+  private setSelectedPostFromQueryParams() {
+    this.route.queryParams
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(params => {
+         let postId = params["postId"];
+         if (postId !== null && postId !== undefined) {
+            this.posts = this.cachedPosts.filter(post => post.id == postId);
+            this.asSinglePost = true;
+          } else {
+            this.asSinglePost = false;
+          }
+          console.log(this.asSinglePost)
+      });
+  }
+
   private updatePost(updatedPost: Post) {
     let oldPost = this.cachedPosts.find(post => post.id === updatedPost.id);
     let index = this.cachedPosts.indexOf(oldPost);
     this.cachedPosts.splice(index, 1, updatedPost);
-    if(this.isOnlyMine) {
-      this.posts = this.showOnlyMine();
+    if(this.isOnlyMine || this.isOnlyLiked) {
+      this.posts = this.showPostsByFilterParams();
     } else {
       this.posts = this.cachedPosts;
     }
   }
 
-  private showOnlyMine() {
-    return this.cachedPosts.filter((x) => x.author.id === this.currentUser.id);
+  private showPostsByFilterParams() {
+    this.resetVisiblePosts();
+    let filteringArr = [];
+    let isOnlyLiked = [];
+
+    if(!this.isOnlyMine && !this.isOnlyLiked && !this.hideOwnPosts) return this.cachedPosts;
+
+    if(this.hideOwnPosts) {
+      filteringArr = this.cachedPosts.filter(
+        (x) => x.author.id !== this.currentUser.id);
+    } else if (this.isOnlyMine) {
+      filteringArr = this.cachedPosts.filter(
+        (x) => x.author.id === this.currentUser.id);
+    }
+
+    if(this.isOnlyLiked) {
+      isOnlyLiked = this.cachedPosts.filter(
+        (x) => {
+          let containsLikes = [];
+          x.reactions.forEach((r) => {
+            containsLikes.push(r.user.id === this.currentUser.id);
+          });
+          return containsLikes.includes(true);
+        });
+    }
+
+    let filterRes = [...filteringArr, ...isOnlyLiked];
+
+    return filterRes.length > 0 ? this.sortPostArray(filterRes) : [];
+  }
+
+  private resetVisiblePosts() {
+    this.posts = [];
   }
 
   private getUser() {

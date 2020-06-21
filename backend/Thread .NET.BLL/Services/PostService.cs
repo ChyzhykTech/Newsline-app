@@ -30,8 +30,15 @@ namespace Thread_.NET.BLL.Services
                 .Include(post => post.Preview)
                 .Include(post => post.Reactions)
                     .ThenInclude(reaction => reaction.User)
+                        .ThenInclude(user => user.Avatar)
+                .Include(post => post.NegativeReactions)
+                    .ThenInclude(negativeReaction => negativeReaction.User)
                 .Include(post => post.Comments)
                     .ThenInclude(comment => comment.Reactions)
+                        .ThenInclude(reaction => reaction.User)
+                .Include(post => post.Comments)
+                    .ThenInclude(comment => comment.NegativeReactions)
+                        .ThenInclude(negativeReaction => negativeReaction.User)
                 .Include(post => post.Comments)
                     .ThenInclude(comment => comment.Author)
                 .OrderByDescending(post => post.CreatedAt)
@@ -102,6 +109,9 @@ namespace Thread_.NET.BLL.Services
                     {
                         if (comment.Reactions.Count > 0)    
                             _context.CommentReactions.RemoveRange(comment.Reactions);
+
+                        if(comment.NegativeReactions.Count > 0)
+                            _context.CommentNegativeReactions.RemoveRange(comment.NegativeReactions);
                         _context.Comments.Remove(comment);
                     }
                 }
@@ -117,5 +127,12 @@ namespace Thread_.NET.BLL.Services
                 return true;
             }
         }
+
+        public async Task<Post> GetPostById(int postId) 
+            => await _context.Posts
+                .Where(p => p.Id == postId)
+                .FirstOrDefaultAsync();
+
+        
     }
 }

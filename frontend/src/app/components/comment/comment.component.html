@@ -9,11 +9,24 @@
     <p>{{comment.body}}</p>
   </mat-card-content>
   <mat-card-actions class="actions-buttons" align="end">
-    <button mat-icon-button color="primary">
-      <mat-icon aria-label="Like">favorite</mat-icon>
+    <button mat-icon-button color="primary" *ngIf="isAuthor()" class="button-to-left" (click)="editComment(comment.id)">
+      <mat-icon aria-label="Share">create</mat-icon>
+    </button>
+    <button mat-icon-button (click)="dislikeComment()">
+      <mat-icon matBadge="{{comment.negativeReactions.length}}" matBadgeColor="warn"
+      [matBadgeHidden]="comment.negativeReactions.length === 0" aria-label="Like">thumb_down</mat-icon>
+    </button>
+    <button [ngbTooltip]="tipContent" [openDelay]="300" #tt="ngbTooltip" mat-icon-button color="primary" (click)="likeComment()">
+      <mat-icon matBadge="{{comment.reactions.length}}" matBadgeColor="accent"
+      [matBadgeHidden]="comment.reactions.length === 0" aria-label="Like">favorite</mat-icon>
     </button>
     <button mat-icon-button color="accent">
       <mat-icon aria-label="Share">share</mat-icon>
     </button>
   </mat-card-actions>
+
+  <ng-template #tipContent>
+    <app-like-tooltip [photos]="likePhotos"></app-like-tooltip>
+  </ng-template>
+
 </mat-card>

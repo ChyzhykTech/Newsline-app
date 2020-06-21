@@ -16,19 +16,36 @@ namespace Thread_.NET.DAL.Context
         public static void Configure(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RefreshToken>().Ignore(t => t.IsActive);
+            modelBuilder.Entity<PasswordResetToken>().Ignore(t => t.IsActive);
 
-            modelBuilder.Entity<PostReaction>()
-                .HasAlternateKey(pr => new { pr.PostId, pr.UserId });
+            //modelBuilder.Entity<PostReaction>()
+            //    .HasAlternateKey(pr => new { pr.PostId, pr.UserId });
+
+            //modelBuilder.Entity<PostNegativeReaction>()
+            //    .HasAlternateKey(pr => new { pr.PostId, pr.UserId });
 
             modelBuilder.Entity<PostReaction>()
                 .HasOne(pr => pr.Post)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<CommentReaction>()
-                .HasAlternateKey(cr => new { cr.CommentId, cr.UserId });
+            modelBuilder.Entity<PostNegativeReaction>()
+                .HasOne(pr => pr.Post)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //modelBuilder.Entity<CommentReaction>()
+            //    .HasAlternateKey(cr => new { cr.CommentId, cr.UserId });
+
+            //modelBuilder.Entity<CommentNegativeReaction>()
+            //    .HasAlternateKey(cr => new { cr.CommentId, cr.UserId });
 
             modelBuilder.Entity<CommentReaction>()
+                .HasOne(cr => cr.Comment)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CommentNegativeReaction>()
                 .HasOne(cr => cr.Comment)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
@@ -48,12 +65,23 @@ namespace Thread_.NET.DAL.Context
                 .WithOne(r => r.Post)
                 .HasForeignKey(r => r.PostId);
 
+            modelBuilder.Entity<Post>()
+                .HasMany(p => p.NegativeReactions)
+                .WithOne(r => r.Post)
+                .HasForeignKey(r => r.PostId);
+
             modelBuilder.Entity<Comment>()
                 .HasMany(p => p.Reactions)
                 .WithOne(r => r.Comment)
                 .HasForeignKey(r => r.CommentId);
+
+            modelBuilder.Entity<Comment>()
+                .HasMany(p => p.NegativeReactions)
+                .WithOne(r => r.Comment)
+                .HasForeignKey(r => r.CommentId);
         }
 
+        // TODO seed data with negative reactions
         public static void Seed(this ModelBuilder modelBuilder)
         {
             var avatars = GenerateRandomAvatars(out int lastImageId);
@@ -63,14 +91,18 @@ namespace Thread_.NET.DAL.Context
             var posts = GenerateRandomPosts(users, previewImages);
             var comments = GenerateRandomComments(users, posts);
             var postReactions = GenerateRandomPostReactions(posts, users);
+            var postNegativeReactions = GenerateRandomPostNegativeReactions(posts, users);
             var commentReactions = GenerateRandomCommentReactions(comments, users);
+            var commentNegativeReactions = GenerateRandomCommentNegativeReactions(comments, users);
 
             modelBuilder.Entity<Image>().HasData(avatars.Concat(previewImages));
             modelBuilder.Entity<User>().HasData(users);
             modelBuilder.Entity<Post>().HasData(posts);
             modelBuilder.Entity<Comment>().HasData(comments);
             modelBuilder.Entity<PostReaction>().HasData(postReactions);
+            modelBuilder.Entity<PostNegativeReaction>().HasData(postNegativeReactions);
             modelBuilder.Entity<CommentReaction>().HasData(commentReactions);
+            modelBuilder.Entity<CommentNegativeReaction>().HasData(commentNegativeReactions);
         }
 
         public static ICollection<Image> GenerateRandomAvatars(out int lastImageId)
@@ -192,6 +224,21 @@ namespace Thread_.NET.DAL.Context
             return postReactionsFake.Generate(ENTITY_COUNT);
         }
 
+        public static ICollection<PostNegativeReaction> GenerateRandomPostNegativeReactions(ICollection<Post> posts, ICollection<User> users)
+        {
+            int postReactionId = 1;
+
+            var postReactionsFake = new Faker<PostNegativeReaction>()
+                .RuleFor(pr => pr.Id, f => postReactionId++)
+                .RuleFor(cr => cr.IsDislike, f => f.Random.Bool())
+                .RuleFor(cr => cr.UserId, f => f.PickRandom(users).Id)
+                .RuleFor(pr => pr.PostId, f => f.PickRandom(posts).Id)
+                .RuleFor(pi => pi.CreatedAt, f => DateTime.Now)
+                .RuleFor(pi => pi.UpdatedAt, f => DateTime.Now);
+
+            return postReactionsFake.Generate(ENTITY_COUNT);
+        }
+
         public static ICollection<CommentReaction> GenerateRandomCommentReactions(ICollection<Comment> comments, ICollection<User> users)
         {
             int commentReactionId = 1;
@@ -199,6 +246,21 @@ namespace Thread_.NET.DAL.Context
             var commentReactionsFake = new Faker<CommentReaction>()
                 .RuleFor(cr => cr.Id, f => commentReactionId++)
                 .RuleFor(cr => cr.IsLike, f => f.Random.Bool())
+                .RuleFor(cr => cr.UserId, f => f.PickRandom(users).Id)
+                .RuleFor(cr => cr.CommentId, f => f.PickRandom(comments).Id)
+                .RuleFor(pi => pi.CreatedAt, f => DateTime.Now)
+                .RuleFor(pi => pi.UpdatedAt, f => DateTime.Now);
+
+            return commentReactionsFake.Generate(ENTITY_COUNT);
+        }
+
+        public static ICollection<CommentNegativeReaction> GenerateRandomCommentNegativeReactions(ICollection<Comment> comments, ICollection<User> users)
+        {
+            int commentReactionId = 1;
+
+            var commentReactionsFake = new Faker<CommentNegativeReaction>()
+                .RuleFor(cr => cr.Id, f => commentReactionId++)
+                .RuleFor(cr => cr.IsDislike, f => f.Random.Bool())
                 .RuleFor(cr => cr.UserId, f => f.PickRandom(users).Id)
                 .RuleFor(cr => cr.CommentId, f => f.PickRandom(comments).Id)
                 .RuleFor(pi => pi.CreatedAt, f => DateTime.Now)

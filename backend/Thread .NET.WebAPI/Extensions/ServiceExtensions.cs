@@ -17,6 +17,7 @@ using Thread_.NET.BLL.Services;
 using Thread_.NET.Common.Auth;
 using Thread_.NET.Common.DTO.Auth;
 using Thread_.NET.Common.DTO.User;
+using Thread_.NET.Mail.Services;
 using Thread_.NET.Validators;
 
 namespace Thread_.NET.Extensions
@@ -33,8 +34,9 @@ namespace Thread_.NET.Extensions
             services.AddScoped<PostService>();
             services.AddScoped<UserService>();
             services.AddScoped<CommentService>();
+            services.AddScoped<EmailService>();
 
-            services.AddScoped<PostHub>();
+            services.AddScoped<PostHub>();           
         }
 
         public static void RegisterCustomValidators(this IServiceCollection services)
@@ -44,6 +46,7 @@ namespace Thread_.NET.Extensions
 
             services.AddSingleton<IValidator<UserRegisterDTO>, UserRegisterDTOValidator>();
             services.AddSingleton<IValidator<UserLoginDTO>, UserLoginDTOValidator>();
+            services.AddSingleton<IValidator<UserResetPasswordDTO>, UserResetPasswordDTOValidator>();
         }
 
         public static void RegisterAutoMapper(this IServiceCollection services)
@@ -52,6 +55,7 @@ namespace Thread_.NET.Extensions
             {
                 cfg.AddProfile<CommentProfile>();
                 cfg.AddProfile<ReactionProfile>();
+                cfg.AddProfile<NegativeReactionProfile>();
                 cfg.AddProfile<PostProfile>();
                 cfg.AddProfile<UserProfile>();
             },
@@ -123,6 +127,16 @@ namespace Thread_.NET.Extensions
 
                 configureOptions.Events = new JwtBearerEvents
                 {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        if (string.IsNullOrEmpty(accessToken) == false)
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    },
+
                     OnAuthenticationFailed = context =>
                     {
                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))

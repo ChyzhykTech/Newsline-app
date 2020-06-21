@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Thread_.NET.BLL.Services;
+using Thread_.NET.Mail.Services;
+using Thread_.NET.Common.DTO.Dislike;
 using Thread_.NET.Common.DTO.Like;
 using Thread_.NET.Common.DTO.Post;
 using Thread_.NET.Extensions;
@@ -17,11 +19,13 @@ namespace Thread_.NET.WebAPI.Controllers
     {
         private readonly PostService _postService;
         private readonly LikeService _likeService;
+        private readonly EmailService _emailService;
 
-        public PostsController(PostService postService, LikeService likeService)
+        public PostsController(PostService postService, LikeService likeService, EmailService emailService)
         {
             _postService = postService;
             _likeService = likeService;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -68,7 +72,27 @@ namespace Thread_.NET.WebAPI.Controllers
         {
             reaction.UserId = this.GetUserIdFromToken();
 
-            await _likeService.LikePost(reaction);
+            var succed = await _likeService.LikePost(reaction);
+
+            if (succed)
+                await _emailService.SendLikeMessageToEmail(reaction.EntityId, reaction.UserId);
+
+            return Ok();
+        }
+
+        [HttpPost("dislike")]
+        public async Task<IActionResult> DislikePost(NewNegativeReactionDTO reaction)
+        {
+            reaction.UserId = this.GetUserIdFromToken();
+
+            await _likeService.DislikePost(reaction);
+            return Ok();
+        }
+
+        [HttpPost("share-post-by-email")]
+        public IActionResult SendPostByEmail(SharePostByEmailDTO sharePost)
+        {
+            this._emailService.SendPostByEmail(sharePost);
             return Ok();
         }
     }

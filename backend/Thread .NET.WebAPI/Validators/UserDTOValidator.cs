@@ -19,6 +19,10 @@ namespace Thread_.NET.Validators
             RuleFor(u => u.Password)
                 .Length(4, 16)
                 .WithMessage("Password must be from 4 to 16 characters.");
+
+            RuleFor(u => u.Avatar)
+                .NotEmpty()
+                .WithMessage("Select avatar.");
         }
     }
 }

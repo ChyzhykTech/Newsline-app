@@ -9,6 +9,7 @@ namespace Thread_.NET.DAL.Entities
         {
             Comments = new List<Comment>();
             Reactions = new List<PostReaction>();
+            NegativeReactions = new List<PostNegativeReaction>();
         }
 
         public int AuthorId { get; set; }
@@ -21,5 +22,6 @@ namespace Thread_.NET.DAL.Entities
 
         public ICollection<Comment> Comments { get; private set; }
         public ICollection<PostReaction> Reactions { get; private set; }
+        public ICollection<PostNegativeReaction> NegativeReactions { get; private set; }
     }
 }
