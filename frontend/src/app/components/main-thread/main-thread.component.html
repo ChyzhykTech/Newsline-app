@@ -1,4 +1,4 @@
-<app-infinity-scroll (scrolled)="getPosts()">
+<app-infinity-scroll (scrolled)="loadMorePosts()">
   <!-- new and edit post area -->
   <mat-card class="post-create-container" *ngIf="currentUser && showPostContainer">
     <div *ngIf="loading" class="mat-spinner-wrapper">
