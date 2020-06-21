@@ -29,10 +29,15 @@ namespace Thread_.NET.WebAPI.Controllers
         }
 
         [HttpGet("all")]
-        [AllowAnonymous]
-        public async Task<ActionResult<ICollection<PostDTO>>> Get(int threadSize, int threadPage)
+        [AllowAnonymous]           
+        public async Task<ActionResult<ICollection<PostDTO>>> Get(int pageSize = 5, int threadPage = 1, bool isOnlyMine = false)
         {
-            return Ok(await _postService.GetPosts(threadSize, threadPage));
+            int userId = 0;
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                userId = this.GetUserIdFromToken();
+            }
+            return Ok(await _postService.GetPosts(pageSize, threadPage, isOnlyMine, userId));
         }
 
         [HttpPost]
