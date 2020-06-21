@@ -22,7 +22,7 @@ namespace Thread_.NET.BLL.Services
             _postHub = postHub;
         }
 
-        public async Task<ICollection<PostDTO>> GetAllPosts()
+        public async Task<ICollection<PostDTO>> GetPosts(int threadSize, int threadPage)
         {
             var posts = await _context.Posts
                 .Include(post => post.Author)
@@ -42,6 +42,8 @@ namespace Thread_.NET.BLL.Services
                 .Include(post => post.Comments)
                     .ThenInclude(comment => comment.Author)
                 .OrderByDescending(post => post.CreatedAt)
+                .Skip((threadPage - 1) * threadSize)
+                .Take(threadSize)
                 .ToListAsync();
 
             return _mapper.Map<ICollection<PostDTO>>(posts);
