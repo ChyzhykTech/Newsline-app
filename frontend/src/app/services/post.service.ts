@@ -21,7 +21,11 @@ export class PostService {
     }
 
     public getPosts() {
-        return this.httpService.getFullRequest<Post[]>(`${this.routePrefix}`);
+        return this.httpService.getFullRequest<Post[]>(`${this.routePrefix}/all`);
+    }
+
+    public getMorePosts(pageSize: number, threadPage: number, isOnlyMine: boolean) {
+        return this.httpService.getFullRequest<Post[]>(`${this.routePrefix}/all`, { pageSize, threadPage, isOnlyMine });
     }
 
     public createPost(post: NewPost) {

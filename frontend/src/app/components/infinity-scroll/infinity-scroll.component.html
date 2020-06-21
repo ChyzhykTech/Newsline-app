@@ -1,0 +1,10 @@
+<ng-content></ng-content>
+<div class="text-center" #anchor>
+    <div *ngIf="loading" class="mat-spinner-wrapper">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="!loading" class="text-center">
+        No posts more...
+    </div>
+</div>
