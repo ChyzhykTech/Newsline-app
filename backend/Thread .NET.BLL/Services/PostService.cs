@@ -22,9 +22,9 @@ namespace Thread_.NET.BLL.Services
             _postHub = postHub;
         }
 
-        public async Task<ICollection<PostDTO>> GetAllPosts()
+        public async Task<ICollection<PostDTO>> GetPosts(int threadSize, int threadPage, bool isOnlyMine, int userId)
         {
-            var posts = await _context.Posts
+            IQueryable<Post> query = _context.Posts
                 .Include(post => post.Author)
                     .ThenInclude(author => author.Avatar)
                 .Include(post => post.Preview)
@@ -40,8 +40,17 @@ namespace Thread_.NET.BLL.Services
                     .ThenInclude(comment => comment.NegativeReactions)
                         .ThenInclude(negativeReaction => negativeReaction.User)
                 .Include(post => post.Comments)
-                    .ThenInclude(comment => comment.Author)
-                .OrderByDescending(post => post.CreatedAt)
+                    .ThenInclude(comment => comment.Author);
+                
+
+            if (isOnlyMine)
+            {
+                query = query.Where(post => post.AuthorId == userId);
+            }
+
+            var posts = await query.OrderByDescending(post => post.CreatedAt)
+                .Skip((threadPage - 1) * threadSize)
+                .Take(threadSize)
                 .ToListAsync();
 
             return _mapper.Map<ICollection<PostDTO>>(posts);

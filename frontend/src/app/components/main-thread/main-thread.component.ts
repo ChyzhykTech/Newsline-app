@@ -17,12 +17,11 @@ import { HubUser } from 'src/app/models/hub-user';
 import { LikeSnackbar } from 'src/app/models/snackbar/like-snackbar';
 import { PostHubService } from 'src/app/services/post-hub.service';
 import { ActivatedRoute } from '@angular/router';
-import { RouterExtService } from 'src/app/services/router-ext.service';
 
 @Component({
   selector: "app-main-thread",
   templateUrl: "./main-thread.component.html",
-  styleUrls: ["./main-thread.component.sass"],
+  styleUrls: ["./main-thread.component.sass"]
 })
 export class MainThreadComponent implements OnInit, OnDestroy {
   public asSinglePost: boolean = false;
@@ -43,11 +42,12 @@ export class MainThreadComponent implements OnInit, OnDestroy {
   public loading = false;
   public loadingPosts = false;
 
+  private pageSize = 5;
+  private threadPage = 1;
   private unsubscribe$ = new Subject<void>();
-
+ 
   public constructor(
     private route: ActivatedRoute,
-    private routerExt: RouterExtService,
     private snackBarService: SnackBarService,
     private authService: AuthenticationService,
     private postService: PostService,
@@ -120,6 +120,27 @@ export class MainThreadComponent implements OnInit, OnDestroy {
     }
   }
 
+  public loadMorePosts() {
+    if (this.loadingPosts) { return; }
+    this.threadPage++;
+    this.loadingPosts = true;
+    this.postService
+      .getMorePosts(this.pageSize, this.threadPage, this.isOnlyMine)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (resp) => {
+          this.loadingPosts = false;
+          let newPosts = resp.body;
+          newPosts.forEach((newPost) => {
+            this.cachedPosts.push(newPost);                    
+          });
+          this.posts = this.showPostsByFilterParams();    
+          this.setSelectedPostFromQueryParams();
+        },
+        (error) => (this.loadingPosts = false)
+      );
+  }
+
   public getPosts() {
     this.loadingPosts = true;
     this.postService
@@ -128,7 +149,7 @@ export class MainThreadComponent implements OnInit, OnDestroy {
       .subscribe(
         (resp) => {
           this.loadingPosts = false;
-          this.posts = this.cachedPosts = resp.body;
+          this.posts = this.cachedPosts = resp.body;      
           this.setSelectedPostFromQueryParams();
         },
         (error) => (this.loadingPosts = false)
@@ -294,7 +315,6 @@ export class MainThreadComponent implements OnInit, OnDestroy {
           } else {
             this.asSinglePost = false;
           }
-          console.log(this.asSinglePost)
       });
   }
 
