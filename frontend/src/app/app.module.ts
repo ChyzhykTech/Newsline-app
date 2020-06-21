@@ -22,9 +22,10 @@ import { LikeSnackbarComponent } from './components/like-snackbar/like-snackbar.
 import { ResetPasswordDialogComponent } from './components/reset-password-dialog/reset-password-dialog.component';
 import { ShareByEmailSheetComponent } from './components/share-by-email-sheet/share-by-email-sheet.component';
 import { MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { InfinityScrollComponent } from './components/infinity-scroll/infinity-scroll.component';
 
 @NgModule({
-    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent, LikeSnackbarComponent, ResetPasswordDialogComponent, ShareByEmailSheetComponent],
+    declarations: [AppComponent, MainThreadComponent, PostComponent, HomeComponent, UserProfileComponent, AuthDialogComponent, CommentComponent, LikeTooltipComponent, LikeSnackbarComponent, ResetPasswordDialogComponent, ShareByEmailSheetComponent, InfinityScrollComponent],
     imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, MaterialComponentsModule, RouterModule.forRoot(AppRoutes), FormsModule, ReactiveFormsModule, NgbModule, MatBottomSheetModule],
     exports: [MaterialComponentsModule],
     providers: [
