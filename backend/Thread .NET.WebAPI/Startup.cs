@@ -29,6 +29,7 @@ namespace Thread_.NET
             services.RegisterAutoMapper();
 
             services.RegisterCustomServices();
+            services.RegisterCustomRepositories();
             services.RegisterCustomValidators();
 
             services.ConfigureJwt(Configuration);
