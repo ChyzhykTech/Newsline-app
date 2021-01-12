@@ -1,57 +1,46 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using System;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Thread_.NET.BLL.Extensions;
 using Thread_.NET.BLL.Hubs;
 using Thread_.NET.BLL.Services.Abstract;
 using Thread_.NET.Common.DTO.Post;
-using Thread_.NET.DAL.Context;
 using Thread_.NET.DAL.Entities;
+using Thread_.NET.DAL.Repositories;
 
 namespace Thread_.NET.BLL.Services
 {
     public sealed class PostService : BaseService
     {
+        private readonly IPostRepository _postRepository;
         private readonly IHubContext<PostHub> _postHub;
 
-        public PostService(ThreadContext context, IMapper mapper, IHubContext<PostHub> postHub) : base(context, mapper)
+        public PostService(IPostRepository postRepository, IMapper mapper, IDistributedCache cache, IHubContext<PostHub> postHub) : base(mapper, cache)
         {
+            _postRepository = postRepository;
             _postHub = postHub;
         }
 
         public async Task<ICollection<PostDTO>> GetPosts(int threadSize, int threadPage, bool isOnlyMine, int userId)
         {
-            IQueryable<Post> query = _context.Posts
-                .Include(post => post.Author)
-                    .ThenInclude(author => author.Avatar)
-                .Include(post => post.Preview)
-                .Include(post => post.Reactions)
-                    .ThenInclude(reaction => reaction.User)
-                        .ThenInclude(user => user.Avatar)
-                .Include(post => post.NegativeReactions)
-                    .ThenInclude(negativeReaction => negativeReaction.User)
-                .Include(post => post.Comments)
-                    .ThenInclude(comment => comment.Reactions)
-                        .ThenInclude(reaction => reaction.User)
-                .Include(post => post.Comments)
-                    .ThenInclude(comment => comment.NegativeReactions)
-                        .ThenInclude(negativeReaction => negativeReaction.User)
-                .Include(post => post.Comments)
-                    .ThenInclude(comment => comment.Author);
-                
+            var posts = await _cache.GetFromCache<IEnumerable<Post>>(
+                    "posts", "*", 
+                    async () => await _postRepository.GetPosts(threadSize, threadPage, isOnlyMine, userId)
+                );               
 
             if (isOnlyMine)
             {
-                query = query.Where(post => post.AuthorId == userId);
+                posts = posts.Where(post => post.AuthorId == userId);
             }
 
-            var posts = await query.OrderByDescending(post => post.CreatedAt)
+            posts = posts.OrderByDescending(post => post.CreatedAt)
                 .Skip((threadPage - 1) * threadSize)
                 .Take(threadSize)
-                .ToListAsync();
+                .ToList();
 
             return _mapper.Map<ICollection<PostDTO>>(posts);
         }
