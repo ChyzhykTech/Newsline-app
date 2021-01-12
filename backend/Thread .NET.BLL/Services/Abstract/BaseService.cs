@@ -1,22 +1,17 @@
 ﻿using AutoMapper;
-using Thread_.NET.DAL.Context;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Thread_.NET.BLL.Services.Abstract
 {
     public abstract class BaseService
     {
-        private protected readonly ThreadContext _context;
         private protected readonly IMapper _mapper;
+        private protected readonly IDistributedCache _cache;
 
-        public BaseService(ThreadContext context, IMapper mapper)
+        public BaseService(IMapper mapper, IDistributedCache cache)
         {
-            _context = context;
             _mapper = mapper;
-        }
-
-        public BaseService(ThreadContext context)
-        {
-            _context = context;
+            _cache = cache;
         }
     }
 }
